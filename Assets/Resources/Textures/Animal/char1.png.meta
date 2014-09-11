@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 125145d3614da4b33aa69521388e744e
+guid: b338da93ca3264374a91f717468aea7b
 TextureImporter:
   serializedVersion: 2
   mipmaps:
@@ -40,6 +40,15 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: char1_0
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 0
+        width: 101
+        height: 122
+      alignment: 0
+      pivot: {x: .5, y: .5}
   spritePackingTag: 
   userData: 
