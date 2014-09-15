@@ -28,10 +28,29 @@ public class FlipCardScript : MonoBehaviour {
 		if (isAnimationProgresing) {
 			return;
 		}
-		StartCoroutine (flip ());
+		if (SceneScript.enableToTouch == false) {
+			return;
+		}
+		this.FlipCard (true);
 	}
 
-	IEnumerator flip () {
+	public void FlipCard (bool isAddToSceneToCheck) {
+		if (isAnimationProgresing) {
+			return;
+		}
+		StartCoroutine (flip (isAddToSceneToCheck));
+	}
+
+	IEnumerator flip (bool isAddToSceneToCheck) {
+
+		if (isAddToSceneToCheck && !isFaceUp) {
+			GameObject scene = GameObject.FindGameObjectWithTag("Scene");
+			SceneScript sceneScript = scene.GetComponent<SceneScript>();
+			if (sceneScript) {
+				sceneScript.OpenCard(this.gameObject);
+			}
+		}
+
 		isAnimationProgresing = true;
 
 		bool done = false;

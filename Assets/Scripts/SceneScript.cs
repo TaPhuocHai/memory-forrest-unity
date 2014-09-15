@@ -3,7 +3,11 @@ using System.Collections;
 
 public class SceneScript : MonoBehaviour {
 
-	Transform cardPrefab;
+	private Transform cardPrefab;
+
+	private GameObject prevCardOpen;
+
+	static public bool enableToTouch;
 
 	// Use this for initialization
 	void Start () {
@@ -87,9 +91,45 @@ public class SceneScript : MonoBehaviour {
 			float posY = (float)(topLeftOfFirstCard.y  - indexRow * (cardHeight + 0.1));
 			card.transform.position = new Vector3 (posX, posY, 0);
 		}
+
+		SceneScript.enableToTouch = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+	}
+
+	public void OpenCard (GameObject card) {
+		enableToTouch = false;
+		if (prevCardOpen == null) {
+			prevCardOpen = card;
+			enableToTouch = true;
+		} else {
+			StartCoroutine(WaitAndCheckOpenCard(card));
+		}
+	}
+
+	IEnumerator WaitAndCheckOpenCard(GameObject card) {
+		yield return new WaitForSeconds(0.8f);
+
+		if (prevCardOpen != null) {
+			CardScript prevScript = prevCardOpen.GetComponent<CardScript> ();				
+			CardScript cardScript = card.GetComponent<CardScript> ();
+			
+			if (prevScript.cardType == cardScript.cardType) {
+				Destroy(card);
+				Destroy(prevCardOpen);				
+				// Add point				
+			} else {
+				// Flip card
+				FlipCardScript flipPrevScript = prevCardOpen.GetComponent<FlipCardScript> ();
+				flipPrevScript.FlipCard(false);
+				FlipCardScript flipCardScript = card.GetComponent<FlipCardScript> ();
+				flipCardScript.FlipCard(false);
+			}
+			prevCardOpen = null;
+		}
+
+		enableToTouch = true;
 	}
 }
