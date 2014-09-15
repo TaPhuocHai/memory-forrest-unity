@@ -53,7 +53,7 @@ public class SceneScript : MonoBehaviour {
 			var card = Instantiate(cardPrefab) as Transform;
 			// Set type
 			CardScript cardScript = card.GetComponent<CardScript>();
-			cardScript.cardType = CardType.Apple;			
+			cardScript.cardType = CardType.Mashroom;			
 		
 			int indexCol = i % numberOfCol;
 			int indexRow = i / numberOfCol;

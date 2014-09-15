@@ -95,11 +95,18 @@ public class CardScript : MonoBehaviour {
 			// Set card properties
 			_cardProperties = new CardProperties(value);
 
+			// Load sprite if not loaded
+			if (CardScript.sprites == null) {
+				CardScript.sprites = Resources.LoadAll<Sprite>("Textures/Card");
+				print ("Co " + sprites.Length + " doi tuong");
+			}
+
 			// Set sprite for this card
 			var cardFace = this.transform.FindChild("CardFace");
 			if (cardFace) {
 				SpriteRenderer spriteRender = cardFace.GetComponent<SpriteRenderer>();
 				if (spriteRender) {
+					print ("lay sprite " + ((int)value + 1).ToString());
 					spriteRender.sprite = CardScript.sprites[(int)value + 1] as Sprite;
 				} else {
 					print ("not found sprite render");
@@ -114,10 +121,6 @@ public class CardScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		// Load sprite if not loaded
-		if (CardScript.sprites == null) {
-			sprites = Resources.LoadAll<Sprite>(@"Textures/Card");
-		}
 	}
 	
 	// Update is called once per frame

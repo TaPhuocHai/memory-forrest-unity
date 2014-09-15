@@ -4,7 +4,7 @@ using System.Collections;
 public class FlipCardScript : MonoBehaviour {
 
 	private int fps = 60;
-	private float rotateDegreePerSecond = 360f;
+	private float rotateDegreePerSecond = 720f;
 	private bool isFaceUp = false;
 	const   float FLIP_LIMIT_DEGREE = 180f;
 
