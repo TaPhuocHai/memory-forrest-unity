@@ -16,7 +16,7 @@ public class SceneScript : MonoBehaviour {
 		HOTween.Init ();
 
 		// Init round
-		this.InitRound ();
+		StartCoroutine (this.InitRound ());
 	}
 
 	void Update () {
@@ -59,7 +59,7 @@ public class SceneScript : MonoBehaviour {
 		enableToTouch = true;
 	}
 
-	private void InitRound () {
+	private IEnumerator InitRound () {
 		// So luong object can ve
 		int numberOfCol = PlayerPrefs.GetInt("MapSizeLoadCol",4);
 		int numberOfRow = PlayerPrefs.GetInt("MapSizeLoadRow",4);
@@ -149,7 +149,11 @@ public class SceneScript : MonoBehaviour {
 			TweenParms parms = new TweenParms().Prop("position", new Vector3(posX,posY,0)).Ease(EaseType.EaseOutBack).Delay((float)0.1*i);
 			HOTween.To (card, 0.5f, parms);
 		}
-		
+		yield return new WaitForSeconds ((float)0.1*cardToShow.Count);
+
+		TimerScript timerScript = this.gameObject.GetComponent<TimerScript> ();
+		timerScript.StartTimer ();
+
 		SceneScript.enableToTouch = true;
 	}
 
