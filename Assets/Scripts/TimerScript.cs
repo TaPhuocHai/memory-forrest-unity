@@ -20,6 +20,14 @@ public class TimerScript : MonoBehaviour {
 		this.timerCountDown -= Time.deltaTime;
 		if (this.timerCountDown <= 0) {
 			this.timerCountDown = 0;
+
+			// Game Over
+			Transform gameOver = this.transform.parent.FindChild("GameOver");
+			if (gameOver) {
+				GameOverScipt gameOverScipt = gameOver.GetComponent<GameOverScipt> ();
+				gameOverScipt.EnterGameOver ();
+			}
+
 			this.enabled = false;
 		}
 
