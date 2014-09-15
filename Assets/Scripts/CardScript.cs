@@ -98,7 +98,6 @@ public class CardScript : MonoBehaviour {
 			// Load sprite if not loaded
 			if (CardScript.sprites == null) {
 				CardScript.sprites = Resources.LoadAll<Sprite>("Textures/Card");
-				print ("Co " + sprites.Length + " doi tuong");
 			}
 
 			// Set sprite for this card
@@ -106,13 +105,8 @@ public class CardScript : MonoBehaviour {
 			if (cardFace) {
 				SpriteRenderer spriteRender = cardFace.GetComponent<SpriteRenderer>();
 				if (spriteRender) {
-					print ("lay sprite " + ((int)value + 1).ToString());
 					spriteRender.sprite = CardScript.sprites[(int)value + 1] as Sprite;
-				} else {
-					print ("not found sprite render");
 				}
-			} else {
-				print ("not found card face");
 			}
 		}
 	}

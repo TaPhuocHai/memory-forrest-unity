@@ -48,12 +48,36 @@ public class SceneScript : MonoBehaviour {
 		var topLeftOfFirstCard = new Vector2 (edgeLeftBottomVector.x + (screenWidth - widthOfAllCard) / 2 + cardWidth/2,
 		                                      edgeLeftBottomVector.y + (screenHeight - heighOfAllCard)/2  + heighOfAllCard - cardHeight/2);
 
+		// Random card thanh cac cap
+		ArrayList cardToShow = new ArrayList ();
+		for (int i = 0; i < numberOfObjectToDraw/2;  i ++) {
+
+			// Random type
+			CardType type = (CardType)Random.Range(0,(int)CardType.VioletButterfly);
+
+			// ---------------------------------------
+			for (int j = 0; j < 2 ; j ++) {
+				var card = Instantiate(cardPrefab) as Transform;
+				// Set type
+				CardScript cardScript = card.GetComponent<CardScript>();
+				cardScript.cardType = type;			
+				cardToShow.Add(card);
+			}
+		}
+
+		// Thay doi thu tu vi tri cua card trong mang
+		for (int i = 0; i < 100; i ++) {
+			int index1 = Random.Range(0,cardToShow.Count);
+			int index2 = Random.Range(0,cardToShow.Count);
+			var object1 = cardToShow[index1];
+			var object2 = cardToShow[index2];
+			cardToShow[index1] = object2;
+			cardToShow[index2] = object1;
+		}
+
 		//B3: va cac card tu trai sang phai, tu tren xuong doi
-		for (int i = 0; i < numberOfObjectToDraw;  i ++) {
-			var card = Instantiate(cardPrefab) as Transform;
-			// Set type
-			CardScript cardScript = card.GetComponent<CardScript>();
-			cardScript.cardType = CardType.Mashroom;			
+		for (int i = 0; i < cardToShow.Count;  i ++) {
+			Transform card = (Transform)cardToShow[i];
 		
 			int indexCol = i % numberOfCol;
 			int indexRow = i / numberOfCol;
