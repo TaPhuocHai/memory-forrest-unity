@@ -7,6 +7,7 @@ public class SceneScript : MonoBehaviour {
 
 	public Transform cardPrefab;
 
+	private ArrayList  cardOnScreen;
 	private GameObject prevCardOpen;
 
 	static public bool enableToTouch;
@@ -44,6 +45,14 @@ public class SceneScript : MonoBehaviour {
 				cardAnimator.SetTrigger("exit");
 				Animator prevAnimator = prevCardOpen.GetComponent<Animator> ();
 				prevAnimator.SetTrigger("exit");
+
+				// Remove from list
+				this.cardOnScreen.Remove(card);
+				this.cardOnScreen.Remove(prevCardOpen);
+
+				if (this.cardOnScreen.Count == 0) {
+					// Next round
+				}
 
 				// Add point				
 			} else {
@@ -98,7 +107,7 @@ public class SceneScript : MonoBehaviour {
 		                                      edgeLeftBottomVector.y + (screenHeight - heighOfAllCard)/2  + heighOfAllCard - cardHeight/2);
 		
 		// Random card thanh cac cap
-		ArrayList cardToShow = new ArrayList ();
+		this.cardOnScreen = new ArrayList ();
 		for (int i = 0; i < numberOfObjectToDraw/2;  i ++) {
 			
 			// Random type
@@ -110,23 +119,23 @@ public class SceneScript : MonoBehaviour {
 				// Set type
 				CardScript cardScript = card.GetComponent<CardScript>();
 				cardScript.cardType = type;			
-				cardToShow.Add(card);
+				this.cardOnScreen.Add(card);
 			}
 		}
 		
 		// Thay doi thu tu vi tri cua card trong mang
 		for (int i = 0; i < 100; i ++) {
-			int index1 = Random.Range(0,cardToShow.Count);
-			int index2 = Random.Range(0,cardToShow.Count);
-			var object1 = cardToShow[index1];
-			var object2 = cardToShow[index2];
-			cardToShow[index1] = object2;
-			cardToShow[index2] = object1;
+			int index1 = Random.Range(0,this.cardOnScreen.Count);
+			int index2 = Random.Range(0,this.cardOnScreen.Count);
+			var object1 = this.cardOnScreen[index1];
+			var object2 = this.cardOnScreen[index2];
+			this.cardOnScreen[index1] = object2;
+			this.cardOnScreen[index2] = object1;
 		}
 		
 		//B3: va cac card tu trai sang phai, tu tren xuong doi
-		for (int i = 0; i < cardToShow.Count;  i ++) {
-			Transform card = (Transform)cardToShow[i];
+		for (int i = 0; i < this.cardOnScreen.Count;  i ++) {
+			Transform card = (Transform)this.cardOnScreen[i];
 			
 			int indexCol = i % numberOfCol;
 			
@@ -137,8 +146,8 @@ public class SceneScript : MonoBehaviour {
 			card.transform.position = new Vector3 (posX, posY, 0);
 		}
 		// Animation dropdow
-		for (int i = 0; i < cardToShow.Count; i ++) {
-			Transform card = (Transform)cardToShow[i];
+		for (int i = 0; i < this.cardOnScreen.Count; i ++) {
+			Transform card = (Transform)this.cardOnScreen[i];
 			
 			int indexCol = i % numberOfCol;
 			int indexRow = i / numberOfCol;
@@ -149,7 +158,7 @@ public class SceneScript : MonoBehaviour {
 			TweenParms parms = new TweenParms().Prop("position", new Vector3(posX,posY,0)).Ease(EaseType.EaseOutBack).Delay((float)0.1*i);
 			HOTween.To (card, 0.5f, parms);
 		}
-		yield return new WaitForSeconds ((float)0.1*cardToShow.Count);
+		yield return new WaitForSeconds ((float)0.1*this.cardOnScreen.Count);
 
 		TimerScript timerScript = this.gameObject.GetComponent<TimerScript> ();
 		timerScript.StartTimer ();
