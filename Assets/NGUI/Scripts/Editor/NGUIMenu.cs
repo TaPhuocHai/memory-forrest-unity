@@ -153,7 +153,7 @@ static public class NGUIMenu
 	}
 
 #if !UNITY_3_5 && !UNITY_4_0 && !UNITY_4_1 && !UNITY_4_2
-	[MenuItem("NGUI/Create/Unity 2D Sprite &#r", false, 6)]
+	[MenuItem("NGUI/Create/Unity 2D Sprite &#d", false, 6)]
 	static public void AddSprite2D ()
 	{
 		GameObject go = NGUIEditorTools.SelectedRoot(true);
@@ -238,8 +238,11 @@ static public class NGUIMenu
 
 	static void AddIfMissing<T> () where T : Component
 	{
-		GameObject go = Selection.activeGameObject;
-		if (go != null) go.AddMissingComponent<T>();
+		if (Selection.activeGameObject != null)
+		{
+			for (int i = 0; i < Selection.gameObjects.Length; ++i)
+				Selection.gameObjects[i].AddMissingComponent<T>();
+		}
 		else Debug.Log("You must select a game object first.");
 	}
 
@@ -253,20 +256,12 @@ static public class NGUIMenu
 	[MenuItem("NGUI/Attach/Collider &#c", false, 7)]
 	static public void AddCollider ()
 	{
-		GameObject go = Selection.activeGameObject;
-
-		if (NGUIEditorTools.WillLosePrefab(go))
+		if (Selection.activeGameObject != null)
 		{
-			if (go != null)
-			{
-				NGUIEditorTools.RegisterUndo("Add Widget Collider", go);
-				NGUITools.AddWidgetCollider(go);
-			}
-			else
-			{
-				Debug.Log("You must select a game object first, such as your button.");
-			}
+			for (int i = 0; i < Selection.gameObjects.Length; ++i)
+				NGUITools.AddWidgetCollider(Selection.gameObjects[i]);
 		}
+		else Debug.Log("You must select a game object first, such as your button.");
 	}
 
 	//[MenuItem("NGUI/Attach/Anchor", false, 7)]
@@ -413,6 +408,12 @@ static public class NGUIMenu
 	[MenuItem("Assets/NGUI/", false, 0)]
 	static public void OpenSeparator2 () { }
 
+	[MenuItem("NGUI/Open/Prefab Toolbar", false, 9)]
+	static public void OpenPrefabTool ()
+	{
+		EditorWindow.GetWindow<UIPrefabTool>(false, "Prefab Toolbar", true).Show();
+	}
+
 	[MenuItem("NGUI/Open/Panel Tool", false, 9)]
 	static public void OpenPanelWizard ()
 	{
@@ -499,6 +500,14 @@ static public class NGUIMenu
 
 	[MenuItem("NGUI/Options/Guides/Only When Needed", true, 10)]
 	static public bool TurnGuidesOffCheck () { return NGUISettings.drawGuides; }
+
+	[MenuItem("NGUI/Options/Reset Prefab Toolbar", false, 10)]
+	static public void ResetPrefabTool ()
+	{
+		if (UIPrefabTool.instance == null) OpenPrefabTool();
+		UIPrefabTool.instance.Reset();
+		UIPrefabTool.instance.Repaint();
+	}
 
 #endregion
 

@@ -162,7 +162,7 @@ static public class NGUIText
 		else if (dynamicFont != null)
 		{
 			if (dynamicFont.GetCharacterInfo((char)ch, out mTempChar, finalSize, fontStyle))
-				return Mathf.Round(mTempChar.width * fontScale * pixelDensity);
+				return mTempChar.width * fontScale * pixelDensity;
 		}
 #endif
 		return 0f;
@@ -227,6 +227,11 @@ static public class NGUIText
 				glyph.channel = 0;
 				glyph.rotatedUVs = mTempChar.flipped;
 
+				glyph.v0.x = Mathf.Round(glyph.v0.x);
+				glyph.v0.y = Mathf.Round(glyph.v0.y);
+				glyph.v1.x = Mathf.Round(glyph.v1.x);
+				glyph.v1.y = Mathf.Round(glyph.v1.y);
+
 				float pd = fontScale * pixelDensity;
 
 				if (pd != 1f)
@@ -235,8 +240,6 @@ static public class NGUIText
 					glyph.v1 *= pd;
 					glyph.advance *= pd;
 				}
-
-				glyph.advance = Mathf.Round(glyph.advance);
 				return glyph;
 			}
 		}
@@ -254,7 +257,13 @@ static public class NGUIText
 	/// Parse a RrGgBb color encoded in the string.
 	/// </summary>
 
-	static public Color ParseColor (string text, int offset)
+	static public Color ParseColor (string text, int offset) { return ParseColor24(text, offset); }
+
+	/// <summary>
+	/// Parse a RrGgBb color encoded in the string.
+	/// </summary>
+
+	static public Color ParseColor24 (string text, int offset)
 	{
 		int r = (NGUIMath.HexToDecimal(text[offset])     << 4) | NGUIMath.HexToDecimal(text[offset + 1]);
 		int g = (NGUIMath.HexToDecimal(text[offset + 2]) << 4) | NGUIMath.HexToDecimal(text[offset + 3]);
@@ -264,13 +273,43 @@ static public class NGUIText
 	}
 
 	/// <summary>
+	/// Parse a RrGgBbAa color encoded in the string.
+	/// </summary>
+
+	static public Color ParseColor32 (string text, int offset)
+	{
+		int r = (NGUIMath.HexToDecimal(text[offset]) << 4) | NGUIMath.HexToDecimal(text[offset + 1]);
+		int g = (NGUIMath.HexToDecimal(text[offset + 2]) << 4) | NGUIMath.HexToDecimal(text[offset + 3]);
+		int b = (NGUIMath.HexToDecimal(text[offset + 4]) << 4) | NGUIMath.HexToDecimal(text[offset + 5]);
+		int a = (NGUIMath.HexToDecimal(text[offset + 6]) << 4) | NGUIMath.HexToDecimal(text[offset + 7]);
+		float f = 1f / 255f;
+		return new Color(f * r, f * g, f * b, f * a);
+	}
+
+	/// <summary>
 	/// The reverse of ParseColor -- encodes a color in RrGgBb format.
 	/// </summary>
 
-	static public string EncodeColor (Color c)
+	static public string EncodeColor (Color c) { return EncodeColor24(c); }
+
+	/// <summary>
+	/// The reverse of ParseColor24 -- encodes a color in RrGgBb format.
+	/// </summary>
+
+	static public string EncodeColor24 (Color c)
 	{
 		int i = 0xFFFFFF & (NGUIMath.ColorToInt(c) >> 8);
-		return NGUIMath.DecimalToHex(i);
+		return NGUIMath.DecimalToHex24(i);
+	}
+
+	/// <summary>
+	/// The reverse of ParseColor32 -- encodes a color in RrGgBb format.
+	/// </summary>
+
+	static public string EncodeColor32 (Color c)
+	{
+		int i = NGUIMath.ColorToInt(c);
+		return NGUIMath.DecimalToHex32(i);
 	}
 
 	/// <summary>
@@ -411,7 +450,7 @@ static public class NGUIText
 		if (text[index + 1] == 'u' && text[index + 2] == 'r' && text[index + 3] == 'l' && text[index + 4] == '=')
 		{
 			int closingBracket = text.IndexOf(']', index + 4);
-			
+
 			if (closingBracket != -1)
 			{
 				index = closingBracket + 1;
@@ -423,9 +462,9 @@ static public class NGUIText
 
 		if (text[index + 7] == ']')
 		{
-			Color c = ParseColor(text, index + 1);
+			Color c = ParseColor24(text, index + 1);
 
-			if (EncodeColor(c) != text.Substring(index + 1, 6).ToUpper())
+			if (EncodeColor24(c) != text.Substring(index + 1, 6).ToUpper())
 				return false;
 
 			if (colors != null)
@@ -436,6 +475,24 @@ static public class NGUIText
 				colors.Add(c);
 			}
 			index += 8;
+			return true;
+		}
+
+		if (index + 10 > length) return false;
+
+		if (text[index + 9] == ']')
+		{
+			Color c = ParseColor32(text, index + 1);
+			if (EncodeColor32(c) != text.Substring(index + 1, 8).ToUpper())
+				return false;
+
+			if (colors != null)
+			{
+				if (premultiply && c.a != 1f)
+					c = Color.Lerp(mInvisible, c, c.a);
+				colors.Add(c);
+			}
+			index += 10;
 			return true;
 		}
 		return false;
@@ -539,7 +596,7 @@ static public class NGUIText
 				for (int i = indexOffset + 4, charIndex = 1; i < verts.size; ++charIndex)
 				{
 					float x0 = verts.buffer[i].x;
-					float x1 = verts.buffer[i+2].x;
+					float x1 = verts.buffer[i + 2].x;
 					float w = x1 - x0;
 					float x0a = x0 * scale;
 					float x1a = x0a + w;
@@ -665,7 +722,7 @@ static public class NGUIText
 				if (symbol == null)
 				{
 					float w = GetGlyphWidth(ch, prev);
-					
+
 					if (w != 0f)
 					{
 						w += finalSpacingX;
@@ -854,7 +911,7 @@ static public class NGUIText
 				if (prev == ' ')
 				{
 					sb.Append(' ');
-					start = offset + 1;
+					start = offset;
 				}
 				else if (prev != ' ' && start < offset)
 				{

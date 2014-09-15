@@ -15,7 +15,7 @@ public static class EventDelegateEditor
 	/// Collect a list of usable delegates from the specified target game object.
 	/// </summary>
 
-	static List<Entry> GetMethods (GameObject target)
+	static public List<Entry> GetMethods (GameObject target)
 	{
 		MonoBehaviour[] comps = target.GetComponents<MonoBehaviour>();
 
@@ -152,7 +152,6 @@ public static class EventDelegateEditor
 				for (int i = 0; i < ps.Length; ++i)
 				{
 					EventDelegate.Parameter param = ps[i];
-
 					Object obj = EditorGUILayout.ObjectField("   Arg " + i, param.obj, typeof(Object), true);
 
 					if (GUI.changed)
@@ -164,9 +163,8 @@ public static class EventDelegateEditor
 
 					if (obj == null) continue;
 
-					System.Type type = obj.GetType();
-
 					GameObject selGO = null;
+					System.Type type = obj.GetType();
 					if (type == typeof(GameObject)) selGO = obj as GameObject;
 					else if (type.IsSubclassOf(typeof(Component))) selGO = (obj as Component).gameObject;
 
@@ -222,7 +220,7 @@ public static class EventDelegateEditor
 	/// Convert the specified list of delegate entries into a string array.
 	/// </summary>
 
-	static string[] GetNames (List<Entry> list, string choice, out int index)
+	static public string[] GetNames (List<Entry> list, string choice, out int index)
 	{
 		index = 0;
 		string[] names = new string[list.Count + 1];

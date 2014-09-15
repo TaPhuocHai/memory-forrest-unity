@@ -442,6 +442,19 @@ public class UIWidget : UIRect
 	}
 
 	/// <summary>
+	/// Widget's center in local coordinates. Don't forget to transform by the widget's transform.
+	/// </summary>
+
+	public Vector3 localCenter
+	{
+		get
+		{
+			Vector3[] cr = localCorners;
+			return Vector3.Lerp(cr[0], cr[2], 0.5f);
+		}
+	}
+
+	/// <summary>
 	/// World-space corners of the widget. The order is bottom-left, top-left, top-right, bottom-right.
 	/// </summary>
 
@@ -466,6 +479,12 @@ public class UIWidget : UIRect
 			return mCorners;
 		}
 	}
+
+	/// <summary>
+	/// World-space center of the widget.
+	/// </summary>
+
+	public Vector3 worldCenter { get { return cachedTransform.TransformPoint(localCenter); } }
 
 	/// <summary>
 	/// Local space region where the actual drawing will take place.
@@ -623,7 +642,11 @@ public class UIWidget : UIRect
 
 	public override float CalculateFinalAlpha (int frameID)
 	{
+#if UNITY_EDITOR
+		if (mAlphaFrameID != frameID || !Application.isPlaying)
+#else
 		if (mAlphaFrameID != frameID)
+#endif
 		{
 			mAlphaFrameID = frameID;
 			UpdateFinalAlpha(frameID);
@@ -680,7 +703,7 @@ public class UIWidget : UIRect
 	/// Set the widget's rectangle.
 	/// </summary>
 
-	public void SetRect (float x, float y, float width, float height)
+	public override void SetRect (float x, float y, float width, float height)
 	{
 		Vector2 po = pivotOffset;
 
@@ -1016,7 +1039,20 @@ public class UIWidget : UIRect
 	/// Virtual Start() functionality for widgets.
 	/// </summary>
 
-	protected override void OnStart () { CreatePanel(); }
+	protected override void OnStart ()
+	{
+#if UNITY_EDITOR
+		if (GetComponent<UIPanel>() != null)
+		{
+			Debug.LogError("Widgets and panels should not be on the same object! Widget must be a child of the panel.", this);
+		}
+		else if (!Application.isPlaying && GetComponents<UIWidget>().Length > 1)
+		{
+			Debug.LogError("You should not place more than one widget on the same object. Weird stuff will happen!", this);
+		}
+#endif
+		CreatePanel();
+	}
 
 	/// <summary>
 	/// Update the anchored edges and ensure the widget is registered with a panel.
@@ -1473,7 +1509,7 @@ public class UIWidget : UIRect
 	/// Dimensions of the sprite's border, if any.
 	/// </summary>
 
-	virtual public Vector4 border { get { return Vector4.zero; } }
+	virtual public Vector4 border { get { return Vector4.zero; } set { } }
 
 	/// <summary>
 	/// Virtual function called by the UIPanel that fills the buffers.

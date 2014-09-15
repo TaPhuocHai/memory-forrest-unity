@@ -3,12 +3,16 @@
 // Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
-#if UNITY_EDITOR || (!UNITY_FLASH && !NETFX_CORE)
+#if UNITY_EDITOR || !UNITY_FLASH
 #define REFLECTION_SUPPORT
 #endif
 
 #if REFLECTION_SUPPORT
 using System.Reflection;
+#endif
+
+#if NETFX_CORE
+using System.Linq;
 #endif
 
 using System.Collections.Generic;
@@ -32,10 +36,15 @@ public class EventDelegate
 		public Object obj;
 		public string field;
 
+		[System.NonSerialized]
+		public System.Type expectedType = typeof(void);
+
+		public Parameter () { }
+		public Parameter (Object obj, string field) { this.obj = obj; this.field = field; }
+
 #if REFLECTION_SUPPORT
 		// Cached values
 		[System.NonSerialized] public bool cached = false;
-		[System.NonSerialized] public System.Type expectedType = typeof(void);
 		[System.NonSerialized] public PropertyInfo propInfo;
 		[System.NonSerialized] public FieldInfo fieldInfo;
 
@@ -56,8 +65,13 @@ public class EventDelegate
 					if (obj != null && !string.IsNullOrEmpty(field))
 					{
 						System.Type type = obj.GetType();
+#if NETFX_CORE
+						propInfo = type.GetRuntimeProperty(field);
+						if (propInfo == null) fieldInfo = type.GetRuntimeField(field);
+#else
 						propInfo = type.GetProperty(field);
 						if (propInfo == null) fieldInfo = type.GetField(field);
+#endif
 					}
 				}
 				if (propInfo != null) return propInfo.GetValue(obj, null);
@@ -96,11 +110,13 @@ public class EventDelegate
 
 	// Private variables
 	public delegate void Callback();
-	Callback mCachedCallback;
-	bool mRawDelegate = false;
-	bool mCached = false;
-	MethodInfo mMethod;
-	object[] mArgs;
+	[System.NonSerialized] Callback mCachedCallback;
+	[System.NonSerialized] bool mRawDelegate = false;
+	[System.NonSerialized] bool mCached = false;
+#if REFLECTION_SUPPORT
+	[System.NonSerialized] MethodInfo mMethod;
+	[System.NonSerialized] object[] mArgs;
+#endif
 
 	/// <summary>
 	/// Event delegate's target object.
@@ -118,7 +134,9 @@ public class EventDelegate
 			mCachedCallback = null;
 			mRawDelegate = false;
 			mCached = false;
+#if REFLECTION_SUPPORT
 			mMethod = null;
+#endif
 			mParameters = null;
 		}
 	}
@@ -139,7 +157,9 @@ public class EventDelegate
 			mCachedCallback = null;
 			mRawDelegate = false;
 			mCached = false;
+#if REFLECTION_SUPPORT
 			mMethod = null;
+#endif
 			mParameters = null;
 		}
 	}
@@ -333,7 +353,30 @@ public class EventDelegate
 		{
 			if (mTarget != null && !string.IsNullOrEmpty(mMethodName))
 			{
-				mMethod = mTarget.GetType().GetMethod(mMethodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+				System.Type type = mTarget.GetType();
+
+				try
+				{
+#if NETFX_CORE
+					// we can't use this since we don't seem to have the correct parameter type list yet
+					// mMethod = type.GetRuntimeMethod(mMethodName, (from p in mParameters select p.type).ToArray());
+
+					mMethod = (from m in type.GetRuntimeMethods() where m.Name == mMethodName && !m.IsStatic select m).FirstOrDefault();
+#else
+					for (mMethod = null; ; )
+					{
+						mMethod = type.GetMethod(mMethodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+						if (mMethod != null) break;
+						type = type.BaseType;
+						if (type == null) break;
+					}
+#endif
+				}
+				catch (System.Exception ex)
+				{
+					Debug.LogError("Failed to bind " + type + "." + mMethodName + "\n" +  ex.Message);
+					return;
+				}
 
 				if (mMethod == null)
 				{
@@ -353,11 +396,17 @@ public class EventDelegate
 				if (info.Length == 0)
 				{
 					// No parameters means we can create a simple delegate for it, optimizing the call
+#if NETFX_CORE
+					mCachedCallback = (Callback)mMethod.CreateDelegate(typeof(Callback), mTarget);
+#else
 					mCachedCallback = (Callback)System.Delegate.CreateDelegate(typeof(Callback), mTarget, mMethodName);
+#endif
+
 					mArgs = null;
 					mParameters = null;
 					return;
 				}
+				else mCachedCallback = null;
 
 				// Allocate the initial list of parameters
 				if (mParameters == null || mParameters.Length != info.Length)
@@ -385,7 +434,8 @@ public class EventDelegate
 #if !REFLECTION_SUPPORT
 		if (isValid)
 		{
-			mTarget.SendMessage(mMethodName, SendMessageOptions.DontRequireReceiver);
+			if (mRawDelegate) mCachedCallback();
+			else mTarget.SendMessage(mMethodName, SendMessageOptions.DontRequireReceiver);
 			return true;
 		}
 #else
@@ -501,8 +551,10 @@ public class EventDelegate
 		mCachedCallback = null;
 		mParameters = null;
 		mCached = false;
+#if REFLECTION_SUPPORT
 		mMethod = null;
 		mArgs = null;
+#endif
 	}
 
 	/// <summary>

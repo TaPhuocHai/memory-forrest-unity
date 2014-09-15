@@ -132,7 +132,7 @@ public class UIProgressBar : UIWidgetContainer
 				{
 					ForceUpdate();
 
-					if (NGUITools.GetActive(this) && EventDelegate.IsValid(onChange))
+					if (current == null && NGUITools.GetActive(this) && EventDelegate.IsValid(onChange))
 					{
 						current = this;
 						EventDelegate.Execute(onChange);
@@ -208,18 +208,11 @@ public class UIProgressBar : UIWidgetContainer
 
 		if (Application.isPlaying)
 		{
-			if (mFG == null)
-			{
-				Debug.LogWarning("Progress bar needs a foreground widget to work with", this);
-				enabled = false;
-				return;
-			}
-
 			if (mBG != null) mBG.autoResizeBoxCollider = true;
 
 			OnStart();
 
-			if (onChange != null)
+			if (current == null && onChange != null)
 			{
 				current = this;
 				EventDelegate.Execute(onChange);

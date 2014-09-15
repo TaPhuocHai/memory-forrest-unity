@@ -61,8 +61,8 @@ public class SceneScript : MonoBehaviour {
 
 	private void InitRound () {
 		// So luong object can ve
-		int numberOfCol = 4;
-		int numberOfRow = 4;
+		int numberOfCol = PlayerPrefs.GetInt("MapSizeLoadCol",4);
+		int numberOfRow = PlayerPrefs.GetInt("MapSizeLoadRow",4);
 		int numberOfObjectToDraw = numberOfCol * numberOfRow;
 		
 		//  -----------------------------------------------------
@@ -151,5 +151,9 @@ public class SceneScript : MonoBehaviour {
 		}
 		
 		SceneScript.enableToTouch = true;
+	}
+
+	public void ExitToMap () {
+		Application.LoadLevel ("Map");
 	}
 }
