@@ -23,11 +23,10 @@ public class TimerScript : MonoBehaviour {
 			this.enabled = false;
 		}
 
-		GameObject root = GameObject.FindGameObjectWithTag("UIRoot");
-		Transform progressBar = root.transform.FindChild ("ProgressBar");
+		GameObject player = GameObject.FindGameObjectWithTag("Player");
+		Transform  progressBar = player.transform.FindChild ("ProgressBar");
 		UISlider slider = progressBar.GetComponent<UISlider> ();
-		//UIProgressBar pg = root.transform.FindChild ("ProgressBar");
-		//UIProgressBar pg = root.GetComponent<UIProgressBar> ();
+
 		if (slider) {
 			slider.value = this.timerCountDown / TIME_PLAY;
 		} else {
