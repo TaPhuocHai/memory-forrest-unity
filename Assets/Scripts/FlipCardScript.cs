@@ -3,28 +3,23 @@ using System.Collections;
 
 public class FlipCardScript : MonoBehaviour {
 
-	private int fps = 60;
+	private int   fps = 60;
 	private float rotateDegreePerSecond = 720f;
-	private bool isFaceUp = false;
+	private bool  isFaceUp = false;
 	const   float FLIP_LIMIT_DEGREE = 180f;
 
 	private float waitTime;
 	private bool  isAnimationProgresing;
-
-	// Use this for initialization
+	
 	void Start () {
 		waitTime = 1.0f / fps;
 		isAnimationProgresing = false;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	void Update () {	
 	}
 
 	void OnMouseDown () {
-		print ("OnMouseDown");
-			
 		if (isAnimationProgresing) {
 			return;
 		}
@@ -43,6 +38,7 @@ public class FlipCardScript : MonoBehaviour {
 
 	IEnumerator flip (bool isAddToSceneToCheck) {
 
+		// Add card to scene for auto check when open card 2
 		if (isAddToSceneToCheck && !isFaceUp) {
 			GameObject scene = GameObject.FindGameObjectWithTag("Scene");
 			SceneScript sceneScript = scene.GetComponent<SceneScript>();
