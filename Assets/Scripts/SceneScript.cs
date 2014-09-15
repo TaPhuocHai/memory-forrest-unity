@@ -117,8 +117,13 @@ public class SceneScript : MonoBehaviour {
 			CardScript cardScript = card.GetComponent<CardScript> ();
 			
 			if (prevScript.cardType == cardScript.cardType) {
-				Destroy(card);
-				Destroy(prevCardOpen);				
+				Animator cardAnimator = card.GetComponent<Animator> ();
+				cardAnimator.SetTrigger("exit");
+				Animator prevAnimator = prevCardOpen.GetComponent<Animator> ();
+				prevAnimator.SetTrigger("exit");
+
+//				Destroy(card);
+//				Destroy(prevCardOpen);				
 				// Add point				
 			} else {
 				// Flip card

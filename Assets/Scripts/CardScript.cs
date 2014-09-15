@@ -120,5 +120,9 @@ public class CardScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-	}	
+	}
+
+	void DestroyMe () {
+		Destroy (this.gameObject);
+	}
 }
