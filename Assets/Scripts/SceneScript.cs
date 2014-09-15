@@ -3,22 +3,15 @@ using System.Collections;
 
 public class SceneScript : MonoBehaviour {
 
-	ArrayList sprites;
-
+	Transform cardPrefab;
 
 	// Use this for initialization
 	void Start () {
-
-		// Load animate sprite
-		this.LoadAnimalSprite ();
 
 		// So luong object can ve
 		int numberOfCol = 4;
 		int numberOfRow = 4;
 		int numberOfObjectToDraw = numberOfCol * numberOfRow;
-
-		// Load card game
-		GameObject cardGame = Resources.LoadAssetAtPath <GameObject> ("Assets/Prefab/CardPrefab.prefab");				
 
 		//  -----------------------------------------------------
 		/*
@@ -30,9 +23,13 @@ public class SceneScript : MonoBehaviour {
 		 * B3: va cac card tu trai sang phai, tu tren xuong doi
 		 */ 
 
+		// Load card
+		cardPrefab = Resources.LoadAssetAtPath <Transform> ("Assets/Prefab/Card.prefab"); 
+
 		// Size of card
-		float cardWidth = cardGame.transform.renderer.bounds.size.x;
-		float cardHeight = cardGame.transform.renderer.bounds.size.y;
+		Transform cardBack = cardPrefab.FindChild ("CardBack");
+		float cardWidth = cardBack.transform.renderer.bounds.size.x;
+		float cardHeight = cardBack.transform.renderer.bounds.size.y;
 
 		// Khi ve tat ca len man hinh, tat ca card se tao ra 1 vung
 		// B1: tinh chieu rong va chieu cao cua vung ve
@@ -52,30 +49,23 @@ public class SceneScript : MonoBehaviour {
 		                                      edgeLeftBottomVector.y + (screenHeight - heighOfAllCard)/2  + heighOfAllCard - cardHeight/2);
 
 		//B3: va cac card tu trai sang phai, tu tren xuong doi
-		for (int i = 0; i < numberOfObjectToDraw; i ++) {
-			var card = Instantiate(cardGame) as GameObject;		
-			card.GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Count)] as Sprite;				
+		for (int i = 0; i < numberOfObjectToDraw;  i ++) {
+			var card = Instantiate(cardPrefab) as Transform;
+			// Set type
+			CardScript cardScript = card.GetComponent<CardScript>();
+			cardScript.cardType = CardType.Apple;			
 		
 			int indexCol = i % numberOfCol;
 			int indexRow = i / numberOfCol;
 
+			// Tinh vi tri hien thi
 			float posX = (float)(topLeftOfFirstCard.x + indexCol * (cardWidth + 0.1)); 
 			float posY = (float)(topLeftOfFirstCard.y  - indexRow * (cardHeight + 0.1));
-
 			card.transform.position = new Vector3 (posX, posY, 0);
 		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
-
-	void LoadAnimalSprite () {
-		sprites = new ArrayList();
-		sprites.Add(Resources.Load("Textures/Animal/char1", typeof(Sprite)));
-		sprites.Add(Resources.Load("Textures/Animal/char2", typeof(Sprite)));
-		sprites.Add(Resources.Load("Textures/Animal/char3", typeof(Sprite)));
-		sprites.Add(Resources.Load("Textures/Animal/char4", typeof(Sprite)));
 	}
 }
