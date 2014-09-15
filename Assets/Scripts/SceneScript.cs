@@ -46,15 +46,19 @@ public class SceneScript : MonoBehaviour {
 				Animator prevAnimator = prevCardOpen.GetComponent<Animator> ();
 				prevAnimator.SetTrigger("exit");
 
-				// Remove from list
-				this.cardOnScreen.Remove(card);
-				this.cardOnScreen.Remove(prevCardOpen);
-
-				if (this.cardOnScreen.Count == 0) {
-					// Next round
-				}
-
 				// Add point				
+				PlayerScipt.Point += cardScript.cardProperties.point;
+
+				// Remove from list
+				this.cardOnScreen.Remove(card.transform);
+				this.cardOnScreen.Remove(prevCardOpen.transform);
+
+				print("con : " + this.cardOnScreen.Count.ToString());
+				if (this.cardOnScreen.Count == 0) {
+					print("next round");
+					// Next round
+					StartCoroutine(this.InitRound ());
+				}
 			} else {
 				// Flip card
 				FlipCardScript flipPrevScript = prevCardOpen.GetComponent<FlipCardScript> ();
@@ -122,6 +126,7 @@ public class SceneScript : MonoBehaviour {
 				this.cardOnScreen.Add(card);
 			}
 		}
+		print ("init card : " + this.cardOnScreen.Count.ToString ());
 		
 		// Thay doi thu tu vi tri cua card trong mang
 		for (int i = 0; i < 100; i ++) {

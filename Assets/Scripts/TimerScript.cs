@@ -9,6 +9,7 @@ public class TimerScript : MonoBehaviour {
 	private bool enableTimer;
 	
 	void Start () {
+		this.timerCountDown = TIME_PLAY;
 		this.enableTimer = false;
 	}
 	
@@ -42,8 +43,11 @@ public class TimerScript : MonoBehaviour {
 		}
 	}
 
-	public void StartTimer () {
+	public void ResetTimer () {
 		this.timerCountDown = TIME_PLAY;
+	}
+
+	public void StartTimer () {
 		this.enableTimer = true;
 	}
 }
