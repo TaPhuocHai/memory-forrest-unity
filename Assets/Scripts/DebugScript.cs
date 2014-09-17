@@ -5,7 +5,7 @@ public class DebugScript : MonoBehaviour {
 
 	bool debug = true;
 
-	static string text;
+	static string text = "";
 
 	void OnGUI () {
 		if (debug) {
@@ -16,9 +16,13 @@ public class DebugScript : MonoBehaviour {
 	}
 
 	static public void AddText(string str) {
-		if (text != null) {
+		if (text.Length != 0) {
 			text += "\n";
 		}
 		text += str;
+	}
+
+	static public void Clear () {
+		text = "";
 	}
 }

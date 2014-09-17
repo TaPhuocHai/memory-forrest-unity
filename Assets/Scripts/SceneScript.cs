@@ -25,6 +25,12 @@ public class SceneScript : MonoBehaviour {
 	void Update () {
 	}
 
+	// -----------------------------------------------------------------------------
+
+	/// <summary>
+	/// Opens the card - Tinh diem
+	/// </summary>
+	/// <param name="card">Card.</param>
 	public void OpenCard (GameObject card) {
 		enableToTouch = false;
 		if (prevCardOpen == null) {
@@ -34,8 +40,54 @@ public class SceneScript : MonoBehaviour {
 			StartCoroutine(WaitAndCheckOpenCard(card));
 		}
 	}
-	
+
+	/// <summary>
+	/// Exits to map.
+	/// </summary>
+	public void ExitToMap () {
+		Application.LoadLevel ("Map");
+	}
+
+	/// <summary>
+	/// Reset man choi, choi lai
+	/// </summary>
+	public void ResetRound () {
+		// Clear debug
+		DebugScript.Clear ();
+
+		// Destroy all card on screen
+		for (int i = 0; i < this.cardOnScreen.Count; i ++) {
+			Transform card = (Transform)this.cardOnScreen [i];
+			Destroy (card.gameObject);
+		}
+
+		// Exit Game Over
+		Transform gameOver = this.transform.parent.FindChild("GameOver");
+		if (gameOver) {
+			GameOverScipt gameOverScipt = gameOver.GetComponent<GameOverScipt> ();
+			gameOverScipt.ExitGameOver ();
+		}
+
+		// Reset time
+		TimerScript timerScript = this.gameObject.GetComponent<TimerScript> ();
+		timerScript.ResetTimer ();
+
+		// Reset POINT
+		PlayerScipt.Point = 0;
+
+		// Init round
+		StartCoroutine (this.InitRound ());
+	}
+
+	// -----------------------------------------------------------------------------
+
+	/// <summary>
+	/// Waits the and check open card.
+	/// </summary>
+	/// <param name="card">Card.</param>
 	IEnumerator WaitAndCheckOpenCard(GameObject card) {
+
+		// Can doi 1 khoang thoi gian 0.65s de card hien thi tren man hinh truoc khi kiem tra va flip hoac destroy no
 		yield return new WaitForSeconds(0.65f);
 
 		if (prevCardOpen != null) {
@@ -190,8 +242,6 @@ public class SceneScript : MonoBehaviour {
 			float posX = (float)(topLeftOfFirstCard.x + indexCol * (cardWidth + 0.1)); 
 			float posY = (float)(topLeftOfFirstCard.y  - indexRow * (cardHeight + 0.1));
 
-			print (i.ToString() + " : " + posX.ToString() + " - " + posY.ToString());
-
 			TweenParms parms = new TweenParms().Prop("position", new Vector3(posX,posY,0)).Ease(EaseType.EaseOutBack).Delay((float)0.1*i);
 			HOTween.To (card, 0.5f, parms);
 		}
@@ -203,9 +253,5 @@ public class SceneScript : MonoBehaviour {
 
 		// Cho phep user co the choi
 		SceneScript.enableToTouch = true;
-	}
-
-	public void ExitToMap () {
-		Application.LoadLevel ("Map");
 	}
 }
