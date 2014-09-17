@@ -96,28 +96,72 @@ public class SceneScript : MonoBehaviour {
 			
 			if (prevScript.cardType == cardScript.cardType) {
 
-				// Add point				
-				PlayerScipt.Point += cardScript.cardProperties.point;
+				bool isNeedDestroyCard = true;
+				bool isAllowAddPoint   = true;
 
-				// Show point
-//				var addPoint1 = Instantiate(this.addPoint) as Transform;
-//				addPoint1.transform.position = card.transform.position;
-//				print("POS = " + card.transform.position.x + " - " + card.transform.position.y);
-//				addPoint1.GetComponent<GUIText>().text = cardScript.cardProperties.point.ToString();
-//				var addPoint2 = Instantiate(this.addPoint) as Transform;
-//				addPoint2.transform.position = prevCardOpen.transform.position;
-//				addPoint2.GetComponent<GUIText>().text = cardScript.cardProperties.point.ToString();			
-//
-//				Animator cardAnimator = card.GetComponent<Animator> ();
-//				cardAnimator.SetTrigger("exit");
-//				Animator prevAnimator = prevCardOpen.GetComponent<Animator> ();
-//				prevAnimator.SetTrigger("exit");
+				// Thua ngay lap tuc
+				if (cardScript.cardType == CardType.Wolf || cardScript.cardType == CardType.WolfKing) {
+					Transform gameOver = this.transform.parent.FindChild("GameOver");
+					if (gameOver) {
+						GameOverScipt gameOverScipt = gameOver.GetComponent<GameOverScipt> ();
+						gameOverScipt.EnterGameOver ();
+					}
+					isNeedDestroyCard = false;
+					isAllowAddPoint   = false;
 
-				// Remove from list
-				this.cardOnScreen.Remove(card.transform);
-				this.cardOnScreen.Remove(prevCardOpen.transform);
+					print ("Gap soi : game over");
+				}
+				// Khong lam gi ca
+				else if (cardScript.cardType == CardType.Stone) {
+					print ("Khong lam gi ca");
+					// just flip it
+					isNeedDestroyCard = false;
+					isAllowAddPoint   = false;
+				}
+				// Lap 3 cap bai ngau nhien tren man hinh
+				else if (cardScript.cardType == CardType.BlueButterfly) {
+					print ("Lat 3 la bai");
+				}
+				// Them 10s vao thoi gian choi
+				else if (cardScript.cardType == CardType.RedButterfly) {
+					print ("Them 10s");
+				}
+				// Doi mat sau cua 3 cap la bai thanh mau khac
+				else if (cardScript.cardType == CardType.YellowButterfly) {
+					print ("Doi mat sau cua 3 cap bai");
+				}
+				// Lat loai lat bai con nhieu nhat trong man choi
+				else if (cardScript.cardType == CardType.VioletButterfly) {
+					print ("Lat tat ca la bai nhieu nhat trong man choi");
+				} 
+				// Nhung la bai binh thuong
+				else {
+				}
 
-				print("con : " + this.cardOnScreen.Count.ToString());
+				if (isAllowAddPoint) {
+					// Add point				
+					PlayerScipt.Point += cardScript.cardProperties.point;
+				}
+
+				if (isNeedDestroyCard) {
+					// Animation and auto destroy when finish
+					Animator animator = card.GetComponent<Animator> ();
+					animator.SetTrigger("exit");
+					Animator prevAnimator = prevCardOpen.GetComponent<Animator> ();
+					prevAnimator.SetTrigger("exit");
+
+					// Remove from list
+					this.cardOnScreen.Remove(card.transform);
+					this.cardOnScreen.Remove(prevCardOpen.transform);
+				}
+				// Flip card
+				else {
+					FlipCardScript flipPrevScript = prevCardOpen.GetComponent<FlipCardScript> ();
+					flipPrevScript.FlipCard(false);
+					FlipCardScript flipCardScript = card.GetComponent<FlipCardScript> ();
+					flipCardScript.FlipCard(false);
+				}
+
 				if (this.cardOnScreen.Count == 0) {
 					print("next round");
 					// Next round

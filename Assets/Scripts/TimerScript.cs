@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TimerScript : MonoBehaviour {
 
-	private float TIME_PLAY = 4.0f;
+	private float TIME_PLAY = 45.0f;
 	private float timerCountDown;
 
 	private bool enableTimer;
