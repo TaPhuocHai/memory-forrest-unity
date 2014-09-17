@@ -127,4 +127,15 @@ public class CardScript : MonoBehaviour {
 	void DestroyMe () {
 		Destroy (this.gameObject);
 	}
+
+	#region Static
+
+	static public bool IsNormalCard (CardType type) {
+		if (type <= CardType.RabbitKing) {
+			return true;
+		}
+		return false;
+	}
+
+	#endregion Static
 }
