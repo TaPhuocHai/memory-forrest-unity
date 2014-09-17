@@ -120,7 +120,7 @@ public class SceneScript : MonoBehaviour {
 				}
 				// Lap 3 cap bai ngau nhien tren man hinh
 				else if (cardScript.cardType == CardType.BlueButterfly) {
-					print ("Lat 3 la bai");
+					print ("Lat 3 cap bai");
 				}
 				// Them 10s vao thoi gian choi
 				else if (cardScript.cardType == CardType.RedButterfly) {
@@ -134,6 +134,7 @@ public class SceneScript : MonoBehaviour {
 				// Lat loai lat bai con nhieu nhat trong man choi
 				else if (cardScript.cardType == CardType.VioletButterfly) {
 					print ("Lat tat ca la bai nhieu nhat trong man choi");
+					this.OpeCardsWithHighestNumber ();
 				} 
 				// Nhung la bai binh thuong
 				else {
@@ -229,6 +230,67 @@ public class SceneScript : MonoBehaviour {
 		}
 
 		enableToTouch = true;
+	}
+
+	/// <summary>
+	/// Mo tat ca cac la bai co so luong nhiu nhat
+	/// </summary>
+	private void OpeCardsWithHighestNumber () {
+		// Duyet tat ca card tren man hinh va dem so luong
+		Dictionary<int ,int> numberCardEachTypeDic = new Dictionary<int, int> ();
+		foreach (Transform c in this.cardOnScreen) {
+			CardScript cScript = c.GetComponent<CardScript> ();
+			int numberCard = 0;
+			if (numberCardEachTypeDic.ContainsKey((int)cScript.cardType)) {
+				numberCard = numberCardEachTypeDic[(int)cScript.cardType];
+			}
+			numberCard ++;
+			numberCardEachTypeDic[(int)cScript.cardType] = numberCard;
+		}
+		
+		// Tim ra loai co so luong nhieu nhat
+		int typeWithMaxValue = 0;
+		int maxValue = 0;
+		foreach(int key in numberCardEachTypeDic.Keys) {
+			if (numberCardEachTypeDic[key] < maxValue) {
+				maxValue = numberCardEachTypeDic[key];
+				typeWithMaxValue = key;
+			}
+		}
+		
+		// Lay tat ca card co type la keyWithMaxValue
+		ArrayList cardNeedOpenList = new ArrayList ();
+		foreach (Transform c in this.cardOnScreen) {
+			CardScript cScript = c.GetComponent<CardScript> ();
+			if ((int)cScript.cardType == typeWithMaxValue) {
+				cardNeedOpenList.Add(c);
+			}
+		}
+		// Lat tat ca card 
+		foreach (Transform c in cardNeedOpenList) {
+			CardScript cScript = c.GetComponent<CardScript> ();
+			if ((int)cScript.cardType == typeWithMaxValue) {
+				FlipCardScript flipPrevScript = c.GetComponent<FlipCardScript> ();
+				flipPrevScript.FlipCard(false);
+			}
+		}
+		yield return new WaitForSeconds(1.2f);					
+		// Animation exit tat
+		for (int i = 0; i < cardNeedOpenList.Count; i ++) {
+			Transform  c = (Transform)cardNeedOpenList [i];					
+			CardScript cScript = c.GetComponent<CardScript> ();
+			
+			// Cong diem
+			PlayerScipt.Point += cScript.cardProperties.point;
+			
+			// Animation and auto destroy when finish
+			Animator animator = c.GetComponent<Animator> ();
+			animator.SetTrigger("exit");
+			
+			// Remove from list
+			this.cardOnScreen.Remove(c.transform);
+			i --;
+		}
 	}
 
 	private IEnumerator InitRound () {
