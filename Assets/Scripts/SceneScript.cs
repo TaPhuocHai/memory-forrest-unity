@@ -134,7 +134,7 @@ public class SceneScript : MonoBehaviour {
 				// Lat loai lat bai con nhieu nhat trong man choi
 				else if (cardScript.cardType == CardType.VioletButterfly) {
 					print ("Lat tat ca la bai nhieu nhat trong man choi");
-					this.OpeCardsWithHighestNumber ();
+					StartCoroutine(this.OpeCardsWithHighestNumber ());
 				} 
 				// Nhung la bai binh thuong
 				else {
@@ -165,58 +165,7 @@ public class SceneScript : MonoBehaviour {
 				}
 
 				yield return new WaitForSeconds(0.2f);
-
-				// Tu dong kiem tra so card con lai tren man hinh
-				// Neu chi con lai Wolf, WolfKing va Stone thi tu dong clear het so card con lai 
-				bool isAllowClearAllCardLeft = true; 
-				for (int i = 0; i < this.cardOnScreen.Count; i ++) {
-					Transform  cardGame = (Transform)this.cardOnScreen [i];
-					CardScript cardGameScript = cardGame.GetComponent<CardScript> ();
-					if (cardGameScript.cardType != CardType.Wolf &&
-					    cardGameScript.cardType != CardType.WolfKing &&
-					    cardGameScript.cardType != CardType.Stone) {
-						print ("La " + cardGameScript.cardType.ToString());
-						isAllowClearAllCardLeft = false;
-						break;
-					}
-				}
-				if (isAllowClearAllCardLeft) {
-					print ("Chi con lai soi voi da");
-					// Tu dong mo len
-					for (int i = 0; i < this.cardOnScreen.Count; i ++) {
-						Transform  cardGame = (Transform)this.cardOnScreen [i];
-						FlipCardScript flipPrevScript = cardGame.GetComponent<FlipCardScript> ();
-						flipPrevScript.FlipCard(false);
-					}
-
-					yield return new WaitForSeconds(1.2f);
-
-					// Animation exit all
-					for (int i = 0; i < this.cardOnScreen.Count; i ++) {
-						Transform  cardGame = (Transform)this.cardOnScreen [i];
-						CardScript cardGameScript = cardGame.GetComponent<CardScript> ();
-
-						// Cong diem
-						PlayerScipt.Point += cardGameScript.cardProperties.point;
-
-						// Animation and auto destroy when finish
-						Animator animator = cardGame.GetComponent<Animator> ();
-						animator.SetTrigger("exit");
-						
-						// Remove from list
-						this.cardOnScreen.Remove(cardGame.transform);
-						i --;
-					}
-				}
-
-				// ---------------- Next round -----------------------
-				if (this.cardOnScreen.Count == 0) {
-					print("next round");
-
-					DebugScript.Clear ();
-					// Next round
-					StartCoroutine(this.InitRound ());
-				}
+				StartCoroutine(this.CheckCardOnScreenAndInitNextRoundIfNeed ());
 			} 
 			// Neu 2 card khac loai
 			else {
@@ -233,9 +182,67 @@ public class SceneScript : MonoBehaviour {
 	}
 
 	/// <summary>
+	/// Kiem tra xem da mo het card chua
+	/// Neu da mo het roi thi tu dong NextRound
+	/// </summary>
+	private IEnumerator CheckCardOnScreenAndInitNextRoundIfNeed () {
+		// Tu dong kiem tra so card con lai tren man hinh
+		// Neu chi con lai Wolf, WolfKing va Stone thi tu dong clear het so card con lai 
+		bool isAllowClearAllCardLeft = true; 
+		for (int i = 0; i < this.cardOnScreen.Count; i ++) {
+			Transform  cardGame = (Transform)this.cardOnScreen [i];
+			CardScript cardGameScript = cardGame.GetComponent<CardScript> ();
+			if (cardGameScript.cardType != CardType.Wolf &&
+			    cardGameScript.cardType != CardType.WolfKing &&
+			    cardGameScript.cardType != CardType.Stone) {
+				print ("La " + cardGameScript.cardType.ToString());
+				isAllowClearAllCardLeft = false;
+				break;
+			}
+		}
+		if (isAllowClearAllCardLeft) {
+			print ("Chi con lai soi voi da");
+			// Tu dong mo len
+			for (int i = 0; i < this.cardOnScreen.Count; i ++) {
+				Transform  cardGame = (Transform)this.cardOnScreen [i];
+				FlipCardScript flipPrevScript = cardGame.GetComponent<FlipCardScript> ();
+				flipPrevScript.FlipCard(false);
+			}
+			
+			yield return new WaitForSeconds(1.2f);
+			
+			// Animation exit all
+			for (int i = 0; i < this.cardOnScreen.Count; i ++) {
+				Transform  cardGame = (Transform)this.cardOnScreen [i];
+				CardScript cardGameScript = cardGame.GetComponent<CardScript> ();
+				
+				// Cong diem
+				PlayerScipt.Point += cardGameScript.cardProperties.point;
+				
+				// Animation and auto destroy when finish
+				Animator animator = cardGame.GetComponent<Animator> ();
+				animator.SetTrigger("exit");
+				
+				// Remove from list
+				this.cardOnScreen.Remove(cardGame.transform);
+				i --;
+			}
+		}
+		
+		// ---------------- Next round -----------------------
+		if (this.cardOnScreen.Count == 0) {
+			print("next round");
+			
+			DebugScript.Clear ();
+			// Next round
+			StartCoroutine(this.InitRound ());
+		}
+	}
+
+	/// <summary>
 	/// Mo tat ca cac la bai co so luong nhiu nhat
 	/// </summary>
-	private void OpeCardsWithHighestNumber () {
+	private IEnumerator OpeCardsWithHighestNumber () {
 		// Duyet tat ca card tren man hinh va dem so luong
 		Dictionary<int ,int> numberCardEachTypeDic = new Dictionary<int, int> ();
 		foreach (Transform c in this.cardOnScreen) {
