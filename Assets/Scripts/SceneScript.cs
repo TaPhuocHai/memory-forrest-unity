@@ -96,48 +96,23 @@ public class SceneScript : MonoBehaviour {
 			// Neu 2 card cung loai voi nhau
 			if (prevScript.cardType == cardScript.cardType) {
 
+				// ----------------------------------------------------------
+				// Buoc 1 : kiem tra co cho phep lay diem va xoa 2 card nay ?
+
+				// Doi voi la bai thuong
 				bool isNeedDestroyCard = true;
 				bool isAllowAddPoint   = true;
 
 				// Thua ngay lap tuc
 				if (cardScript.cardType == CardType.Wolf || cardScript.cardType == CardType.WolfKing) {
-					Transform gameOver = this.transform.parent.FindChild("GameOver");
-					if (gameOver) {
-						GameOverScipt gameOverScipt = gameOver.GetComponent<GameOverScipt> ();
-						gameOverScipt.EnterGameOver ();
-					}
 					isNeedDestroyCard = false;
 					isAllowAddPoint   = false;
-
-					print ("Gap soi : game over");
 				}
 				// Khong lam gi ca
 				else if (cardScript.cardType == CardType.Stone) {
-					print ("Khong lam gi ca");
 					// just flip it
 					isNeedDestroyCard = false;
 					isAllowAddPoint   = false;
-				}
-				// Lap 3 cap bai ngau nhien tren man hinh
-				else if (cardScript.cardType == CardType.BlueButterfly) {
-					print ("Lat 3 cap bai");
-				}
-				// Them 10s vao thoi gian choi
-				else if (cardScript.cardType == CardType.RedButterfly) {
-					print ("Them 10s");
-					TimerScript.AddMoreTime(10.0f);
-				}
-				// Doi mat sau cua 3 cap la bai thanh mau khac
-				else if (cardScript.cardType == CardType.YellowButterfly) {
-					print ("Doi mat sau cua 3 cap bai");
-				}
-				// Lat loai lat bai con nhieu nhat trong man choi
-				else if (cardScript.cardType == CardType.VioletButterfly) {
-					print ("Lat tat ca la bai nhieu nhat trong man choi");
-					StartCoroutine(this.OpeCardsWithHighestNumber ());
-				} 
-				// Nhung la bai binh thuong
-				else {
 				}
 
 				if (isAllowAddPoint) {
@@ -164,6 +139,38 @@ public class SceneScript : MonoBehaviour {
 					flipCardScript.FlipCard(false);
 				}
 
+				//---------------------------------------------------------------
+				// Buoc 2 - Effect
+
+				// Thua ngay lap tuc
+				if (cardScript.cardType == CardType.Wolf || cardScript.cardType == CardType.WolfKing) {
+					Transform gameOver = this.transform.parent.FindChild("GameOver");
+					if (gameOver) {
+						GameOverScipt gameOverScipt = gameOver.GetComponent<GameOverScipt> ();
+						gameOverScipt.EnterGameOver ();
+					}
+				}
+				// Lap 3 cap bai ngau nhien tren man hinh
+				else if (cardScript.cardType == CardType.BlueButterfly) {
+					print ("Lat 3 cap bai");
+				}
+				// Them 10s vao thoi gian choi
+				else if (cardScript.cardType == CardType.RedButterfly) {
+					print ("Them 10s");
+					TimerScript.AddMoreTime(10.0f);
+				}
+				// Doi mat sau cua 3 cap la bai thanh mau khac
+				else if (cardScript.cardType == CardType.YellowButterfly) {
+					print ("Doi mat sau cua 3 cap bai");
+				}
+				// Lat loai lat bai con nhieu nhat trong man choi
+				else if (cardScript.cardType == CardType.VioletButterfly) {
+					print ("Lat tat ca la bai nhieu nhat trong man choi");
+					StartCoroutine(this.OpenCardsWithHighestNumber ());
+				} 
+
+				//---------------------------------------------------------------
+				// Buoc 3 - kiem tra so card con lai
 				yield return new WaitForSeconds(0.2f);
 				StartCoroutine(this.CheckCardOnScreenAndInitNextRoundIfNeed ());
 			} 
@@ -177,7 +184,6 @@ public class SceneScript : MonoBehaviour {
 			}
 			prevCardOpen = null;
 		}
-
 		enableToTouch = true;
 	}
 
@@ -195,12 +201,11 @@ public class SceneScript : MonoBehaviour {
 			if (cardGameScript.cardType != CardType.Wolf &&
 			    cardGameScript.cardType != CardType.WolfKing &&
 			    cardGameScript.cardType != CardType.Stone) {
-				print ("La " + cardGameScript.cardType.ToString());
 				isAllowClearAllCardLeft = false;
 				break;
 			}
 		}
-		if (isAllowClearAllCardLeft) {
+		if (isAllowClearAllCardLeft && this.cardOnScreen.Count != 0) {
 			print ("Chi con lai soi voi da");
 			// Tu dong mo len
 			for (int i = 0; i < this.cardOnScreen.Count; i ++) {
@@ -242,9 +247,10 @@ public class SceneScript : MonoBehaviour {
 	/// <summary>
 	/// Mo tat ca cac la bai co so luong nhiu nhat
 	/// </summary>
-	private IEnumerator OpeCardsWithHighestNumber () {
+	private IEnumerator OpenCardsWithHighestNumber () {
 		// Duyet tat ca card tren man hinh va dem so luong
 		Dictionary<int ,int> numberCardEachTypeDic = new Dictionary<int, int> ();
+
 		foreach (Transform c in this.cardOnScreen) {
 			CardScript cScript = c.GetComponent<CardScript> ();
 			int numberCard = 0;
@@ -257,14 +263,17 @@ public class SceneScript : MonoBehaviour {
 		
 		// Tim ra loai co so luong nhieu nhat
 		int typeWithMaxValue = 0;
-		int maxValue = 0;
+		int maxValue = -1;
 		foreach(int key in numberCardEachTypeDic.Keys) {
-			if (numberCardEachTypeDic[key] < maxValue) {
+			if (numberCardEachTypeDic[key] > maxValue) {
 				maxValue = numberCardEachTypeDic[key];
 				typeWithMaxValue = key;
 			}
 		}
-		
+
+		CardType type = (CardType)typeWithMaxValue;
+		print ("type : " + type.ToString ());
+
 		// Lay tat ca card co type la keyWithMaxValue
 		ArrayList cardNeedOpenList = new ArrayList ();
 		foreach (Transform c in this.cardOnScreen) {
@@ -273,6 +282,7 @@ public class SceneScript : MonoBehaviour {
 				cardNeedOpenList.Add(c);
 			}
 		}
+
 		// Lat tat ca card 
 		foreach (Transform c in cardNeedOpenList) {
 			CardScript cScript = c.GetComponent<CardScript> ();
@@ -281,7 +291,8 @@ public class SceneScript : MonoBehaviour {
 				flipPrevScript.FlipCard(false);
 			}
 		}
-		yield return new WaitForSeconds(1.2f);					
+		yield return new WaitForSeconds(0.5f);	
+
 		// Animation exit tat
 		for (int i = 0; i < cardNeedOpenList.Count; i ++) {
 			Transform  c = (Transform)cardNeedOpenList [i];					
@@ -295,11 +306,20 @@ public class SceneScript : MonoBehaviour {
 			animator.SetTrigger("exit");
 			
 			// Remove from list
+			cardNeedOpenList.Remove(c.transform);
 			this.cardOnScreen.Remove(c.transform);
+			print("con lai " + cardNeedOpenList.Count.ToString());
 			i --;
 		}
+
+		yield return new WaitForSeconds(0.2f);
+		StartCoroutine(this.CheckCardOnScreenAndInitNextRoundIfNeed ());
 	}
 
+	/// <summary>
+	/// Ramdom card tren man hinh cho moi vong choi
+	/// </summary>
+	/// <returns>The round.</returns>
 	private IEnumerator InitRound () {
 		// So luong object can ve
 		int numberOfCol = PlayerPrefs.GetInt("MapSizeLoadCol",4);
@@ -339,39 +359,97 @@ public class SceneScript : MonoBehaviour {
 		                                      edgeLeftBottomVector.y + (screenHeight - heighOfAllCard)/2  + heighOfAllCard - cardHeight/2);
 
 		// Luu thong tin so luong cac card duoc random
-		Dictionary<string,int> cardDic = new Dictionary<string, int> ();
+		//Dictionary<string,int> cardDic = new Dictionary<string, int> ();
 
-		// Random card thanh cac cap
-		this.cardOnScreen = new ArrayList ();
-		for (int i = 0; i < numberOfObjectToDraw/2;  i ++) {
-			
+		// loai card : so luong
+		Dictionary<int, int> numberCardToRandomWithTypeKey = new Dictionary<int, int> ();
+
+//		if (numberOfObjectToDraw <= 6) {
+//			numberCardToRandomWithTypeKey [(int)CardType.Stone] = 2;
+//			int value = Random.Range(0,2);
+//			if (value == 0) {
+//				numberCardToRandomWithTypeKey[(int)CardType.Wolf]  = 2;
+//			}
+//		} else {
+//			numberCardToRandomWithTypeKey [(int)CardType.Stone] = 2;
+//			numberCardToRandomWithTypeKey[(int)CardType.Wolf]  = 2;
+//		}
+//
+//		if (numberOfObjectToDraw >= 12) {
+//			numberCardToRandomWithTypeKey[(int)CardType.BlueButterfly] = 2;
+//			numberCardToRandomWithTypeKey[(int)CardType.RedButterfly]  = 2;
+// 		}
+//		if (numberOfObjectToDraw >= 16) {
+//			numberCardToRandomWithTypeKey[(int)CardType.YellowButterfly] = 2;
+//			numberCardToRandomWithTypeKey[(int)CardType.VioletButterfly] = 2;
+//		}
+
+		numberCardToRandomWithTypeKey[(int)CardType.VioletButterfly] = 2;
+
+		// Dem so luong tong so card special da random
+		int totalCarDidRandom = 0;
+		foreach (int key in numberCardToRandomWithTypeKey.Keys) {
+			totalCarDidRandom += (int)numberCardToRandomWithTypeKey[key];
+		}
+
+		// So luong card con lai danh cho card thuong
+		int numberOfNormalCard = numberOfObjectToDraw - totalCarDidRandom;
+		// Random cac cap thuong
+		for (int i = 0; i < numberOfNormalCard/2; i ++) {		
 			// Random type
-			CardType type = (CardType)Random.Range(0,(int)CardType.VioletButterfly);
-			
-			// ---------------------------------------
-			for (int j = 0; j < 2 ; j ++) {
+			CardType type = (CardType)Random.Range (0, (int)CardType.RabbitKing + 1);
+
+			// Lay so luong da random truoc danh cho type nay
+			int numberCardDidRandomForType = 0;
+			if (numberCardToRandomWithTypeKey.ContainsKey((int)type)) {
+				numberCardDidRandomForType = numberCardToRandomWithTypeKey[(int)type];
+			}
+			numberCardDidRandomForType += 2;
+			numberCardToRandomWithTypeKey[(int)type] = numberCardDidRandomForType;
+		}
+		// Random card thanh cac cap thuong
+		this.cardOnScreen = new ArrayList ();
+		foreach (int key in numberCardToRandomWithTypeKey.Keys) {
+			int numberCardToRandom = (int)numberCardToRandomWithTypeKey[key];
+			for (int i = 0; i < numberCardToRandom ; i ++) {
 				var card = Instantiate(cardPrefab) as Transform;
 				// Set type
 				CardScript cardScript = card.GetComponent<CardScript>();
-				cardScript.cardType = type;			
+				cardScript.cardType = (CardType)key;			
 				this.cardOnScreen.Add(card);
 			}
-
-			// Luu so luong card duoc random
-			int numberCardDidRandom = 0;
-			if (cardDic.ContainsKey(type.ToString())) {
-				numberCardDidRandom = cardDic[type.ToString()];
-			}
-			numberCardDidRandom += 2;
-			cardDic[type.ToString()] = numberCardDidRandom;
+			CardType type = (CardType)key;
+			DebugScript.AddText(type.ToString() + " : " + numberCardToRandom.ToString() + " card");
 		}
+//		for (int i = 0; i < numberOfObjectToDraw/2;  i ++) {
+//			
+//			// Random type
+//			CardType type = (CardType)Random.Range(0,(int)CardType.VioletButterfly);
+//			
+//			// ---------------------------------------
+//			for (int j = 0; j < 2 ; j ++) {
+//				var card = Instantiate(cardPrefab) as Transform;
+//				// Set type
+//				CardScript cardScript = card.GetComponent<CardScript>();
+//				cardScript.cardType = type;			
+//				this.cardOnScreen.Add(card);
+//			}
+//
+//			// Luu so luong card duoc random
+//			int numberCardDidRandom = 0;
+//			if (cardDic.ContainsKey(type.ToString())) {
+//				numberCardDidRandom = cardDic[type.ToString()];
+//			}
+//			numberCardDidRandom += 2;
+//			cardDic[type.ToString()] = numberCardDidRandom;
+//		}
 
-		// Debug
-		print ("init card : " + this.cardOnScreen.Count.ToString ());
-		foreach (string key in cardDic.Keys) {
-			int numberCardDidRandom = cardDic[key];
-			DebugScript.AddText(key + " : " + numberCardDidRandom.ToString() + " card");
-		}
+//		// Debug
+//		print ("init card : " + this.cardOnScreen.Count.ToString ());
+//		foreach (string key in cardDic.Keys) {
+//			int numberCardDidRandom = cardDic[key];
+//			DebugScript.AddText(key + " : " + numberCardDidRandom.ToString() + " card");
+//		}
 
 		// Thay doi thu tu vi tri cua card trong mang
 		for (int i = 0; i < 100; i ++) {

@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 
 public enum CardType {
+	// card thuong
 	Mashroom,
 	Apple,
 	Carrot,
 	WhiteRabbit,
 	BrownRabbit,
 	RabbitKing,
+	// card dat biet
 	Wolf,
 	Stone,
 	WolfKing,
