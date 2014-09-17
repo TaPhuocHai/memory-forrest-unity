@@ -69,8 +69,7 @@ public class SceneScript : MonoBehaviour {
 		}
 
 		// Reset time
-		TimerScript timerScript = this.gameObject.GetComponent<TimerScript> ();
-		timerScript.ResetTimer ();
+		TimerScript.ResetTimer ();
 
 		// Reset POINT
 		PlayerScipt.Point = 0;
@@ -126,6 +125,7 @@ public class SceneScript : MonoBehaviour {
 				// Them 10s vao thoi gian choi
 				else if (cardScript.cardType == CardType.RedButterfly) {
 					print ("Them 10s");
+					TimerScript.AddMoreTime(10.0f);
 				}
 				// Doi mat sau cua 3 cap la bai thanh mau khac
 				else if (cardScript.cardType == CardType.YellowButterfly) {
@@ -343,8 +343,7 @@ public class SceneScript : MonoBehaviour {
 		yield return new WaitForSeconds ((float)0.1*this.cardOnScreen.Count);
 
 		// Bat dau tinh thoi gian choi
-		TimerScript timerScript = this.gameObject.GetComponent<TimerScript> ();
-		timerScript.StartTimer ();
+		TimerScript.StartTimer ();
 
 		// Cho phep user co the choi
 		SceneScript.enableToTouch = true;

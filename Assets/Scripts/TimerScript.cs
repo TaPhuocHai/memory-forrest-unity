@@ -3,24 +3,24 @@ using System.Collections;
 
 public class TimerScript : MonoBehaviour {
 
-	private float TIME_PLAY = 45.0f;
-	private float timerCountDown;
+	static private float TIME_PLAY = 45.0f;
+	static private float timerCountDown;
 
-	private bool enableTimer;
-	
+	static private bool enableTimer;
+
 	void Start () {
-		this.timerCountDown = TIME_PLAY;
-		this.enableTimer = false;
+		TimerScript.timerCountDown = TIME_PLAY;
+		TimerScript.enableTimer = false;
 	}
 	
 	void Update () {
-		if (!this.enableTimer) {
+		if (!TimerScript.enableTimer) {
 			return;
 		}
 
-		this.timerCountDown -= Time.deltaTime;
-		if (this.timerCountDown <= 0) {
-			this.timerCountDown = 0;
+		TimerScript.timerCountDown -= Time.deltaTime;
+		if (TimerScript.timerCountDown <= 0) {
+			TimerScript.timerCountDown = 0;
 
 			// Game Over
 			Transform gameOver = this.transform.parent.FindChild("GameOver");
@@ -28,8 +28,6 @@ public class TimerScript : MonoBehaviour {
 				GameOverScipt gameOverScipt = gameOver.GetComponent<GameOverScipt> ();
 				gameOverScipt.EnterGameOver ();
 			}
-
-			this.enabled = false;
 		}
 
 		GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -37,19 +35,22 @@ public class TimerScript : MonoBehaviour {
 		UISlider slider = progressBar.GetComponent<UISlider> ();
 
 		if (slider) {
-			slider.value = this.timerCountDown / TIME_PLAY;
+			slider.value = TimerScript.timerCountDown / TimerScript.TIME_PLAY;
 		} else {
 			print ("get progress bar faild");
 		}
 	}
 
-	public void ResetTimer () {
-		this.timerCountDown = TIME_PLAY;
+	static public void ResetTimer () {
+		TimerScript.timerCountDown = TimerScript.TIME_PLAY;
 	}
 
-	public void StartTimer () {
-		this.enabled = true;
-		this.enableTimer = true;
+	static public void AddMoreTime (float addmore) {
+		TimerScript.timerCountDown += addmore;
+	}
+
+	static public void StartTimer () {
+		TimerScript.enableTimer = true;
 		print("call start timer");
 	}
 }
