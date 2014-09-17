@@ -93,7 +93,8 @@ public class SceneScript : MonoBehaviour {
 		if (prevCardOpen != null) {
 			CardScript prevScript = prevCardOpen.GetComponent<CardScript> ();				
 			CardScript cardScript = card.GetComponent<CardScript> ();
-			
+
+			// Neu 2 card cung loai voi nhau
 			if (prevScript.cardType == cardScript.cardType) {
 
 				bool isNeedDestroyCard = true;
@@ -154,20 +155,70 @@ public class SceneScript : MonoBehaviour {
 					this.cardOnScreen.Remove(card.transform);
 					this.cardOnScreen.Remove(prevCardOpen.transform);
 				}
-				// Flip card
 				else {
+					// Flip card
 					FlipCardScript flipPrevScript = prevCardOpen.GetComponent<FlipCardScript> ();
 					flipPrevScript.FlipCard(false);
 					FlipCardScript flipCardScript = card.GetComponent<FlipCardScript> ();
 					flipCardScript.FlipCard(false);
 				}
 
+				yield return new WaitForSeconds(0.2f);
+
+				// Tu dong kiem tra so card con lai tren man hinh
+				// Neu chi con lai Wolf, WolfKing va Stone thi tu dong clear het so card con lai 
+				bool isAllowClearAllCardLeft = true; 
+				for (int i = 0; i < this.cardOnScreen.Count; i ++) {
+					Transform  cardGame = (Transform)this.cardOnScreen [i];
+					CardScript cardGameScript = cardGame.GetComponent<CardScript> ();
+					if (cardGameScript.cardType != CardType.Wolf &&
+					    cardGameScript.cardType != CardType.WolfKing &&
+					    cardGameScript.cardType != CardType.Stone) {
+						print ("La " + cardGameScript.cardType.ToString());
+						isAllowClearAllCardLeft = false;
+						break;
+					}
+				}
+				if (isAllowClearAllCardLeft) {
+					print ("Chi con lai soi voi da");
+					// Tu dong mo len
+					for (int i = 0; i < this.cardOnScreen.Count; i ++) {
+						Transform  cardGame = (Transform)this.cardOnScreen [i];
+						FlipCardScript flipPrevScript = cardGame.GetComponent<FlipCardScript> ();
+						flipPrevScript.FlipCard(false);
+					}
+
+					yield return new WaitForSeconds(1.2f);
+
+					// Animation exit all
+					for (int i = 0; i < this.cardOnScreen.Count; i ++) {
+						Transform  cardGame = (Transform)this.cardOnScreen [i];
+						CardScript cardGameScript = cardGame.GetComponent<CardScript> ();
+
+						// Cong diem
+						PlayerScipt.Point += cardGameScript.cardProperties.point;
+
+						// Animation and auto destroy when finish
+						Animator animator = cardGame.GetComponent<Animator> ();
+						animator.SetTrigger("exit");
+						
+						// Remove from list
+						this.cardOnScreen.Remove(cardGame.transform);
+						i --;
+					}
+				}
+
+				// ---------------- Next round -----------------------
 				if (this.cardOnScreen.Count == 0) {
 					print("next round");
+
+					DebugScript.Clear ();
 					// Next round
 					StartCoroutine(this.InitRound ());
 				}
-			} else {
+			} 
+			// Neu 2 card khac loai
+			else {
 				// Flip card
 				FlipCardScript flipPrevScript = prevCardOpen.GetComponent<FlipCardScript> ();
 				flipPrevScript.FlipCard(false);

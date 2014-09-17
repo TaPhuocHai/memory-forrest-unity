@@ -20,12 +20,10 @@ public class FlipCardScript : MonoBehaviour {
 	}
 
 	void OnMouseDown () {
-		if (isAnimationProgresing) {
+		if (isAnimationProgresing || isFaceUp || SceneScript.enableToTouch == false) {
 			return;
 		}
-		if (SceneScript.enableToTouch == false) {
-			return;
-		}
+
 		this.FlipCard (true);
 	}
 
