@@ -330,7 +330,7 @@ public class SceneScript : MonoBehaviour {
 			foreach(int key in numberOfCardWithTypeKey.Keys) {
 				int totalCardOfThisType = (int)numberOfCardWithTypeKey[key];
 				// Neu so cap cua no nhieu hon vong nay thi co the lay cap nay
-				if (totalCardOfThisType/2 >= i && CardScript.IsNormalCard((CardType)key)) {
+				if (totalCardOfThisType/2 >= i) {
 					int value = 0;
 					if (numberCoupleCardWithEachTypeToOpen.ContainsKey(key)) {
 						value = (int)numberCoupleCardWithEachTypeToOpen[key];
@@ -349,36 +349,6 @@ public class SceneScript : MonoBehaviour {
 			
 			if (totalValueDidGet == 3) {
 				break;
-			}
-		}
-		// Neu lay chua du, lay cac cap dat biet
-		if (totalValueDidGet < 3) {
-			print("binh thuong khong du, lay them dat biet");
-			for (int i = 0 ; i < maxCardOfAType/2 ; i++) {
-				// Cu moi vong - duyet qua tat ca cac type co tren man hinh
-				foreach(int key in numberOfCardWithTypeKey.Keys) {
-					int totalCardOfThisType = (int)numberOfCardWithTypeKey[key];
-					// Neu so cap cua no nhieu hon vong nay thi co the lay cap nay
-					if (totalCardOfThisType/2 >= i && !CardScript.IsNormalCard((CardType)key)) {
-						int value = 0;
-						if (numberCoupleCardWithEachTypeToOpen.ContainsKey(key)) {
-							value = (int)numberCoupleCardWithEachTypeToOpen[key];
-						}
-						value ++;
-						numberCoupleCardWithEachTypeToOpen[key] = value;
-						
-						// Dem so luong da lay
-						totalValueDidGet ++;
-					}
-					
-					if (totalValueDidGet == 3) {
-						break;
-					}
-				}
-				
-				if (totalValueDidGet == 3) {
-					break;
-				}
 			}
 		}
 
