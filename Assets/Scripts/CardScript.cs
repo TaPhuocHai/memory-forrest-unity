@@ -26,6 +26,11 @@ public enum CardEffect {
 	Effect2,
 }
 
+public enum CardFaceBack {
+	Normal,
+	Special
+}
+
 public class CardProperties {	
 
 	private int        _point;
@@ -78,6 +83,7 @@ public class CardScript : MonoBehaviour {
 	private CardType       _cardType;
 
 	static Sprite[] sprites;
+	static Sprite[] faceBackSprite;
 
 	#region Properties
 
@@ -126,6 +132,20 @@ public class CardScript : MonoBehaviour {
 
 	void DestroyMe () {
 		Destroy (this.gameObject);
+	}
+
+	public void ChangeFaceBack (CardFaceBack type) {
+		var cardBack = this.transform.FindChild ("CardBack");
+		SpriteRenderer spriteRender = cardBack.GetComponent<SpriteRenderer> ();
+
+		if (type == CardFaceBack.Normal) {
+			spriteRender.sprite = CardScript.sprites [0] as Sprite;
+		} else {
+			if (CardScript.faceBackSprite == null) {
+				CardScript.faceBackSprite = Resources.LoadAll<Sprite>("Textures/GreenBackCard");
+			}
+			spriteRender.sprite = CardScript.faceBackSprite [0] as Sprite;
+		}
 	}
 
 	#region Static

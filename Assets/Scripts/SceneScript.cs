@@ -163,6 +163,7 @@ public class SceneScript : MonoBehaviour {
 				// Doi mat sau cua 3 cap la bai thanh mau khac
 				else if (cardScript.cardType == CardType.YellowButterfly) {
 					print ("Doi mat sau cua 3 cap bai");
+					this.ChangeFaceBack3CoupleCard ();
 				}
 				// Lat loai lat bai con nhieu nhat trong man choi
 				else if (cardScript.cardType == CardType.VioletButterfly) {
@@ -246,124 +247,24 @@ public class SceneScript : MonoBehaviour {
 	}
 
 	/// <summary>
+	/// Doi mat sau cua 3 cap la bai bat ky
+	/// </summary>
+	private void ChangeFaceBack3CoupleCard () {
+		ArrayList cardNeedOpenList = this.Get3CoupleCardOnScrene ();
+
+		foreach (Transform c in cardNeedOpenList) {
+			CardScript cScript = c.GetComponent<CardScript> ();
+			cScript.ChangeFaceBack(CardFaceBack.Special);
+		}
+	}
+
+	/// <summary>
 	/// Lat 3 cap bai bat ky
 	/// </summary>
 	/// <returns>The couple card.</returns>
 	private IEnumerator Open3CoupleCard () {
 
-		ArrayList cardNeedOpenList = new ArrayList ();
-
-		if (this.cardOnScreen.Count <= 6) {
-			cardNeedOpenList = this.cardOnScreen;
-		} else {
-			// Tim card type va so luong cua moi loai dang co tren man hinh
-			//  cardType : so luong
-			Dictionary<int, int> numberOfCardWithTypeKey = new Dictionary<int, int>();
-			foreach (Transform c in this.cardOnScreen) {
-				CardScript cScript = c.GetComponent<CardScript> ();
-				int numberOfThisType = 0;
-				if (numberOfCardWithTypeKey.ContainsKey((int)cScript.cardType)) {
-					numberOfThisType = (int)numberOfCardWithTypeKey[(int)cScript.cardType];
-				}
-				numberOfThisType += 1;
-				numberOfCardWithTypeKey[(int)cScript.cardType] = numberOfThisType;
-			}
-
-			// Tim ra so luong toi da cua 1 loai card nao do
-			int maxCardOfAType = -1;
-			foreach (int key in numberOfCardWithTypeKey.Keys) {
-				int numberCard = (int)numberOfCardWithTypeKey[key];
-				if (numberCard > maxCardOfAType) {
-					maxCardOfAType = numberCard;
-				}
-			}
-			print ("maxCardOfAType : " + maxCardOfAType.ToString());
-
-			// So luong (theo couple) card can lay cho moi type
-			Dictionary<int, int> numberCoupleCardWithEachTypeToOpen = new Dictionary<int, int>();
-			int totalValueDidGet = 0;
-
-			// Uu tien lay cac card binh thuong
-			// So vong duyet : maxCardOfAType/2
-			for (int i = 0 ; i < maxCardOfAType/2 ; i++) {
-				// Cu moi vong - duyet qua tat ca cac type co tren man hinh
-				foreach(int key in numberOfCardWithTypeKey.Keys) {
-					int totalCardOfThisType = (int)numberOfCardWithTypeKey[key];
-					// Neu so cap cua no nhieu hon vong nay thi co the lay cap nay
-					if (totalCardOfThisType/2 >= i && CardScript.IsNormalCard((CardType)key)) {
-						int value = 0;
-						if (numberCoupleCardWithEachTypeToOpen.ContainsKey(key)) {
-							value = (int)numberCoupleCardWithEachTypeToOpen[key];
-						}
-						value ++;
-						numberCoupleCardWithEachTypeToOpen[key] = value;
-
-						// Dem so luong da lay
-						totalValueDidGet ++;
-					}
-
-					if (totalValueDidGet == 3) {
-						break;
-					}
-				}
-
-				if (totalValueDidGet == 3) {
-					break;
-				}
-			}
-			// Neu lay chua du, lay cac cap dat biet
-			if (totalValueDidGet < 3) {
-				print("binh thuong khong du, lay them dat biet");
-				for (int i = 0 ; i < maxCardOfAType/2 ; i++) {
-					// Cu moi vong - duyet qua tat ca cac type co tren man hinh
-					foreach(int key in numberOfCardWithTypeKey.Keys) {
-						int totalCardOfThisType = (int)numberOfCardWithTypeKey[key];
-						// Neu so cap cua no nhieu hon vong nay thi co the lay cap nay
-						if (totalCardOfThisType/2 >= i && !CardScript.IsNormalCard((CardType)key)) {
-							int value = 0;
-							if (numberCoupleCardWithEachTypeToOpen.ContainsKey(key)) {
-								value = (int)numberCoupleCardWithEachTypeToOpen[key];
-							}
-							value ++;
-							numberCoupleCardWithEachTypeToOpen[key] = value;
-							
-							// Dem so luong da lay
-							totalValueDidGet ++;
-						}
-						
-						if (totalValueDidGet == 3) {
-							break;
-						}
-					}
-					
-					if (totalValueDidGet == 3) {
-						break;
-					}
-				}
-			}
-
-			// Lay ra cac card can open
-			foreach (int key in numberCoupleCardWithEachTypeToOpen.Keys) {
-				CardType type = (CardType)key;
-
-				int numberCouple = (int)numberCoupleCardWithEachTypeToOpen[key];
-				print("type : " + type.ToString() + " - couple " + numberCouple.ToString());
-
-				int totalDidGet = 0;
-				foreach (Transform c in this.cardOnScreen) {
-					CardScript cScript = c.GetComponent<CardScript> ();
-					if (cScript.cardType == (CardType)key) {
-						cardNeedOpenList.Add(c);
-						totalDidGet ++;
-
-						if (totalDidGet == numberCouple * 2) {
-							break;
-						}
-					}
-				}			
-			}
-		}
-
+		ArrayList cardNeedOpenList = this.Get3CoupleCardOnScrene ();
 		print ("cardNeedOpenList : " + cardNeedOpenList.Count.ToString());
 
 		// Lat tat ca card 
@@ -393,6 +294,127 @@ public class SceneScript : MonoBehaviour {
 		
 		yield return new WaitForSeconds(0.2f);
 		StartCoroutine(this.CheckCardOnScreenAndInitNextRoundIfNeed ());
+	}
+
+	/// <summary>
+	/// Lay 3 cap card ngau nhien tren man hinh
+	/// </summary>
+	/// <returns>The couple card on screne.</returns>
+	private ArrayList Get3CoupleCardOnScrene () {
+
+		if (this.cardOnScreen.Count <= 6) {
+			return this.cardOnScreen;
+		}
+
+		// Tim card type va so luong cua moi loai dang co tren man hinh
+		//  cardType : so luong
+		Dictionary<int, int> numberOfCardWithTypeKey = new Dictionary<int, int>();
+		foreach (Transform c in this.cardOnScreen) {
+			CardScript cScript = c.GetComponent<CardScript> ();
+			int numberOfThisType = 0;
+			if (numberOfCardWithTypeKey.ContainsKey((int)cScript.cardType)) {
+				numberOfThisType = (int)numberOfCardWithTypeKey[(int)cScript.cardType];
+			}
+			numberOfThisType += 1;
+			numberOfCardWithTypeKey[(int)cScript.cardType] = numberOfThisType;
+		}
+		
+		// Tim ra so luong toi da cua 1 loai card nao do
+		int maxCardOfAType = -1;
+		foreach (int key in numberOfCardWithTypeKey.Keys) {
+			int numberCard = (int)numberOfCardWithTypeKey[key];
+			if (numberCard > maxCardOfAType) {
+				maxCardOfAType = numberCard;
+			}
+		}
+		print ("maxCardOfAType : " + maxCardOfAType.ToString());
+		
+		// So luong (theo couple) card can lay cho moi type
+		Dictionary<int, int> numberCoupleCardWithEachTypeToOpen = new Dictionary<int, int>();
+		int totalValueDidGet = 0;
+		
+		// Uu tien lay cac card binh thuong
+		// So vong duyet : maxCardOfAType/2
+		for (int i = 0 ; i < maxCardOfAType/2 ; i++) {
+			// Cu moi vong - duyet qua tat ca cac type co tren man hinh
+			foreach(int key in numberOfCardWithTypeKey.Keys) {
+				int totalCardOfThisType = (int)numberOfCardWithTypeKey[key];
+				// Neu so cap cua no nhieu hon vong nay thi co the lay cap nay
+				if (totalCardOfThisType/2 >= i && CardScript.IsNormalCard((CardType)key)) {
+					int value = 0;
+					if (numberCoupleCardWithEachTypeToOpen.ContainsKey(key)) {
+						value = (int)numberCoupleCardWithEachTypeToOpen[key];
+					}
+					value ++;
+					numberCoupleCardWithEachTypeToOpen[key] = value;
+					
+					// Dem so luong da lay
+					totalValueDidGet ++;
+				}
+				
+				if (totalValueDidGet == 3) {
+					break;
+				}
+			}
+			
+			if (totalValueDidGet == 3) {
+				break;
+			}
+		}
+		// Neu lay chua du, lay cac cap dat biet
+		if (totalValueDidGet < 3) {
+			print("binh thuong khong du, lay them dat biet");
+			for (int i = 0 ; i < maxCardOfAType/2 ; i++) {
+				// Cu moi vong - duyet qua tat ca cac type co tren man hinh
+				foreach(int key in numberOfCardWithTypeKey.Keys) {
+					int totalCardOfThisType = (int)numberOfCardWithTypeKey[key];
+					// Neu so cap cua no nhieu hon vong nay thi co the lay cap nay
+					if (totalCardOfThisType/2 >= i && !CardScript.IsNormalCard((CardType)key)) {
+						int value = 0;
+						if (numberCoupleCardWithEachTypeToOpen.ContainsKey(key)) {
+							value = (int)numberCoupleCardWithEachTypeToOpen[key];
+						}
+						value ++;
+						numberCoupleCardWithEachTypeToOpen[key] = value;
+						
+						// Dem so luong da lay
+						totalValueDidGet ++;
+					}
+					
+					if (totalValueDidGet == 3) {
+						break;
+					}
+				}
+				
+				if (totalValueDidGet == 3) {
+					break;
+				}
+			}
+		}
+
+		ArrayList cardNeedOpenList = new ArrayList ();
+
+		// Lay ra cac card can open
+		foreach (int key in numberCoupleCardWithEachTypeToOpen.Keys) {
+			CardType type = (CardType)key;
+			
+			int numberCouple = (int)numberCoupleCardWithEachTypeToOpen[key];
+			print("type : " + type.ToString() + " - couple " + numberCouple.ToString());
+			
+			int totalDidGet = 0;
+			foreach (Transform c in this.cardOnScreen) {
+				CardScript cScript = c.GetComponent<CardScript> ();
+				if (cScript.cardType == (CardType)key) {
+					cardNeedOpenList.Add(c);
+					totalDidGet ++;
+					
+					if (totalDidGet == numberCouple * 2) {
+						break;
+					}
+				}
+			}			
+		}
+		return cardNeedOpenList;
 	}
 
 	/// <summary>
@@ -514,27 +536,28 @@ public class SceneScript : MonoBehaviour {
 		// loai card : so luong
 		Dictionary<int, int> numberCardToRandomWithTypeKey = new Dictionary<int, int> ();
 
-//		if (numberOfObjectToDraw <= 6) {
-//			numberCardToRandomWithTypeKey [(int)CardType.Stone] = 2;
-//			int value = Random.Range(0,2);
-//			if (value == 0) {
-//				numberCardToRandomWithTypeKey[(int)CardType.Wolf]  = 2;
-//			}
-//		} else {
-//			numberCardToRandomWithTypeKey [(int)CardType.Stone] = 2;
-//			numberCardToRandomWithTypeKey[(int)CardType.Wolf]  = 2;
-//		}
-//
-//		if (numberOfObjectToDraw >= 12) {
-//			numberCardToRandomWithTypeKey[(int)CardType.BlueButterfly] = 2;
-//			numberCardToRandomWithTypeKey[(int)CardType.RedButterfly]  = 2;
-// 		}
-//		if (numberOfObjectToDraw >= 16) {
-//			numberCardToRandomWithTypeKey[(int)CardType.YellowButterfly] = 2;
-//			numberCardToRandomWithTypeKey[(int)CardType.VioletButterfly] = 2;
-//		}
+		if (numberOfObjectToDraw <= 6) {
+			numberCardToRandomWithTypeKey [(int)CardType.Stone] = 2;
+			int value = Random.Range(0,2);
+			if (value == 0) {
+				numberCardToRandomWithTypeKey[(int)CardType.Wolf]  = 2;
+			}
+		} else {
+			numberCardToRandomWithTypeKey [(int)CardType.Stone] = 2;
+			numberCardToRandomWithTypeKey[(int)CardType.Wolf]  = 2;
+		}
 
-		numberCardToRandomWithTypeKey[(int)CardType.BlueButterfly] = 2;
+		if (numberOfObjectToDraw >= 12) {
+			numberCardToRandomWithTypeKey[(int)CardType.BlueButterfly] = 2;
+			numberCardToRandomWithTypeKey[(int)CardType.RedButterfly]  = 2;
+ 		}
+		if (numberOfObjectToDraw >= 16) {
+			numberCardToRandomWithTypeKey[(int)CardType.YellowButterfly] = 2;
+			numberCardToRandomWithTypeKey[(int)CardType.VioletButterfly] = 2;
+		}
+
+		// Test only
+		//numberCardToRandomWithTypeKey[(int)CardType.YellowButterfly] = 2;
 
 		// Dem so luong tong so card special da random
 		int totalCarDidRandom = 0;
