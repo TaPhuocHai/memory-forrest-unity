@@ -183,10 +183,12 @@ public class SceneScript : MonoBehaviour {
 				flipPrevScript.FlipCard(false);
 				FlipCardScript flipCardScript = card.GetComponent<FlipCardScript> ();
 				flipCardScript.FlipCard(false);
+				enableToTouch = true;
 			}
 			prevCardOpen = null;
+		} else {
+			enableToTouch = true;
 		}
-		enableToTouch = true;
 	}
 
 	/// <summary>
@@ -244,6 +246,7 @@ public class SceneScript : MonoBehaviour {
 			// Next round
 			StartCoroutine(this.InitRound ());
 		}
+		enableToTouch = true;
 	}
 
 	/// <summary>
@@ -272,24 +275,11 @@ public class SceneScript : MonoBehaviour {
 			FlipCardScript flipPrevScript = c.GetComponent<FlipCardScript> ();
 			flipPrevScript.FlipCard(false);
 		}
-		yield return new WaitForSeconds(0.5f);			
+		yield return new WaitForSeconds(0.8f);			
 		// Animation exit tat
-		for (int i = 0; i < cardNeedOpenList.Count; i ++) {
-			Transform  c = (Transform)cardNeedOpenList [i];					
-			CardScript cScript = c.GetComponent<CardScript> ();
-			
-			// Cong diem
-			PlayerScipt.Point += cScript.cardProperties.point;
-			
-			// Animation and auto destroy when finish
-			Animator animator = c.GetComponent<Animator> ();
-			animator.SetTrigger("exit");
-			
-			// Remove from list
-			cardNeedOpenList.Remove(c.transform);
-			this.cardOnScreen.Remove(c.transform);
-
-			i --;
+		foreach (Transform c in cardNeedOpenList) {
+			FlipCardScript flipPrevScript = c.GetComponent<FlipCardScript> ();
+			flipPrevScript.FlipCard(false);
 		}
 		
 		yield return new WaitForSeconds(0.2f);
