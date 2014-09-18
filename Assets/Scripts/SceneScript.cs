@@ -267,6 +267,8 @@ public class SceneScript : MonoBehaviour {
 	/// <returns>The couple card.</returns>
 	private IEnumerator Open3CoupleCard () {
 
+		enableToTouch = false;
+
 		ArrayList cardNeedOpenList = this.Get3CoupleCardOnScrene ();
 		print ("cardNeedOpenList : " + cardNeedOpenList.Count.ToString());
 
@@ -275,7 +277,7 @@ public class SceneScript : MonoBehaviour {
 			FlipCardScript flipPrevScript = c.GetComponent<FlipCardScript> ();
 			flipPrevScript.FlipCard(false);
 		}
-		yield return new WaitForSeconds(0.8f);			
+		yield return new WaitForSeconds(1.2f);			
 		// Animation exit tat
 		foreach (Transform c in cardNeedOpenList) {
 			FlipCardScript flipPrevScript = c.GetComponent<FlipCardScript> ();
