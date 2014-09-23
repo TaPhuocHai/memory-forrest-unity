@@ -458,7 +458,6 @@ public class SceneScript : MonoBehaviour {
 		// So luong object can ve
 		int numberOfCol = PlayerPrefs.GetInt("MapSizeLoadCol",4);
 		int numberOfRow = PlayerPrefs.GetInt("MapSizeLoadRow",4);
-		int numberOfObjectToDraw = numberOfCol * numberOfRow;
 		
 		//  -----------------------------------------------------
 		/*
@@ -496,53 +495,9 @@ public class SceneScript : MonoBehaviour {
 		//Dictionary<string,int> cardDic = new Dictionary<string, int> ();
 
 		// loai card : so luong
-		Dictionary<int, int> numberCardToRandomWithTypeKey = new Dictionary<int, int> ();
+		Dictionary<int, int> numberCardToRandomWithTypeKey = Region.GetCards (RegionType.Forest, numberOfCol, numberOfRow);
 
-		if (numberOfObjectToDraw <= 6) {
-			numberCardToRandomWithTypeKey [(int)CardType.Stone] = 2;
-			int value = Random.Range(0,2);
-			if (value == 0) {
-				numberCardToRandomWithTypeKey[(int)CardType.Wolf]  = 2;
-			}
-		} else {
-			numberCardToRandomWithTypeKey [(int)CardType.Stone] = 2;
-			numberCardToRandomWithTypeKey[(int)CardType.Wolf]  = 2;
-		}
-
-		if (numberOfObjectToDraw >= 12) {
-			numberCardToRandomWithTypeKey[(int)CardType.BlueButterfly] = 2;
-			numberCardToRandomWithTypeKey[(int)CardType.RedButterfly]  = 2;
- 		}
-		if (numberOfObjectToDraw >= 16) {
-			numberCardToRandomWithTypeKey[(int)CardType.YellowButterfly] = 2;
-			numberCardToRandomWithTypeKey[(int)CardType.VioletButterfly] = 2;
-		}
-
-		// Test only
-		//numberCardToRandomWithTypeKey[(int)CardType.YellowButterfly] = 2;
-
-		// Dem so luong tong so card special da random
-		int totalCarDidRandom = 0;
-		foreach (int key in numberCardToRandomWithTypeKey.Keys) {
-			totalCarDidRandom += (int)numberCardToRandomWithTypeKey[key];
-		}
-
-		// So luong card con lai danh cho card thuong
-		int numberOfNormalCard = numberOfObjectToDraw - totalCarDidRandom;
-		// Random cac cap thuong
-		for (int i = 0; i < numberOfNormalCard/2; i ++) {		
-			// Random type
-			CardType type = (CardType)Random.Range (0, (int)CardType.RabbitKing + 1);
-
-			// Lay so luong da random truoc danh cho type nay
-			int numberCardDidRandomForType = 0;
-			if (numberCardToRandomWithTypeKey.ContainsKey((int)type)) {
-				numberCardDidRandomForType = numberCardToRandomWithTypeKey[(int)type];
-			}
-			numberCardDidRandomForType += 2;
-			numberCardToRandomWithTypeKey[(int)type] = numberCardDidRandomForType;
-		}
-		// Random card thanh cac cap thuong
+		// Random card thanh cac the hien 
 		this.cardOnScreen = new ArrayList ();
 		foreach (int key in numberCardToRandomWithTypeKey.Keys) {
 			int numberCardToRandom = (int)numberCardToRandomWithTypeKey[key];
@@ -550,41 +505,16 @@ public class SceneScript : MonoBehaviour {
 				var card = Instantiate(cardPrefab) as Transform;
 				// Set type
 				CardScript cardScript = card.GetComponent<CardScript>();
-				cardScript.cardType = (CardType)key;			
-				this.cardOnScreen.Add(card);
+				if (cardScript != null) {
+					cardScript.cardType = (CardType)key;			
+					this.cardOnScreen.Add(card);
+				} else {
+					print ("card script is null");
+				}
 			}
 			CardType type = (CardType)key;
 			DebugScript.AddText(type.ToString() + " : " + numberCardToRandom.ToString() + " card");
 		}
-//		for (int i = 0; i < numberOfObjectToDraw/2;  i ++) {
-//			
-//			// Random type
-//			CardType type = (CardType)Random.Range(0,(int)CardType.VioletButterfly);
-//			
-//			// ---------------------------------------
-//			for (int j = 0; j < 2 ; j ++) {
-//				var card = Instantiate(cardPrefab) as Transform;
-//				// Set type
-//				CardScript cardScript = card.GetComponent<CardScript>();
-//				cardScript.cardType = type;			
-//				this.cardOnScreen.Add(card);
-//			}
-//
-//			// Luu so luong card duoc random
-//			int numberCardDidRandom = 0;
-//			if (cardDic.ContainsKey(type.ToString())) {
-//				numberCardDidRandom = cardDic[type.ToString()];
-//			}
-//			numberCardDidRandom += 2;
-//			cardDic[type.ToString()] = numberCardDidRandom;
-//		}
-
-//		// Debug
-//		print ("init card : " + this.cardOnScreen.Count.ToString ());
-//		foreach (string key in cardDic.Keys) {
-//			int numberCardDidRandom = cardDic[key];
-//			DebugScript.AddText(key + " : " + numberCardDidRandom.ToString() + " card");
-//		}
 
 		// Thay doi thu tu vi tri cua card trong mang
 		for (int i = 0; i < 100; i ++) {

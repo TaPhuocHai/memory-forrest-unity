@@ -36,7 +36,7 @@ public class CardScript : MonoBehaviour {
 			if (cardFace) {
 				SpriteRenderer spriteRender = cardFace.GetComponent<SpriteRenderer>();
 				if (spriteRender) {
-					spriteRender.sprite = CardScript.sprites[(int)value + 1] as Sprite;
+					spriteRender.sprite = CardScript.sprites[(int)value] as Sprite;
 				}
 			}
 		}
