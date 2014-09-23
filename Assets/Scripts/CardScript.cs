@@ -3,21 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 
 public enum CardType {
-	// card thuong
 	Mashroom,
 	Apple,
 	Carrot,
 	WhiteRabbit,
 	BrownRabbit,
 	RabbitKing,
-	// card dat biet
-	Wolf,
-	Stone,
-	WolfKing,
-	BlueButterfly,
-	RedButterfly,
-	YellowButterfly,
-	VioletButterfly
+	PineApple,
+	Strawberry,
+	Wolf, // Speical
+	Peace,
+	Stone, // Speical
+	BlueButterfly, // Speical
+	RedButterfly,  // Speical
+	YellowButterfly, // Speical
+	VioletButterfly, // Speical
+	WolfKing,// Speical
+	Banana,
+	Grape,
+	Pears,
+	Cherry
 }
 
 public enum CardEffect {
@@ -61,13 +66,20 @@ public class CardProperties {
 		{(int)CardType.WhiteRabbit, 50},
 		{(int)CardType.BrownRabbit, 50},
 		{(int)CardType.RabbitKing, 200},
+		{(int)CardType.PineApple, 40},
+		{(int)CardType.Strawberry, 60},
 		{(int)CardType.Wolf, 100},
-		{(int)CardType.WolfKing, 250},
+		{(int)CardType.Peace, 70},
 		{(int)CardType.Stone, 30},
 		{(int)CardType.BlueButterfly, 35},
 		{(int)CardType.RedButterfly, 35},
 		{(int)CardType.YellowButterfly, 35},
 		{(int)CardType.VioletButterfly, 35},
+		{(int)CardType.WolfKing, 250},
+		{(int)CardType.Banana, 60},
+		{(int)CardType.Grape, 70},
+		{(int)CardType.Pears, 80},
+		{(int)CardType.Cherry, 90},
 	};
 
 	public CardProperties(CardType type) {
@@ -147,15 +159,4 @@ public class CardScript : MonoBehaviour {
 			spriteRender.sprite = CardScript.faceBackSprite [0] as Sprite;
 		}
 	}
-
-	#region Static
-
-	static public bool IsNormalCard (CardType type) {
-		if (type <= CardType.RabbitKing) {
-			return true;
-		}
-		return false;
-	}
-
-	#endregion Static
 }
