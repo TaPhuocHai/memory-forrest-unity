@@ -11,14 +11,14 @@ public enum CardType {
 	RabbitKing,
 	PineApple,
 	Strawberry,
-	Wolf, // Speical
+	Wolf,  // Speical
 	Peace,
 	Stone, // Speical
 	BlueButterfly, // Speical
 	RedButterfly,  // Speical
 	YellowButterfly, // Speical
 	VioletButterfly, // Speical
-	WolfKing,// Speical
+	WolfKing, // Speical
 	Banana,
 	Grape,
 	Pears,
@@ -134,13 +134,10 @@ public class CardScript : MonoBehaviour {
 	#endregion Properties
 
 	// Use this for initialization
-	void Start () {
-	}
+	void Start () {}
 	
 	// Update is called once per frame
-	void Update () {
-
-	}
+	void Update () {}
 
 	void DestroyMe () {
 		Destroy (this.gameObject);
