@@ -117,7 +117,7 @@ public class SceneScript : MonoBehaviour {
 
 				if (isAllowAddPoint) {
 					// Add point				
-					PlayerScipt.Point += cardScript.cardProperties.point;
+					PlayerScipt.Point += cardScript.card.point;
 				}
 
 				if (isNeedDestroyCard) {
@@ -226,7 +226,7 @@ public class SceneScript : MonoBehaviour {
 				CardScript cardGameScript = cardGame.GetComponent<CardScript> ();
 				
 				// Cong diem
-				PlayerScipt.Point += cardGameScript.cardProperties.point;
+				PlayerScipt.Point += cardGameScript.card.point;
 				
 				// Animation and auto destroy when finish
 				Animator animator = cardGame.GetComponent<Animator> ();
@@ -434,7 +434,7 @@ public class SceneScript : MonoBehaviour {
 			CardScript cScript = c.GetComponent<CardScript> ();
 			
 			// Cong diem
-			PlayerScipt.Point += cScript.cardProperties.point;
+			PlayerScipt.Point += cScript.card.point;
 			
 			// Animation and auto destroy when finish
 			Animator animator = c.GetComponent<Animator> ();
