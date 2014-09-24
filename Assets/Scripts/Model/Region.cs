@@ -16,8 +16,12 @@ public class Region
 	/// <summary>
 	/// Gets the cards.
 	/// </summary>
-	/// <returns>Danh sach : loai card - so luong</returns>
-	public static Dictionary<int, int> GetCards (RegionType region, int numberOfCol, int numberOfRow) 
+	/// <returns>Danh sach : loai card : so luong</returns>
+	/// <param name="region">Region.</param>
+	/// <param name="round">Round : bat dau tu 0.</param>
+	/// <param name="numberOfCol">Number of col.</param>
+	/// <param name="numberOfRow">Number of row.</param>
+	public static Dictionary<int, int> GetCards (RegionType region, int round, int numberOfCol, int numberOfRow) 
 	{
 		int numberOfObjectToDraw = numberOfCol * numberOfRow;
 
@@ -69,6 +73,16 @@ public class Region
 		}
 
 		return numberCardToRandomWithTypeKey;
+	}
+
+	/// <summary>
+	/// Gets the missions of region.
+	/// </summary>
+	/// <returns>The missions.</returns>
+	/// <param name="region">Region.</param>
+	public static ArrayList GetMissions (RegionType region)
+	{
+		return null;
 	}
 }
 

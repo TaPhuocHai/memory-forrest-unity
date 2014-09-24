@@ -2,11 +2,12 @@
 using System.Collections;
 
 public enum MissionType {
-	Time,
-	Money,
+	MoreTime,
 	UnlockExtraRound,
+	UnlockCards,
+	AdditionPoints,
+	Money,
 	Coins,
-	UpgradeCard
 }
 
 public class Mission {
@@ -14,6 +15,8 @@ public class Mission {
 	protected string _description;
 	protected float  _rewardValue;
 	protected MissionType _missionType;
+
+	#region Properties
 
 	public string name {
 		get { return _name; }
@@ -27,4 +30,18 @@ public class Mission {
 	public MissionType missionType {
 		get { return _missionType; }
 	}
+
+	#endregion Properties
+
+	#region
+
+	/// <summary>
+	/// Unlocks the mission.
+	/// </summary>
+	/// <param name="code">Code.</param>
+	static public void UnlockMission (int code) 
+	{
+	}
+
+	#endregion
 }

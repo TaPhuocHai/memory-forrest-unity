@@ -13,8 +13,15 @@ public class SceneScript : MonoBehaviour {
 	private GameObject prevCardOpen;
 
 	static public bool enableToTouch;
+
+	void Awake () {
+		print ("Awake");
+		Card.Initialize ();
+	}
 	
 	void Start () {
+		print ("Start");
+
 		// Init HOTWeen
 		HOTween.Init ();
 
@@ -495,7 +502,7 @@ public class SceneScript : MonoBehaviour {
 		//Dictionary<string,int> cardDic = new Dictionary<string, int> ();
 
 		// loai card : so luong
-		Dictionary<int, int> numberCardToRandomWithTypeKey = Region.GetCards (RegionType.Forest, numberOfCol, numberOfRow);
+		Dictionary<int, int> numberCardToRandomWithTypeKey = Region.GetCards (RegionType.Forest,0, numberOfCol, numberOfRow);
 
 		// Random card thanh cac the hien 
 		this.cardOnScreen = new ArrayList ();
