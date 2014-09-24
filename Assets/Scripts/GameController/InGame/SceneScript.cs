@@ -9,18 +9,28 @@ public class SceneScript : MonoBehaviour {
 	public Transform cardPrefab;
 	public Transform addPoint;
 
-	private ArrayList  cardOnScreen;
-	private GameObject prevCardOpen;
+	// Danh sach card tren man hinh
+	private ArrayList  _cardOnScreen;
+	// Card da duoc mo
+	private GameObject _prevCardOpen;
+	// Vung dat user dang choi
+	private Region     _region;
 
-	static public bool enableToTouch;
+	// Cho phep touch
+	static public bool EnableToTouch;
 
 	void Awake () {
 		print ("Awake");
 		Card.Initialize ();
+		Region.Initialize ();
 	}
 	
 	void Start () {
 		print ("Start");
+
+		// Init Region
+		RegionType regionType = (RegionType)PlayerPrefs.GetInt (Constant.kPlayGameInRegion);
+		this._region = new Region (regionType);
 
 		// Init HOTWeen
 		HOTween.Init ();
@@ -39,10 +49,10 @@ public class SceneScript : MonoBehaviour {
 	/// </summary>
 	/// <param name="card">Card.</param>
 	public void OpenCard (GameObject card) {
-		enableToTouch = false;
-		if (prevCardOpen == null) {
-			prevCardOpen = card;
-			enableToTouch = true;
+		EnableToTouch = false;
+		if (_prevCardOpen == null) {
+			_prevCardOpen = card;
+			EnableToTouch = true;
 		} else {
 			StartCoroutine(WaitAndCheckOpenCard(card));
 		}
@@ -63,8 +73,8 @@ public class SceneScript : MonoBehaviour {
 		DebugScript.Clear ();
 
 		// Destroy all card on screen
-		for (int i = 0; i < this.cardOnScreen.Count; i ++) {
-			Transform card = (Transform)this.cardOnScreen [i];
+		for (int i = 0; i < this._cardOnScreen.Count; i ++) {
+			Transform card = (Transform)this._cardOnScreen [i];
 			Destroy (card.gameObject);
 		}
 
@@ -96,8 +106,8 @@ public class SceneScript : MonoBehaviour {
 		// Can doi 1 khoang thoi gian 0.65s de card hien thi tren man hinh truoc khi kiem tra va flip hoac destroy no
 		yield return new WaitForSeconds(0.65f);
 
-		if (prevCardOpen != null) {
-			CardScript prevScript = prevCardOpen.GetComponent<CardScript> ();				
+		if (_prevCardOpen != null) {
+			CardScript prevScript = _prevCardOpen.GetComponent<CardScript> ();				
 			CardScript cardScript = card.GetComponent<CardScript> ();
 
 			// Neu 2 card cung loai voi nhau
@@ -131,16 +141,16 @@ public class SceneScript : MonoBehaviour {
 					// Animation and auto destroy when finish
 					Animator animator = card.GetComponent<Animator> ();
 					animator.SetTrigger("exit");
-					Animator prevAnimator = prevCardOpen.GetComponent<Animator> ();
+					Animator prevAnimator = _prevCardOpen.GetComponent<Animator> ();
 					prevAnimator.SetTrigger("exit");
 
 					// Remove from list
-					this.cardOnScreen.Remove(card.transform);
-					this.cardOnScreen.Remove(prevCardOpen.transform);
+					this._cardOnScreen.Remove(card.transform);
+					this._cardOnScreen.Remove(_prevCardOpen.transform);
 				}
 				else {
 					// Flip card
-					FlipCardScript flipPrevScript = prevCardOpen.GetComponent<FlipCardScript> ();
+					FlipCardScript flipPrevScript = _prevCardOpen.GetComponent<FlipCardScript> ();
 					flipPrevScript.FlipCard(false);
 					FlipCardScript flipCardScript = card.GetComponent<FlipCardScript> ();
 					flipCardScript.FlipCard(false);
@@ -186,15 +196,15 @@ public class SceneScript : MonoBehaviour {
 			// Neu 2 card khac loai
 			else {
 				// Flip card
-				FlipCardScript flipPrevScript = prevCardOpen.GetComponent<FlipCardScript> ();
+				FlipCardScript flipPrevScript = _prevCardOpen.GetComponent<FlipCardScript> ();
 				flipPrevScript.FlipCard(false);
 				FlipCardScript flipCardScript = card.GetComponent<FlipCardScript> ();
 				flipCardScript.FlipCard(false);
-				enableToTouch = true;
+				EnableToTouch = true;
 			}
-			prevCardOpen = null;
+			_prevCardOpen = null;
 		} else {
-			enableToTouch = true;
+			EnableToTouch = true;
 		}
 	}
 
@@ -206,8 +216,8 @@ public class SceneScript : MonoBehaviour {
 		// Tu dong kiem tra so card con lai tren man hinh
 		// Neu chi con lai Wolf, WolfKing va Stone thi tu dong clear het so card con lai 
 		bool isAllowClearAllCardLeft = true; 
-		for (int i = 0; i < this.cardOnScreen.Count; i ++) {
-			Transform  cardGame = (Transform)this.cardOnScreen [i];
+		for (int i = 0; i < this._cardOnScreen.Count; i ++) {
+			Transform  cardGame = (Transform)this._cardOnScreen [i];
 			CardScript cardGameScript = cardGame.GetComponent<CardScript> ();
 			if (cardGameScript.cardType != CardType.Wolf &&
 			    cardGameScript.cardType != CardType.WolfKing &&
@@ -216,11 +226,11 @@ public class SceneScript : MonoBehaviour {
 				break;
 			}
 		}
-		if (isAllowClearAllCardLeft && this.cardOnScreen.Count != 0) {
+		if (isAllowClearAllCardLeft && this._cardOnScreen.Count != 0) {
 			print ("Chi con lai soi voi da");
 			// Tu dong mo len
-			for (int i = 0; i < this.cardOnScreen.Count; i ++) {
-				Transform  cardGame = (Transform)this.cardOnScreen [i];
+			for (int i = 0; i < this._cardOnScreen.Count; i ++) {
+				Transform  cardGame = (Transform)this._cardOnScreen [i];
 				FlipCardScript flipPrevScript = cardGame.GetComponent<FlipCardScript> ();
 				flipPrevScript.FlipCard(false);
 			}
@@ -228,8 +238,8 @@ public class SceneScript : MonoBehaviour {
 			yield return new WaitForSeconds(1.2f);
 			
 			// Animation exit all
-			for (int i = 0; i < this.cardOnScreen.Count; i ++) {
-				Transform  cardGame = (Transform)this.cardOnScreen [i];
+			for (int i = 0; i < this._cardOnScreen.Count; i ++) {
+				Transform  cardGame = (Transform)this._cardOnScreen [i];
 				CardScript cardGameScript = cardGame.GetComponent<CardScript> ();
 				
 				// Cong diem
@@ -240,20 +250,20 @@ public class SceneScript : MonoBehaviour {
 				animator.SetTrigger("exit");
 				
 				// Remove from list
-				this.cardOnScreen.Remove(cardGame.transform);
+				this._cardOnScreen.Remove(cardGame.transform);
 				i --;
 			}
 		}
 		
 		// ---------------- Next round -----------------------
-		if (this.cardOnScreen.Count == 0) {
+		if (this._cardOnScreen.Count == 0) {
 			print("next round");
 			
 			DebugScript.Clear ();
 			// Next round
 			StartCoroutine(this.InitRound ());
 		}
-		enableToTouch = true;
+		EnableToTouch = true;
 	}
 
 	/// <summary>
@@ -274,7 +284,7 @@ public class SceneScript : MonoBehaviour {
 	/// <returns>The couple card.</returns>
 	private IEnumerator Open3CoupleCard () {
 
-		enableToTouch = false;
+		EnableToTouch = false;
 
 		ArrayList cardNeedOpenList = this.Get3CoupleCardOnScrene ();
 		print ("cardNeedOpenList : " + cardNeedOpenList.Count.ToString());
@@ -301,14 +311,14 @@ public class SceneScript : MonoBehaviour {
 	/// <returns>The couple card on screne.</returns>
 	private ArrayList Get3CoupleCardOnScrene () {
 
-		if (this.cardOnScreen.Count <= 6) {
-			return this.cardOnScreen;
+		if (this._cardOnScreen.Count <= 6) {
+			return this._cardOnScreen;
 		}
 
 		// Tim card type va so luong cua moi loai dang co tren man hinh
 		//  cardType : so luong
 		Dictionary<int, int> numberOfCardWithTypeKey = new Dictionary<int, int>();
-		foreach (Transform c in this.cardOnScreen) {
+		foreach (Transform c in this._cardOnScreen) {
 			CardScript cScript = c.GetComponent<CardScript> ();
 			int numberOfThisType = 0;
 			if (numberOfCardWithTypeKey.ContainsKey((int)cScript.cardType)) {
@@ -371,7 +381,7 @@ public class SceneScript : MonoBehaviour {
 			print("type : " + type.ToString() + " - couple " + numberCouple.ToString());
 			
 			int totalDidGet = 0;
-			foreach (Transform c in this.cardOnScreen) {
+			foreach (Transform c in this._cardOnScreen) {
 				CardScript cScript = c.GetComponent<CardScript> ();
 				if (cScript.cardType == (CardType)key) {
 					cardNeedOpenList.Add(c);
@@ -393,7 +403,7 @@ public class SceneScript : MonoBehaviour {
 		// Duyet tat ca card tren man hinh va dem so luong
 		Dictionary<int ,int> numberCardEachTypeDic = new Dictionary<int, int> ();
 
-		foreach (Transform c in this.cardOnScreen) {
+		foreach (Transform c in this._cardOnScreen) {
 			CardScript cScript = c.GetComponent<CardScript> ();
 			int numberCard = 0;
 			if (numberCardEachTypeDic.ContainsKey((int)cScript.cardType)) {
@@ -418,7 +428,7 @@ public class SceneScript : MonoBehaviour {
 
 		// Lay tat ca card co type la keyWithMaxValue
 		ArrayList cardNeedOpenList = new ArrayList ();
-		foreach (Transform c in this.cardOnScreen) {
+		foreach (Transform c in this._cardOnScreen) {
 			CardScript cScript = c.GetComponent<CardScript> ();
 			if ((int)cScript.cardType == typeWithMaxValue) {
 				cardNeedOpenList.Add(c);
@@ -449,7 +459,7 @@ public class SceneScript : MonoBehaviour {
 			
 			// Remove from list
 			cardNeedOpenList.Remove(c.transform);
-			this.cardOnScreen.Remove(c.transform);
+			this._cardOnScreen.Remove(c.transform);
 			i --;
 		}
 
@@ -462,9 +472,10 @@ public class SceneScript : MonoBehaviour {
 	/// </summary>
 	/// <returns>The round.</returns>
 	private IEnumerator InitRound () {
+
 		// So luong object can ve
-		int numberOfCol = PlayerPrefs.GetInt("MapSizeLoadCol",4);
-		int numberOfRow = PlayerPrefs.GetInt("MapSizeLoadRow",4);
+		int numberOfCol = this._region.numberOfCol;
+		int numberOfRow = this._region.numberOfRow;
 		
 		//  -----------------------------------------------------
 		/*
@@ -502,10 +513,10 @@ public class SceneScript : MonoBehaviour {
 		//Dictionary<string,int> cardDic = new Dictionary<string, int> ();
 
 		// loai card : so luong
-		Dictionary<int, int> numberCardToRandomWithTypeKey = Region.GetCards (RegionType.Forest,0, numberOfCol, numberOfRow);
+		Dictionary<int, int> numberCardToRandomWithTypeKey = this._region.GetCards (0);
 
 		// Random card thanh cac the hien 
-		this.cardOnScreen = new ArrayList ();
+		this._cardOnScreen = new ArrayList ();
 		foreach (int key in numberCardToRandomWithTypeKey.Keys) {
 			int numberCardToRandom = (int)numberCardToRandomWithTypeKey[key];
 			for (int i = 0; i < numberCardToRandom ; i ++) {
@@ -514,7 +525,7 @@ public class SceneScript : MonoBehaviour {
 				CardScript cardScript = card.GetComponent<CardScript>();
 				if (cardScript != null) {
 					cardScript.cardType = (CardType)key;			
-					this.cardOnScreen.Add(card);
+					this._cardOnScreen.Add(card);
 				} else {
 					print ("card script is null");
 				}
@@ -525,17 +536,17 @@ public class SceneScript : MonoBehaviour {
 
 		// Thay doi thu tu vi tri cua card trong mang
 		for (int i = 0; i < 100; i ++) {
-			int index1 = Random.Range(0,this.cardOnScreen.Count);
-			int index2 = Random.Range(0,this.cardOnScreen.Count);
-			var object1 = this.cardOnScreen[index1];
-			var object2 = this.cardOnScreen[index2];
-			this.cardOnScreen[index1] = object2;
-			this.cardOnScreen[index2] = object1;
+			int index1 = Random.Range(0,this._cardOnScreen.Count);
+			int index2 = Random.Range(0,this._cardOnScreen.Count);
+			var object1 = this._cardOnScreen[index1];
+			var object2 = this._cardOnScreen[index2];
+			this._cardOnScreen[index1] = object2;
+			this._cardOnScreen[index2] = object1;
 		}
 		
 		//B3: va cac card tu trai sang phai, tu tren xuong doi
-		for (int i = 0; i < this.cardOnScreen.Count;  i ++) {
-			Transform card = (Transform)this.cardOnScreen[i];
+		for (int i = 0; i < this._cardOnScreen.Count;  i ++) {
+			Transform card = (Transform)this._cardOnScreen[i];
 			
 			int indexCol = i % numberOfCol;
 			
@@ -547,8 +558,8 @@ public class SceneScript : MonoBehaviour {
 			card.transform.position = new Vector3 (posX, posY, 0);
 		}
 		// Animation drop down
-		for (int i = 0; i < this.cardOnScreen.Count; i ++) {
-			Transform card = (Transform)this.cardOnScreen[i];
+		for (int i = 0; i < this._cardOnScreen.Count; i ++) {
+			Transform card = (Transform)this._cardOnScreen[i];
 			
 			int indexCol = i % numberOfCol;
 			int indexRow = i / numberOfCol;
@@ -559,12 +570,12 @@ public class SceneScript : MonoBehaviour {
 			TweenParms parms = new TweenParms().Prop("position", new Vector3(posX,posY,0)).Ease(EaseType.EaseOutBack).Delay((float)0.1*i);
 			HOTween.To (card, 0.5f, parms);
 		}
-		yield return new WaitForSeconds ((float)0.1*this.cardOnScreen.Count);
+		yield return new WaitForSeconds ((float)0.1*this._cardOnScreen.Count);
 
 		// Bat dau tinh thoi gian choi
 		TimerScript.StartTimer ();
 
 		// Cho phep user co the choi
-		SceneScript.enableToTouch = true;
+		SceneScript.EnableToTouch = true;
 	}
 }

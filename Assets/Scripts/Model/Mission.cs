@@ -11,7 +11,21 @@ public enum MissionType {
 	Coins,
 }
 
-public class Mission {
+public class Mission 
+{
+	static private int _missionCode;
+	static private int GetMissionCode () {
+		if (_missionCode == 0) {
+			_missionCode = PlayerPrefs.GetInt("AUTO_MISSION_CODE",0);
+		}
+		_missionCode ++;
+		
+		// Auto save
+		PlayerPrefs.SetInt ("AUTO_MISSION_CODE", _missionCode);
+		PlayerPrefs.Save ();
+		
+		return _missionCode;
+	}
 
 	protected int    _id;
 	protected string _name;
@@ -39,8 +53,8 @@ public class Mission {
 
 	#endregion Properties
 
-	public Mission(int id, string name, string description,int goldValue, int rewardValue, MissionType missionType) {
-		_id            = id;
+	public Mission(string name, string description,int goldValue, int rewardValue, MissionType missionType) {
+		_id            = Mission.GetMissionCode();
 		_name          = name;
 		_description   = description;
 		_goldValue     = goldValue;
@@ -48,9 +62,9 @@ public class Mission {
 		_isIncremental = false;
 	}
 
-	public Mission(int id, string name, string description,int goldValue, int rewardValue, MissionType missionType,
+	public Mission(string name, string description,int goldValue, int rewardValue, MissionType missionType,
 	               int goldModifier, int rewardModifier) {
-		_id          = id;
+		_id          = Mission.GetMissionCode();
 		_name        = name;
 		_description = description;
 		_goldValue   = goldValue;

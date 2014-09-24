@@ -5,15 +5,70 @@ using System.Collections.Generic;
 
 public enum RegionType
 {
-	KingdomOfRabbits, // 4x4
-	Forest,           // 5x5
-	StoneMountain,    // 5x5 
-	WolfCamp          // 6x6
+	/// <summary>
+	/// 1. 4x4
+	/// </summary>
+	KingdomOfRabbits,
+	/// <summary>
+	/// 2. 5x5
+	/// </summary>
+	Forest, 
+	/// <summary>
+	/// 3. 5x5 
+	/// </summary>
+	StoneMountain,
+	/// <summary>
+	/// 4. 6x5
+	/// </summary>
+	WolfCamp
 }
 
 public class Region 
 {
-	#region Static function
+	private RegionType _regionType;
+
+	#region Properties
+
+	public RegionType regionType { get {return _regionType;}}
+	public int        numberOfCol {
+		get {
+			switch (_regionType) {
+			case RegionType.KingdomOfRabbits:
+				return 4;
+			case RegionType.Forest:
+				return 5;
+			case RegionType.StoneMountain:
+				return 5;
+			case RegionType.WolfCamp:
+				return 6;
+			}
+			return 0;
+		}
+	}
+	public int        numberOfRow {
+		get {
+			switch (_regionType) {
+			case RegionType.KingdomOfRabbits:
+				return 4;
+			case RegionType.Forest:
+				return 5;
+			case RegionType.StoneMountain:
+				return 5;
+			case RegionType.WolfCamp:
+				return 5;
+			}
+			return 0;
+		}
+	}
+
+	#endregion Properties
+
+	public Region (RegionType regionType)
+	{
+		_regionType = regionType;
+	}
+
+	#region Function
 
 	/// <summary>
 	/// Gets the cards.
@@ -23,7 +78,7 @@ public class Region
 	/// <param name="round">Round : bat dau tu 0.</param>
 	/// <param name="numberOfCol">Number of col.</param>
 	/// <param name="numberOfRow">Number of row.</param>
-	public static Dictionary<int, int> GetCards (RegionType region, int round, int numberOfCol, int numberOfRow) 
+	public Dictionary<int, int> GetCards (int round) 
 	{
 		int numberOfObjectToDraw = numberOfCol * numberOfRow;
 
@@ -82,7 +137,7 @@ public class Region
 	/// </summary>
 	/// <returns>The missions.</returns>
 	/// <param name="region">Region.</param>
-	public static ArrayList GetMissions (RegionType region)
+	public ArrayList GetMissions (RegionType region)
 	{
 		return null;
 	}
@@ -91,7 +146,7 @@ public class Region
 	/// Unlocks the mission.
 	/// </summary>
 	/// <param name="code">Code.</param>
-	static public void UnlockMission (int code) 
+	public void UnlockMission (int code) 
 	{
 		string unlockKey = "UNLOCK_MISSION_" + code.ToString ();
 		PlayerPrefs.SetInt (unlockKey, 1);
@@ -103,7 +158,7 @@ public class Region
 	/// </summary>
 	/// <returns><c>true</c> if is unlock the specified code; otherwise, <c>false</c>.</returns>
 	/// <param name="code">Code.</param>
-	static public bool IsUnlockMission (int code) 
+	public bool IsUnlockMission (int code) 
 	{
 		string unlockKey = "UNLOCK_MISSION_" + code.ToString ();
 		int unlockValue = PlayerPrefs.GetInt (unlockKey, 0);
@@ -113,7 +168,7 @@ public class Region
 		return false;
 	}
 	
-	#endregion Static function
+	#endregion Function
 
 	#region Initialize
 	
@@ -132,8 +187,9 @@ public class Region
 
 		// Region KingdomOfRabbits
 		List<Mission> listMissionOfKingdomOfRabbits = new List<Mission> {
-			new Mission ()
-		}
+			new Mission ("Carrot Harvest", "Collect 10 carrot pairs",10,10,MissionType.MoreTime),
+
+		};
 	
 		PlayerPrefs.SetInt("REGION_INITIALIZE",1);
 		PlayerPrefs.Save ();
