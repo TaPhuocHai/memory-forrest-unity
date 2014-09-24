@@ -80,7 +80,7 @@ public class Region
 	/// <param name="numberOfRow">Number of row.</param>
 	public Dictionary<int, int> GetCards (int round) 
 	{
-		int numberOfObjectToDraw = numberOfCol * numberOfRow;
+		int numberOfObjectToDraw = this.numberOfCol * this.numberOfRow;
 
 		Dictionary<int, int> numberCardToRandomWithTypeKey = new Dictionary<int, int> ();
 		
@@ -187,8 +187,12 @@ public class Region
 
 		// Region KingdomOfRabbits
 		List<Mission> listMissionOfKingdomOfRabbits = new List<Mission> {
-			new Mission ("Carrot Harvest", "Collect 10 carrot pairs",10,10,MissionType.MoreTime),
-
+			new Mission ("Carrot Harvest", "Collect 10 carrot pairs",MissionType.MoreTime, 10,10),
+			new Mission ("Faster Hand Level 1","Collect all card before time run out", MissionType.UnlockExtraRound,0,0,true,1,1),
+			new Mission ("Apple Juice","Collect 5 pairs of apple in 1 game",MissionType.UnlockCards, 5,1,(int)CardType.WhiteRabbit),
+			new Mission ("Carrot Master","Collect 30 carrot pairs",MissionType.AdditionPoints,30,5,(int)CardType.Carrot),
+			new Mission ("Apple Master","Collect 50 apple pairs",MissionType.AdditionPoints,50,5,(int)CardType.Apple),
+			new Mission ("Juice Mix","Collect 4 mushroom, 4 apple, 4 carrot in 1 game",MissionType.AdditionPoints,50,5,(int)CardType.Apple),
 		};
 	
 		PlayerPrefs.SetInt("REGION_INITIALIZE",1);

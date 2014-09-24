@@ -32,6 +32,7 @@ public class Mission
 	protected string _description;
 	protected int    _goldValue;
 	protected int    _rewardValue;
+	protected int    _objectIdGetReward;
 	protected MissionType _missionType;
 
 	protected bool  _isIncremental;
@@ -45,6 +46,7 @@ public class Mission
 	public string description { get { return _description; } }
 	public int goldValue { get { return _goldValue; } }
 	public int rewardValue { get { return _rewardValue; } }
+	public int objectIdGetReward { get { return _objectIdGetReward; } }
 	public MissionType missionType { get { return _missionType; } }
 
 	public bool isIncremental { get { return _isIncremental; } }
@@ -53,25 +55,44 @@ public class Mission
 
 	#endregion Properties
 
-	public Mission(string name, string description,int goldValue, int rewardValue, MissionType missionType) {
+	#region Constructors
+
+	public Mission () 
+	{
 		_id            = Mission.GetMissionCode();
-		_name          = name;
-		_description   = description;
-		_goldValue     = goldValue;
-		_rewardValue   = rewardValue;
 		_isIncremental = false;
+		_objectIdGetReward = -1;
 	}
 
-	public Mission(string name, string description,int goldValue, int rewardValue, MissionType missionType,
-	               int goldModifier, int rewardModifier) {
-		_id          = Mission.GetMissionCode();
-		_name        = name;
-		_description = description;
-		_goldValue   = goldValue;
-		_rewardValue = rewardValue;
+	public Mission (string name, string description, MissionType missionType) 
+		: this()
+	{
+		_name          = name;
+		_description   = description;
+		_missionType   = missionType;
+	}
 
-		_isIncremental  = true;
+	public Mission(string name, string description,MissionType missionType, int goldValue, int rewardValue) 
+		: this(name, description, missionType)
+	{
+		_goldValue     = goldValue;
+		_rewardValue   = rewardValue;
+	}
+
+	public Mission(string name, string description,MissionType missionType, int goldValue, int rewardValue, int objectIdGetReward) 
+		: this(name, description, missionType, goldValue, rewardValue)
+	{
+		_objectIdGetReward = objectIdGetReward;
+	}
+
+	public Mission(string name, string description,MissionType missionType, int goldValue, int rewardValue,
+	               bool isIncremental,int goldModifier, int rewardModifier) 
+		: this (name, description, missionType, goldValue, rewardValue)
+	{
+		_isIncremental  = isIncremental;
 		_goldModifier   = goldModifier;
 		_rewardModifier = rewardModifier;
 	}	
+
+	#endregion Constructors
 }
