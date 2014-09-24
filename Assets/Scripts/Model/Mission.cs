@@ -2,18 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public enum MissionType {
-	MoreTime,
-	UnlockExtraRound,
-	UnlockCards,
-	AdditionPoints,
-	Money,
-	Coins,
-}
-
-public delegate void HandleTaskComplete ();
-public delegate void HandleRewardComplete ();
-
 public class Mission 
 {
 	static private int _missionCode;
@@ -30,29 +18,23 @@ public class Mission
 		return _missionCode;
 	}
 
-	protected int    _id;
-	protected string _name;
-	protected string _description;
-	protected int    _goldValue;
-	protected int    _rewardValue;
-	protected int    _objectIdGetReward;
-	protected MissionType _missionType;
+	protected int           _id;
+	protected string        _name;
+	protected string        _description;
+	protected MissionTask   _missionTask;
+	protected MissionReward _missionReward;
 
 	protected bool  _isIncremental;
 	protected int   _goldModifier;
 	protected int   _rewardModifier;
-
-	protected MissionTask task;
 
 	#region Properties
 
 	public int id { get { return _id; } }
 	public string name { get { return _name; } }
 	public string description { get { return _description; } }
-	public int goldValue { get { return _goldValue; } }
-	public int rewardValue { get { return _rewardValue; } }
-	public int objectIdGetReward { get { return _objectIdGetReward; } }
-	public MissionType missionType { get { return _missionType; } }
+	public MissionTask missionTask { get { return _missionTask; } }
+	public MissionReward missionReward { get { return _missionTask; } }
 
 	public bool isIncremental { get { return _isIncremental; } }
 	public int goldModifier { get { return _goldModifier; } }
@@ -66,33 +48,20 @@ public class Mission
 	{
 		_id            = Mission.GetMissionCode();
 		_isIncremental = false;
-		_objectIdGetReward = -1;
 	}
 
-	public Mission (string name, string description, MissionType missionType) 
+	public Mission (string name, string description, MissionTask missionTask, MissionReward missionReward) 
 		: this()
 	{
 		_name          = name;
 		_description   = description;
-		_missionType   = missionType;
+		_missionTask = missionTask;
+		_missionReward = missionReward;
 	}
 
-	public Mission(string name, string description,MissionType missionType, int goldValue, int rewardValue) 
-		: this(name, description, missionType)
-	{
-		_goldValue     = goldValue;
-		_rewardValue   = rewardValue;
-	}
-
-	public Mission(string name, string description,MissionType missionType, int goldValue, int rewardValue, int objectIdGetReward) 
-		: this(name, description, missionType, goldValue, rewardValue)
-	{
-		_objectIdGetReward = objectIdGetReward;
-	}
-
-	public Mission(string name, string description,MissionType missionType, int goldValue, int rewardValue,
+	public Mission(string name, string description,MissionTask missionTask, MissionReward missionReward,
 	               bool isIncremental,int goldModifier, int rewardModifier) 
-		: this (name, description, missionType, goldValue, rewardValue)
+		: this (name, description, missionTask, missionReward)
 	{
 		_isIncremental  = isIncremental;
 		_goldModifier   = goldModifier;

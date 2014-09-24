@@ -3,10 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class UnlockExtraRound : MissionReward
+public class UnlockExtraRoundReward : MissionReward
 {
 	public int roundToUnlock { get; private set; }
-	public UnlockExtraRound (int roundToUnlock)
+	public UnlockExtraRoundReward (int roundToUnlock)
 	{
 		this.roundToUnlock = roundToUnlock;
 	}
