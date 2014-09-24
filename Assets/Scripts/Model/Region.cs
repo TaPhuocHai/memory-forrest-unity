@@ -5,14 +5,16 @@ using System.Collections.Generic;
 
 public enum RegionType
 {
-	KingdomOfRabbits,
-	Forest,
-	StoneMountain,
-	WolfCamp
+	KingdomOfRabbits, // 4x4
+	Forest,           // 5x5
+	StoneMountain,    // 5x5 
+	WolfCamp          // 6x6
 }
 
 public class Region 
 {
+	#region Static function
+
 	/// <summary>
 	/// Gets the cards.
 	/// </summary>
@@ -84,5 +86,59 @@ public class Region
 	{
 		return null;
 	}
+
+	/// <summary>
+	/// Unlocks the mission.
+	/// </summary>
+	/// <param name="code">Code.</param>
+	static public void UnlockMission (int code) 
+	{
+		string unlockKey = "UNLOCK_MISSION_" + code.ToString ();
+		PlayerPrefs.SetInt (unlockKey, 1);
+		PlayerPrefs.Save ();
+	}
+	
+	/// <summary>
+	/// Determines if is unlock the specified code.
+	/// </summary>
+	/// <returns><c>true</c> if is unlock the specified code; otherwise, <c>false</c>.</returns>
+	/// <param name="code">Code.</param>
+	static public bool IsUnlockMission (int code) 
+	{
+		string unlockKey = "UNLOCK_MISSION_" + code.ToString ();
+		int unlockValue = PlayerPrefs.GetInt (unlockKey, 0);
+		if (unlockValue == 1) {
+			return true;
+		}
+		return false;
+	}
+	
+	#endregion Static function
+
+	#region Initialize
+	
+	/// <summary>
+	/// Initialize default value.
+	/// </summary>
+	public static void Initialize () 
+	{
+		/// ----------------------------------------------------------------------
+		/// Chi Init 1 lan duy nhat khi User moi cai dat
+		
+		int didCardInitValue = PlayerPrefs.GetInt ("REGION_INITIALIZE", 0);
+		if (didCardInitValue == 1) {
+			return;
+		}
+
+		// Region KingdomOfRabbits
+		List<Mission> listMissionOfKingdomOfRabbits = new List<Mission> {
+			new Mission ()
+		}
+	
+		PlayerPrefs.SetInt("REGION_INITIALIZE",1);
+		PlayerPrefs.Save ();
+		/// ----------------------------------------------------------------------
+	}	
+	#endregion Initialize
 }
 

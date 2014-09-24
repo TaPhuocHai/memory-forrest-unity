@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PHUtility : MonoBehaviour {
-
+public class PHUtility {
 }
