@@ -11,6 +11,9 @@ public enum MissionType {
 	Coins,
 }
 
+public delegate void HandleTaskComplete ();
+public delegate void HandleRewardComplete ();
+
 public class Mission 
 {
 	static private int _missionCode;
@@ -38,6 +41,8 @@ public class Mission
 	protected bool  _isIncremental;
 	protected int   _goldModifier;
 	protected int   _rewardModifier;
+
+	protected MissionTask task;
 
 	#region Properties
 
