@@ -24,10 +24,10 @@ public class CollectAllCardTask : MissionTask
 		PlayGameData lastData = PlayGameData.GetLastSave ();
 		if (lastData != null) {
 			if (lastData.isClearAllARound && lastData.roundClearAll >= round) {
-				return true;
+				this.isFinish = true;
 			}
 		}
-		return false;
+		return this.isFinish;
 	}
 	
 	#endregion

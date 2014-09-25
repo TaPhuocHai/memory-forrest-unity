@@ -10,6 +10,7 @@ public abstract class MissionTask : IXmlSerializable
 {
 	#region Properties
 	public bool isAccumulationTask { get; protected set; }
+	public bool isFinish           { get; protected set; }
 	#endregion
 
 	public MissionTask () {}
@@ -33,13 +34,14 @@ public abstract class MissionTask : IXmlSerializable
 
 	virtual public void ReadXml(System.Xml.XmlReader reader)
 	{	
-		string value = reader.GetAttribute ("isAccumulationTask");
-		this.isAccumulationTask = Convert.ToBoolean (value);
+		this.isAccumulationTask = Convert.ToBoolean (reader.GetAttribute ("isAccumulationTask"));
+		this.isFinish =  Convert.ToBoolean (reader.GetAttribute ("isFinish"));
 	}
 	
 	virtual public void WriteXml(System.Xml.XmlWriter writer)
 	{
 		writer.WriteAttributeString ("isAccumulationTask", this.isAccumulationTask.ToString());
+		writer.WriteAttributeString ("isFinish", this.isFinish.ToString());
 	}
 
 	#endregion

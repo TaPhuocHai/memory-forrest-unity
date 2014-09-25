@@ -92,15 +92,18 @@ public class CollectTask : MissionTask
 			if (this.cardTypeWithNumberCollected.ContainsKey(key)) {
 				// Neu co 1 loai cardType nao do, ma so luong nhat chu du thi task chua hoan thanh
 				if (this.cardTypeWithNumberCollected[key] < this.cardTypeWithNumberNeedCollect[key]) {
+					this.isFinish = false;
 					return false;
 				}
 			} 
 			// Neu co cardType ma chua duoc nhac thi task chua hoan thanh
 			else {
+				this.isFinish = false;
 				return false;
 			}
 		}
 
+		this.isFinish = true;
 		return true;
 	}
 

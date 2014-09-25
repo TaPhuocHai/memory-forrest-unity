@@ -22,9 +22,9 @@ public class CoinTask : MissionTask
 	override public bool DoTask () 
 	{
 		if (Player.Coin >= coin) {
-			return true;
+			this.isFinish = true;
 		}
-		return false;
+		return this.isFinish;
 	}
 	
 	#endregion

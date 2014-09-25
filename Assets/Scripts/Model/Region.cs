@@ -147,7 +147,7 @@ public class Region
 
 		return numberCardToRandomWithTypeKey;
 	}
-	
+
 	#endregion
 
 	#region Static Function
