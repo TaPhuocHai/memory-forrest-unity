@@ -57,7 +57,6 @@ public class PlayGameData : IXmlSerializable
 
 	public void Reset () 
 	{
-		this.regionType = -1;
 		this.isClearAllARound = false;
 		this.roundClearAll = -1;
 		this.score = 0;

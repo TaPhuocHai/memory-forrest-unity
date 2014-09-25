@@ -40,6 +40,7 @@ public class SceneScript : MonoBehaviour {
 
 		// Init playGameData
 		this._playGameData = PlayGameData.Instance;
+		this._playGameData.regionType = regionType;
 
 		// Init HOTWeen
 		HOTween.Init ();
