@@ -234,7 +234,7 @@ public class Region
 										,true),
 			             new CoinReward (25)),
 			new Mission ("Big Score", "Score 500 points",
-			             new PointTask (500,true),
+			             new ScoreTask (500,true),
 			             new CoinReward (50),true,200,5)
 		};
 		// Save to file

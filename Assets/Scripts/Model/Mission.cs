@@ -30,11 +30,12 @@ public class Mission : IXmlSerializable
 	public bool isIncremental  { get; private set; }
 	public int  goldModifier   { get; private set; }
 	public int  rewardModifier { get; private set; }
-	
-	public MissionTask   missionTask   { get; private set; }
-	public MissionReward missionReward { get; private set; }
 
 	public bool  isFinish { get; private set;}
+
+	// Private properties
+	protected MissionTask   missionTask   { get; private set; }
+	protected MissionReward missionReward { get; private set; }
 
 	#endregion Properties
 

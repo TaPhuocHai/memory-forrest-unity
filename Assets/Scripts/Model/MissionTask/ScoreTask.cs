@@ -11,8 +11,8 @@ public class ScoreTask : MissionTask
 	public int score { get; private set; }
 
 	public ScoreTask () {}
-	public ScoreTask (int score)
-		: base (false)
+	public ScoreTask (int score, bool isAccumulationTask = false)
+		: base (isAccumulationTask)
 	{
 		this.score = score;
 	}
@@ -21,6 +21,12 @@ public class ScoreTask : MissionTask
 	
 	override public bool DoTask () 
 	{
+		if (!this.isAccumulationTask && PlayerData.lastScore >= score) {
+			return true;
+		}
+		if (this.isAccumulationTask && PlayerData.totalScore >= score) {
+			return true;
+		}
 		return false;
 	}
 	

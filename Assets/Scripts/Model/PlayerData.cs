@@ -21,4 +21,22 @@ public class PlayerData : ScriptableObject
 			PlayerPrefs.Save();
 		}
 	}
+	public static int lastScore {
+		get {
+			return PlayerPrefs.GetInt("PLAYER_DATA_LAST_SCORE",0);
+		}
+		set {
+			PlayerPrefs.SetInt("PLAYER_DATA_LAST_SCORE", value);
+			PlayerPrefs.Save();
+		}
+	}
+	public static int totalScore {
+		get {
+			return PlayerPrefs.GetInt("PLAYER_DATA_TOTAL_SCORE",0);
+		}
+		set {
+			PlayerPrefs.SetInt("PLAYER_DATA_TOTAL_SCORE", value);
+			PlayerPrefs.Save();
+		}
+	}
 }
