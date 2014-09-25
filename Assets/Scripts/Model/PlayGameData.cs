@@ -8,13 +8,31 @@ using System.Xml.Serialization;
 [XmlRoot(ElementName="PlayGameData")]
 public class PlayGameData : IXmlSerializable
 {
+	#region Properties
+
 	public RegionType regionType { get; set; }
 	public bool       isClearAllARound { get; set; }
 	public int        roundClearAll { get; set; }
 	public int        score { get; set; }
 
 	// So luong card da collect : cardType : so luong
-	public SerializableDictionary<string, int> cardTypeAndNumberCollected;
+	public SerializableDictionary<string, int> cardTypeAndNumberCollected { get; set;}
+
+	#endregion 
+
+	#region Constructors
+	
+	public PlayGameData () 
+	{
+		this.cardTypeAndNumberCollected = new SerializableDictionary<string, int> ();
+	}
+	public PlayGameData (RegionType regionType) 
+		: this()
+	{
+		this.regionType = regionType;
+	}
+
+	#endregion
 
 	public bool Save ()
 	{
