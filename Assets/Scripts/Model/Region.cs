@@ -271,7 +271,7 @@ public class Region
 		/// ----------------------------------------------------------------------
 	}	
 
-	public static string MissionFilePath (RegionType type)
+	private static string MissionFilePath (RegionType type)
 	{
 		return Application.persistentDataPath + "_" + type.ToString() + "_mission.xml";
 	}

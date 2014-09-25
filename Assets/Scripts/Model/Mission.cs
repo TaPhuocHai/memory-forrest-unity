@@ -32,6 +32,14 @@ public class Mission : IXmlSerializable
 	public int  rewardModifier { get; private set; }
 
 	public bool  isFinish { get; private set;}
+	public bool  isTaskFinish {
+		get {
+			if (this.missionTask != null) {
+				return this.missionTask.isFinish;
+			}
+			return false;
+		}
+	}
 
 	// Private properties
 	protected MissionTask   missionTask   { get; private set; }
@@ -66,7 +74,28 @@ public class Mission : IXmlSerializable
 		this.rewardModifier = rewardModifier;
 	}	
 
-	#endregion Constructors
+	#endregion 
+
+	#region Function
+
+	public void UpdateMission () 
+	{
+		if (this.missionTask != null) {
+			this.missionTask.DoTask ();
+		}
+	}
+
+	public bool GetReward () 
+	{
+		if (this.missionReward != null) {
+			this.isFinish = this.missionReward.DoGetReward();
+		}
+		return this.isFinish;
+	}
+
+	#endregion
+
+	#region IXmlSerializable
 
 	public System.Xml.Schema.XmlSchema GetSchema() { return null; }
 
@@ -130,4 +159,6 @@ public class Mission : IXmlSerializable
 			writer.WriteEndElement ();
 		}
 	}
+
+	#endregion
 }
