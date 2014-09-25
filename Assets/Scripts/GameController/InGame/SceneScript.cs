@@ -81,6 +81,8 @@ public class SceneScript : MonoBehaviour {
 	/// </summary>
 	public void ResetRound () 
 	{
+		Player.lastScore = this._playGameData.score;
+
 		// Tao moi lop luu thong tin man choi
 		this._playGameData.Reset ();
 
@@ -292,6 +294,9 @@ public class SceneScript : MonoBehaviour {
 				// Init round
 				StartCoroutine(this.InitRound ());
 			} else {
+				// Save total score
+				Player.totalScore = Player.totalScore + this._playGameData.score;
+
 				// Luu thong tin man choi
 				this._playGameData.Save();
 

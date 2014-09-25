@@ -24,8 +24,11 @@ public class TimerScript : MonoBehaviour {
 		if (TimerScript.timerCountDown <= 0) {
 			TimerScript.timerCountDown = 0;
 
+			// Save total score
+			Player.totalScore = Player.totalScore + PlayGameData.Instance.score;
+
 			// Luu thong tin man choi user da choi
-			PlayGameData.currentPlayGameData.Save ();
+			PlayGameData.Instance.Save ();
 
 			// Game Over
 			Transform gameOver = this.transform.parent.FindChild("GameOver");
