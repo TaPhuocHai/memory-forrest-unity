@@ -29,9 +29,10 @@ public class MissionScrollViewScript : MonoBehaviour {
 				sprite.SetRect (-sprite.width/2,  top, sprite.width, sprite.height);
 				top += sprite.height + 5;
 
-				print ("tao mission susccess");
+				// Fill data
+				MissionScript misisonScript = missionObject.GetComponent<MissionScript> ();
+				misisonScript.mission = mission;
 			} else {
-				print ("tao mission faild");
 			}
 		}
 		scrollView.ResetPosition ();
