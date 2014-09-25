@@ -13,8 +13,14 @@ public class SceneScript : MonoBehaviour {
 	private ArrayList  _cardOnScreen;
 	// Card da duoc mo
 	private GameObject _prevCardOpen;
+
 	// Vung dat user dang choi
-	private Region     _region;
+	private Region      _region;
+	// Luu ket qua choi trong moi game
+	private PlayGameData _playGameData;
+
+	// Vong choi hien tai
+	private int          _round;
 
 	// Cho phep touch
 	static public bool EnableToTouch;
@@ -32,6 +38,9 @@ public class SceneScript : MonoBehaviour {
 		RegionType regionType = (RegionType)PlayerPrefs.GetInt (Constant.kPlayGameInRegion);
 		this._region = new Region (regionType);
 
+		// Init playGameData
+		this._playGameData = new PlayGameData (regionType);
+
 		// Init HOTWeen
 		HOTween.Init ();
 
@@ -40,7 +49,6 @@ public class SceneScript : MonoBehaviour {
 	}
 
 	void Update () {
-
 	}
 
 	// -----------------------------------------------------------------------------
@@ -93,7 +101,7 @@ public class SceneScript : MonoBehaviour {
 		TimerScript.ResetTimer ();
 
 		// Reset POINT
-		PlayerScipt.Point = 0;
+		this._playGameData.score = 0;
 
 		// Init round
 		StartCoroutine (this.InitRound ());
@@ -107,7 +115,6 @@ public class SceneScript : MonoBehaviour {
 	/// <param name="card">Card.</param>
 	IEnumerator WaitAndCheckOpenCard(GameObject card) 
 	{
-
 		// Can doi 1 khoang thoi gian 0.65s de card hien thi tren man hinh truoc khi kiem tra va flip hoac destroy no
 		yield return new WaitForSeconds(0.65f);
 
@@ -139,7 +146,7 @@ public class SceneScript : MonoBehaviour {
 
 				if (isAllowAddPoint) {
 					// Add point				
-					PlayerScipt.Point += cardScript.card.point;
+					this._playGameData.score += cardScript.card.point;
 				}
 
 				if (isNeedDestroyCard) {
@@ -152,6 +159,9 @@ public class SceneScript : MonoBehaviour {
 					// Remove from list
 					this._cardOnScreen.Remove(card.transform);
 					this._cardOnScreen.Remove(_prevCardOpen.transform);
+
+					// Luu thong tin
+					this._playGameData.CollectCard(cardScript.cardType,2);
 				}
 				else {
 					// Flip card
@@ -248,7 +258,9 @@ public class SceneScript : MonoBehaviour {
 				CardScript cardGameScript = cardGame.GetComponent<CardScript> ();
 				
 				// Cong diem
-				PlayerScipt.Point += cardGameScript.card.point;
+				this._playGameData.score += cardGameScript.card.point;
+
+				this._playGameData.CollectCard(cardGameScript.cardType,1);
 				
 				// Animation and auto destroy when finish
 				Animator animator = cardGame.GetComponent<Animator> ();
@@ -263,10 +275,27 @@ public class SceneScript : MonoBehaviour {
 		// ---------------- Next round -----------------------
 		if (this._cardOnScreen.Count == 0) {
 			print("next round");
-			
-			DebugScript.Clear ();
-			// Next round
-			StartCoroutine(this.InitRound ());
+
+			// Luu thong tin man choi
+			this._playGameData.isClearAllARound = true;
+			this._playGameData.roundClearAll = this._round;
+
+			// Kiem da unlock next round
+			if (Region.IsUnlockRound (this._region.regionType,this._round + 1)) {
+				// round moi
+				this._round += 1;
+
+				DebugScript.Clear ();
+				// Init round
+				StartCoroutine(this.InitRound ());
+			} else {
+				// Game Over
+				Transform gameOver = this.transform.parent.FindChild("GameOver");
+				if (gameOver) {
+					GameOverScipt gameOverScipt = gameOver.GetComponent<GameOverScipt> ();
+					gameOverScipt.EnterGameOver ();
+				}
+			}
 		}
 		EnableToTouch = true;
 	}
@@ -458,8 +487,11 @@ public class SceneScript : MonoBehaviour {
 			CardScript cScript = c.GetComponent<CardScript> ();
 			
 			// Cong diem
-			PlayerScipt.Point += cScript.card.point;
-			
+			this._playGameData.score += cScript.card.point;
+
+			// Luu thong tin
+			this._playGameData.CollectCard(cScript.cardType,2);
+
 			// Animation and auto destroy when finish
 			Animator animator = c.GetComponent<Animator> ();
 			animator.SetTrigger("exit");
