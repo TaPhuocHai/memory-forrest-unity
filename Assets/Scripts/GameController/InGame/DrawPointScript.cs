@@ -11,11 +11,6 @@ public class DrawPointScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		UILabel label = this.GetComponent<UILabel> ();
-		if (PlayGameData.currentPlayGameData != null) {
-			label.text = "Point : " + PlayGameData.currentPlayGameData.score.ToString ();
-		} else {
-			label.text = "Point : 0";
-		}
-
+		label.text = "Point : " + PlayGameData.Instance.score.ToString ();
 	}
 }
