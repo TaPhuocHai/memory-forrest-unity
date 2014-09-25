@@ -34,6 +34,8 @@ public class Mission : IXmlSerializable
 	public MissionTask   missionTask   { get; private set; }
 	public MissionReward missionReward { get; private set; }
 
+	public bool  isFinish { get; private set;}
+
 	#endregion Properties
 
 	#region Constructors
@@ -80,6 +82,7 @@ public class Mission : IXmlSerializable
 		this.isIncremental = Convert.ToBoolean (incrementalValue);
 		this.goldModifier  = Convert.ToInt32 (reader.ReadElementString ("goldModifier"));
 		this.rewardModifier = Convert.ToInt32 (reader.ReadElementString ("rewardModifier"));
+		this.isFinish = Convert.ToBoolean (reader.ReadElementString ("isFinsh"))
 
 		reader.ReadStartElement ("MissionTask");
 		string typeAttribTask = reader.Name;
@@ -110,6 +113,7 @@ public class Mission : IXmlSerializable
 		writer.WriteElementString ("isIncremental", this.isIncremental.ToString());
 		writer.WriteElementString ("goldModifier", this.goldModifier.ToString());
 		writer.WriteElementString ("rewardModifier", this.rewardModifier.ToString());
+		writer.WriteElementString ("isFinsh", this.isFinish.ToString());
 
 		if (this.missionTask != null) {
 			writer.WriteStartElement ("MissionTask");
