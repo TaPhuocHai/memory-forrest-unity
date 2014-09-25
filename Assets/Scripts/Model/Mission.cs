@@ -80,6 +80,9 @@ public class Mission : IXmlSerializable
 
 	public void UpdateMission () 
 	{
+		if (this.isTaskFinish) { return;}
+		if (this.isFinish) { return; }
+
 		if (this.missionTask != null) {
 			this.missionTask.DoTask ();
 		}

@@ -29,6 +29,7 @@ public class Region
 {
 	private RegionType    _regionType;
 	private List<Mission> _misisons;
+	private List<Mission> _currentMissions;
 
 	#region Properties
 
@@ -70,10 +71,21 @@ public class Region
 	{
 		get {
 			if (_misisons == null) {
+				// Load du lieu tu file
 				string missionXmlPath = Region.MissionFilePath(this._regionType);
 				_misisons = UnityXMLSerializer.DeserializeFromXMLFile<List<Mission>> (missionXmlPath);
 			}
 			return _misisons;
+		}
+	}
+
+	public List<Mission> currentMissions 
+	{
+		get {
+			if (_currentMissions == null) {
+				_currentMissions = this.LoadOrUpdateCurrentMission ();
+			}
+			return _currentMissions;
 		}
 	}
 	
@@ -83,6 +95,9 @@ public class Region
 
 	public Region (RegionType regionType)
 	{
+		// Goi init mission data neu can thiet
+		Region.InitMissionDataIfNeed();
+
 		_regionType = regionType;
 	}
 
@@ -170,9 +185,74 @@ public class Region
 		return numberCardToRandomWithTypeKey;
 	}
 
+	/// <summary>
+	/// Updates the current mission.
+	/// </summary>
+	public void UpdateCurrentMission () 
+	{
+		foreach (Mission misison in this.currentMissions) {
+			misison.UpdateMission ();
+		}
+	}
+	
+	/// <summary>
+	/// Gets the reward and complete current mission.
+	/// </summary>
+	/// <param name="missionId">Mission identifier.</param>
+	public void GetRewardAndCompleteCurrentMission (int missionId) 
+	{
+		Mission missionNeedComplete;
+		foreach (Mission mission in this.currentMissions) {
+			if (mission.id == missionId) {
+				missionNeedComplete = mission;
+				break;
+			}
+		}
+
+		if (missionNeedComplete == null) {
+			Debug.Log ("Region : can't find misison to get reward");
+			return;
+		}
+
+		if (missionNeedComplete.GetReward ()) {
+			// Tao 1 mission moi
+			if (missionNeedComplete.isIncremental) {
+			}
+
+			// Remove complete mission
+			this.currentMissions.Remove(missionNeedComplete);
+
+			// Luu thong tin current mission
+
+			// Luu thong tin mission
+
+			// Update current mission
+			this.LoadOrUpdateCurrentMission ();
+		} else {
+			Debug.Log ("Region : mission id : " + missionId.ToString() + " get reward faild");
+		}
+	}
+
 	#endregion
 
-	#region Static Function
+	#region Private functions
+
+	private List<Mission> LoadOrUpdateCurrentMission () 
+	{
+		// Kiem tra va clear complete mission
+		for ()
+
+		// 
+		if (this.currentMissions.Count == Constant.kMaxCurrentMisison) {
+			return this.currentMissions;
+		}
+
+
+	}
+	
+	#endregion
+
+	#region Static Functions
 
 	/// <summary>
 	/// Determines if is unlock round the specified regionType round.
@@ -210,12 +290,12 @@ public class Region
 
 	#endregion
 
-	#region Initialize
+	#region Private static functions
 	
 	/// <summary>
 	/// Initialize default value.
 	/// </summary>
-	public static void Initialize () 
+	private static void InitMissionDataIfNeed () 
 	{
 		/// ----------------------------------------------------------------------
 		/// Chi Init 1 lan duy nhat khi User moi cai dat
@@ -274,6 +354,10 @@ public class Region
 	private static string MissionFilePath (RegionType type)
 	{
 		return Application.persistentDataPath + "_" + type.ToString() + "_mission.xml";
+	}
+	private static string CurrentMissionFilePath (RegionType type) 
+	{
+		return Application.persistentDataPath + "_" + type.ToString() + "_current_mission.xml";
 	}
 	#endregion
 }

@@ -5,4 +5,5 @@ public class Constant {
 	public static bool   kClearMissionData = true;
 	public static string kPlayGameInRegion = "kPlayGameInRegion";
 	public static int    kTimePlayDefault  = 45;
+	public static int    kMaxCurrentMisison = 3;
 }

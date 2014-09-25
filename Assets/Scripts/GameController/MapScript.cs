@@ -7,7 +7,6 @@ public class MapScript : MonoBehaviour {
 	void Awake () 
 	{
 		Card.Initialize ();
-		Region.Initialize ();
 	}
 
 	void Start () {	
