@@ -17,19 +17,24 @@ public class MissionScrollViewScript : MonoBehaviour {
 
 		UIScrollView scrollView = this.gameObject.GetComponent<UIScrollView> ();
 
-		List<Mission> list = this._region.missions;
-		print ("co mission : " + list.Count);
-
+		float top = 0;
 		// Draw Mission on screen
 		foreach (Mission mission in this._region.missions) {
 			var missionObject = Instantiate(this.missionPrefab) as Transform;
 			missionObject.parent = this.gameObject.transform;
 			if (missionObject != null) {
+				UISprite sprite = missionObject.GetComponent<UISprite> ();
+				sprite.transform.position = new Vector3 (0, 0, 0);
+				sprite.transform.localScale = new Vector3 (1, 1, 1);
+				sprite.SetRect (-sprite.width/2,  top, sprite.width, sprite.height);
+				top += sprite.height + 5;
+
 				print ("tao mission susccess");
 			} else {
 				print ("tao mission faild");
 			}
 		}
+		scrollView.ResetPosition ();
 	}
 
 	void OnGUI () {
