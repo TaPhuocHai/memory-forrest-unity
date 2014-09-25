@@ -4,6 +4,12 @@ using System.Collections;
 
 public class MapScript : MonoBehaviour {
 
+	void Awake () 
+	{
+		Card.Initialize ();
+		Region.Initialize ();
+	}
+
 	void Start () {	
 //		Mission mission2 = new Mission ("Carrot Harvest", "Collect 10 carrot pairs", 
 //		             					new CollectTask (CardType.Carrot, 10), 
@@ -52,18 +58,18 @@ public class MapScript : MonoBehaviour {
 	public void EnterMap5x5 () {	
 		PlayerPrefs.SetInt (Constant.kPlayGameInRegion, (int)RegionType.Forest);
 		PlayerPrefs.Save ();
-		Application.LoadLevel ("Mission");
+		//Application.LoadLevel ("Mission");
 	}
 
 	public void EnterMap5x5_2 () {
 		PlayerPrefs.SetInt (Constant.kPlayGameInRegion, (int)RegionType.StoneMountain);
 		PlayerPrefs.Save ();
-		Application.LoadLevel ("Mission");
+		//Application.LoadLevel ("Mission");
 	}
 
 	public void EnterMap6x6 () {
 		PlayerPrefs.SetInt (Constant.kPlayGameInRegion, (int)RegionType.WolfCamp);
 		PlayerPrefs.Save ();
-		Application.LoadLevel ("Mission");
+		//Application.LoadLevel ("Mission");
 	}
 }

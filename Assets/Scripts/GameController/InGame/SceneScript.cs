@@ -19,11 +19,13 @@ public class SceneScript : MonoBehaviour {
 	// Cho phep touch
 	static public bool EnableToTouch;
 
-	void Awake () {
+	void Awake () 
+	{
 		print ("Awake");
 	}
 	
-	void Start () {
+	void Start () 
+	{
 		print ("Start");
 
 		// Init Region
@@ -38,6 +40,7 @@ public class SceneScript : MonoBehaviour {
 	}
 
 	void Update () {
+
 	}
 
 	// -----------------------------------------------------------------------------
@@ -46,7 +49,8 @@ public class SceneScript : MonoBehaviour {
 	/// Opens the card - Tinh diem
 	/// </summary>
 	/// <param name="card">Card.</param>
-	public void OpenCard (GameObject card) {
+	public void OpenCard (GameObject card) 
+	{
 		EnableToTouch = false;
 		if (_prevCardOpen == null) {
 			_prevCardOpen = card;
@@ -59,14 +63,16 @@ public class SceneScript : MonoBehaviour {
 	/// <summary>
 	/// Exits to map.
 	/// </summary>
-	public void ExitToMap () {
+	public void ExitToMap () 
+	{
 		Application.LoadLevel ("Map");
 	}
 
 	/// <summary>
 	/// Reset man choi, choi lai
 	/// </summary>
-	public void ResetRound () {
+	public void ResetRound () 
+	{
 		// Clear debug
 		DebugScript.Clear ();
 
@@ -99,7 +105,8 @@ public class SceneScript : MonoBehaviour {
 	/// Waits the and check open card.
 	/// </summary>
 	/// <param name="card">Card.</param>
-	IEnumerator WaitAndCheckOpenCard(GameObject card) {
+	IEnumerator WaitAndCheckOpenCard(GameObject card) 
+	{
 
 		// Can doi 1 khoang thoi gian 0.65s de card hien thi tren man hinh truoc khi kiem tra va flip hoac destroy no
 		yield return new WaitForSeconds(0.65f);
@@ -267,7 +274,8 @@ public class SceneScript : MonoBehaviour {
 	/// <summary>
 	/// Doi mat sau cua 3 cap la bai bat ky
 	/// </summary>
-	private void ChangeFaceBack3CoupleCard () {
+	private void ChangeFaceBack3CoupleCard () 
+	{
 		ArrayList cardNeedOpenList = this.Get3CoupleCardOnScrene ();
 
 		foreach (Transform c in cardNeedOpenList) {
@@ -280,8 +288,8 @@ public class SceneScript : MonoBehaviour {
 	/// Lat 3 cap bai bat ky
 	/// </summary>
 	/// <returns>The couple card.</returns>
-	private IEnumerator Open3CoupleCard () {
-
+	private IEnumerator Open3CoupleCard () 
+	{
 		EnableToTouch = false;
 
 		ArrayList cardNeedOpenList = this.Get3CoupleCardOnScrene ();

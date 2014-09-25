@@ -27,12 +27,14 @@ public enum RegionType
 
 public class Region 
 {
-	private RegionType _regionType;
+	private RegionType    _regionType;
+	private List<Mission> _misisons;
 
 	#region Properties
 
 	public RegionType regionType { get {return _regionType;}}
-	public int        numberOfCol {
+	public int        numberOfCol 
+	{
 		get {
 			switch (_regionType) {
 			case RegionType.KingdomOfRabbits:
@@ -47,7 +49,8 @@ public class Region
 			return 0;
 		}
 	}
-	public int        numberOfRow {
+	public int        numberOfRow 
+	{
 		get {
 			switch (_regionType) {
 			case RegionType.KingdomOfRabbits:
@@ -60,6 +63,17 @@ public class Region
 				return 5;
 			}
 			return 0;
+		}
+	}
+
+	public List<Mission> missions 
+	{
+		get {
+			if (_misisons == null) {
+				string missionXmlPath = Region.MissionFilePath(this._regionType);
+				_misisons = UnityXMLSerializer.DeserializeFromXMLFile<List<Mission>> (missionXmlPath);
+			}
+			return _misisons;
 		}
 	}
 
@@ -132,16 +146,6 @@ public class Region
 		}
 
 		return numberCardToRandomWithTypeKey;
-	}
-
-	/// <summary>
-	/// Gets the missions of region.
-	/// </summary>
-	/// <returns>The missions.</returns>
-	/// <param name="region">Region.</param>
-	public ArrayList GetMissions (RegionType region)
-	{
-		return null;
 	}
 
 	/// <summary>

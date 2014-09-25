@@ -8,16 +8,18 @@ public class GameOverScipt : MonoBehaviour {
 		this.transform.position = new Vector3 (this.transform.position.x, 2,0);
 	}
 
-	void Update () {
-	
+	void Update () 
+	{	
 	}
 
-	public void EnterGameOver () {
+	public void EnterGameOver () 
+	{
 		TweenParms parms = new TweenParms().Prop("position", new Vector3(this.transform.position.x,0,0)).Ease(EaseType.EaseOutBack);
 		HOTween.To (this.transform, 0.65f, parms);
 	}
 
-	public void ExitGameOver () {
+	public void ExitGameOver () 
+	{
 		TweenParms parms = new TweenParms().Prop("position", new Vector3(this.transform.position.x,2,0)).Ease(EaseType.EaseOutBack);
 		HOTween.To (this.transform, 0.65f, parms);
 	}
