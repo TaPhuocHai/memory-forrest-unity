@@ -8,12 +8,14 @@ public class TimerScript : MonoBehaviour {
 
 	static private bool enableTimer;
 
-	void Start () {
+	void Start () 
+	{
 		TimerScript.timerCountDown = TIME_PLAY;
 		TimerScript.enableTimer = false;
 	}
 	
-	void Update () {
+	void Update () 
+	{
 		if (!TimerScript.enableTimer) {
 			return;
 		}
@@ -44,15 +46,18 @@ public class TimerScript : MonoBehaviour {
 		}
 	}
 
-	static public void ResetTimer () {
+	static public void ResetTimer () 
+	{
 		TimerScript.timerCountDown = TimerScript.TIME_PLAY;
 	}
 
-	static public void AddMoreTime (float addmore) {
+	static public void AddMoreTime (float addmore) 
+	{
 		TimerScript.timerCountDown += addmore;
 	}
 
-	static public void StartTimer () {
+	static public void StartTimer () 
+	{
 		TimerScript.TIME_PLAY = (float)Player.secondTimePlay;
 
 		TimerScript.enableTimer = true;
