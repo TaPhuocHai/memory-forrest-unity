@@ -183,7 +183,7 @@ public class Region
 		/// Chi Init 1 lan duy nhat khi User moi cai dat
 		
 		int didCardInitValue = PlayerPrefs.GetInt ("REGION_INITIALIZE", 0);
-		if (didCardInitValue == 1) {
+		if (didCardInitValue == 1 && !Constant.kClearMissionData) {
 			return;
 		}
 
@@ -222,7 +222,7 @@ public class Region
 			             new CoinReward (50),true,200,5)
 		};
 		// Save to file
-		if (UnityXMLSerializer.SerializeToXMLFile<List<Mission>> (Application.persistentDataPath + "_KingdomOfRabbits_mission.xml", listMissionOfKingdomOfRabbits, true)) {
+		if (UnityXMLSerializer.SerializeToXMLFile<List<Mission>> (Region.MissionFilePath(RegionType.KingdomOfRabbits), listMissionOfKingdomOfRabbits, true)) {
 			Debug.Log ("Init mission KingdomOfRabbits success");
 		} else {
 			Debug.Log ("Init mission KingdomOfRabbits faild");
@@ -232,6 +232,11 @@ public class Region
 		PlayerPrefs.Save ();
 		/// ----------------------------------------------------------------------
 	}	
+
+	public static string MissionFilePath (RegionType type)
+	{
+		return Application.persistentDataPath + "_" + type.ToString() + "_mission.xml";
+	}
 	#endregion Initialize
 }
 

@@ -3,12 +3,16 @@ using System.Collections;
 
 public class MissionScript : MonoBehaviour {
 
-	// Use this for initialization
+	void Awake () 
+	{
+		Card.Initialize ();
+		Region.Initialize ();
+	}
+	
 	void Start () {
 	
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 	
 	}
