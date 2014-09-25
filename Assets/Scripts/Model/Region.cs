@@ -76,13 +76,35 @@ public class Region
 			return _misisons;
 		}
 	}
-
+	
 	#endregion Properties
+
+	#region Contructors
 
 	public Region (RegionType regionType)
 	{
 		_regionType = regionType;
 	}
+
+	private static Dictionary<string, Region> _instances;
+	/// <summary>
+	/// Instance the specified regionType.
+	/// </summary>
+	/// <param name="regionType">Region type.</param>
+	public static Region Instance (RegionType regionType) {
+		if (_instances == null) {
+			_instances = new Dictionary<string, Region> ();
+		}
+		if (_instances.ContainsKey (regionType.ToString ())) {
+			return _instances[regionType.ToString()];
+		}
+
+		Region region = new Region (regionType);
+		_instances [regionType.ToString ()] = region;
+		return region;
+	}
+
+	#endregion
 
 	#region Function
 

@@ -36,7 +36,7 @@ public class SceneScript : MonoBehaviour {
 
 		// Init Region
 		RegionType regionType = (RegionType)PlayerPrefs.GetInt (Constant.kPlayGameInRegion);
-		this._region = new Region (regionType);
+		this._region = Region.Instance(regionType);
 
 		// Init playGameData
 		this._playGameData = PlayGameData.Instance;

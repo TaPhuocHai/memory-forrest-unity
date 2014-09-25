@@ -22,12 +22,12 @@ public class ScoreTask : MissionTask
 	override public bool DoTask () 
 	{
 		if (!this.isAccumulationTask && Player.lastScore >= score) {
-			return true;
+			this.isFinish = true;
 		}
 		if (this.isAccumulationTask && Player.totalScore >= score) {
-			return true;
+			this.isFinish = true;
 		}
-		return false;
+		return this.isFinish;
 	}
 	
 	#endregion
