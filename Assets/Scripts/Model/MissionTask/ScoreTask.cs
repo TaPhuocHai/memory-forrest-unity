@@ -21,10 +21,10 @@ public class ScoreTask : MissionTask
 	
 	override public bool DoTask () 
 	{
-		if (!this.isAccumulationTask && PlayerData.lastScore >= score) {
+		if (!this.isAccumulationTask && Player.lastScore >= score) {
 			return true;
 		}
-		if (this.isAccumulationTask && PlayerData.totalScore >= score) {
+		if (this.isAccumulationTask && Player.totalScore >= score) {
 			return true;
 		}
 		return false;

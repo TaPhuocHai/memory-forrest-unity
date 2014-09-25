@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerData : ScriptableObject 
+public class Player
 {
 	public static int Coin {
 		get {

@@ -28,7 +28,7 @@ public class MoreTimeReward : MissionReward
 
 	override public bool DoGetReward () 
 	{
-		PlayerData.secondTimePlay = PlayerData.secondTimePlay + second;
+		Player.secondTimePlay = Player.secondTimePlay + second;
 		return true;
 	}
 
