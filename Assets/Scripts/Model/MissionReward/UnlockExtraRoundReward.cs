@@ -8,16 +8,19 @@ using System.Xml.Serialization;
 [XmlRoot(ElementName="UnlockExtraRoundReward")]
 public class UnlockExtraRoundReward : MissionReward
 {
-	public int roundToUnlock { get; set; }
+	public RegionType regionType    { get; private set; }
+	public int        roundToUnlock { get; private set; }
 
 	public UnlockExtraRoundReward () {}
-	public UnlockExtraRoundReward (int roundToUnlock)
+	public UnlockExtraRoundReward (RegionType regionType, int roundToUnlock)
 	{
+		this.regionType = regionType;
 		this.roundToUnlock = roundToUnlock;
 	}
 	
 	override public bool DoGetReward () 
 	{
+		Region.UnlockRound (regionType,roundToUnlock);
 		return true;
 	}
 
@@ -28,6 +31,8 @@ public class UnlockExtraRoundReward : MissionReward
 		base.ReadXml (reader);
 		reader.MoveToContent ();
 		reader.ReadStartElement ();
+		string regionStr = reader.ReadElementString ("regionType");
+		this.regionType = (RegionType)Enum.Parse (typeof(RegionType), regionStr);
 		this.roundToUnlock = Convert.ToInt32 (reader.ReadElementString ("roundToUnlock"));
 		reader.ReadEndElement ();
 	}
@@ -35,7 +40,8 @@ public class UnlockExtraRoundReward : MissionReward
 	override public void WriteXml(System.Xml.XmlWriter writer)
 	{
 		base.WriteXml (writer);
-		
+
+		writer.WriteElementString ("regionType", regionType.ToString ());
 		writer.WriteElementString ("roundToUnlock", roundToUnlock.ToString ());
 	}
 	

@@ -147,34 +147,46 @@ public class Region
 
 		return numberCardToRandomWithTypeKey;
 	}
+	
+	#endregion
+
+	#region Static Function
 
 	/// <summary>
-	/// Unlocks the mission.
+	/// Determines if is unlock round the specified regionType round.
 	/// </summary>
-	/// <param name="code">Code.</param>
-	public void UnlockMission (int code) 
+	/// <returns><c>true</c> if is unlock round the specified regionType round; otherwise, <c>false</c>.</returns>
+	/// <param name="regionType">Region type.</param>
+	/// <param name="round">Round.</param>
+	public static bool IsUnlockRound (RegionType regionType, int round) 
 	{
-		string unlockKey = "UNLOCK_MISSION_" + code.ToString ();
-		PlayerPrefs.SetInt (unlockKey, 1);
-		PlayerPrefs.Save ();
-	}
-	
-	/// <summary>
-	/// Determines if is unlock the specified code.
-	/// </summary>
-	/// <returns><c>true</c> if is unlock the specified code; otherwise, <c>false</c>.</returns>
-	/// <param name="code">Code.</param>
-	public bool IsUnlockMission (int code) 
-	{
-		string unlockKey = "UNLOCK_MISSION_" + code.ToString ();
-		int unlockValue = PlayerPrefs.GetInt (unlockKey, 0);
-		if (unlockValue == 1) {
+		// Neu thoa dieu kien mat dinh duoc unlock cua moi vung dat
+		if ((int)regionType - round >= 0) {
 			return true;
 		}
+
+		string key = regionType.ToString () + round.ToString ();
+		if (PlayerPrefs.GetInt (key, 0) == 1) {
+			return true;
+		}
+
 		return false;
 	}
-	
-	#endregion Function
+
+	/// <summary>
+	/// Unlocks the round.
+	/// </summary>
+	/// <returns><c>true</c>, if round was unlocked, <c>false</c> otherwise.</returns>
+	/// <param name="regionType">Region type.</param>
+	/// <param name="round">Round.</param>
+	public static void UnlockRound (RegionType regionType, int round) 
+	{
+		string key = regionType.ToString () + round.ToString ();
+		PlayerPrefs.SetInt (key, 1);
+		PlayerPrefs.Save ();
+	}
+
+	#endregion
 
 	#region Initialize
 	
@@ -200,7 +212,7 @@ public class Region
 			             new MoreTimeReward (10)),
 			new Mission ("Faster Hand Level 1","Collect all card before time run out",
 			             new CollectAllCardTask (0), 
-			             new UnlockExtraRoundReward (1),true,1,1),
+			             new UnlockExtraRoundReward (RegionType.KingdomOfRabbits, 1),true,1,1),
 			new Mission ("Apple Juice","Collect 5 pairs of apple in 1 game",
 			             new CollectTask (CardType.Apple,5, false),
 			             new UnlockCardReward (CardType.WhiteRabbit)),
@@ -241,6 +253,6 @@ public class Region
 	{
 		return Application.persistentDataPath + "_" + type.ToString() + "_mission.xml";
 	}
-	#endregion Initialize
+	#endregion
 }
 
