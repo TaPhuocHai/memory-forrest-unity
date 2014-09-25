@@ -18,10 +18,16 @@ public class PlayGameData : IXmlSerializable
 	// So luong card da collect : cardType : so luong
 	public SerializableDictionary<string, int> cardTypeAndNumberCollected { get; set;}
 
-	static PlayGameData _currentPlayGameData;
-	public static PlayGameData currentPlayGameData {
-		get { return _currentPlayGameData;}
+	static PlayGameData _instance;
+	public static PlayGameData Instance {
+		get { 
+			if (_instance == null) {
+				_instance = new PlayGameData ();
+			}
+			return _instance;
+		}
 	}
+
 	#endregion 
 
 	#region Constructors
@@ -29,8 +35,6 @@ public class PlayGameData : IXmlSerializable
 	public PlayGameData () 
 	{
 		this.cardTypeAndNumberCollected = new SerializableDictionary<string, int> ();
-
-		_currentPlayGameData = this;
 	}
 	public PlayGameData (RegionType regionType) 
 		: this()
@@ -49,6 +53,15 @@ public class PlayGameData : IXmlSerializable
 		}
 		savedCollect += value;
 		this.cardTypeAndNumberCollected [cardKey] = savedCollect;
+	}
+
+	public void Reset () 
+	{
+		this.regionType = -1;
+		this.isClearAllARound = false;
+		this.roundClearAll = -1;
+		this.score = 0;
+		this.cardTypeAndNumberCollected = new SerializableDictionary<string, int> ();
 	}
 
 	public bool Save ()

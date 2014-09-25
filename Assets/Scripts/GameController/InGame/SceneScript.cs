@@ -39,7 +39,7 @@ public class SceneScript : MonoBehaviour {
 		this._region = new Region (regionType);
 
 		// Init playGameData
-		this._playGameData = new PlayGameData (regionType);
+		this._playGameData = PlayGameData.Instance;
 
 		// Init HOTWeen
 		HOTween.Init ();
@@ -82,7 +82,7 @@ public class SceneScript : MonoBehaviour {
 	public void ResetRound () 
 	{
 		// Tao moi lop luu thong tin man choi
-		this._playGameData = new PlayGameData (this._region.regionType);
+		this._playGameData.Reset ();
 
 		// Clear debug
 		DebugScript.Clear ();
