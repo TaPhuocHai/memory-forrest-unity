@@ -2,16 +2,42 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Serialization;
 
+[XmlRoot(ElementName="CoinReward")]
 public class CoinReward : MissionReward
 {
-	public int coin { get; private set; }
+	public int coin { get; set; }
+
+	public CoinReward () {}
 	public CoinReward (int coin)
 	{
 		this.coin = coin;
 	}
 	
-	public bool DoGetReward () 
+	override public bool DoGetReward () 
 	{
+		return true;
 	}
+
+	#region IXmlSerializable
+	
+	override public void ReadXml(System.Xml.XmlReader reader)
+	{
+		base.ReadXml (reader);
+		reader.MoveToContent ();
+		reader.ReadStartElement ();
+		this.coin = Convert.ToInt32 (reader.ReadElementString ("coin"));
+		reader.ReadEndElement ();
+	}
+	
+	override public void WriteXml(System.Xml.XmlWriter writer)
+	{
+		base.WriteXml (writer);
+		
+		writer.WriteElementString ("coin", coin.ToString ());
+	}
+	
+	#endregion
 }

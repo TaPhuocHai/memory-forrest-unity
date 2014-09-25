@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Serialization;
 
-public class Mission 
+public class Mission : IXmlSerializable
 {
 	static private int _missionCode;
 	static private int GetMissionCode () {
@@ -18,27 +21,18 @@ public class Mission
 		return _missionCode;
 	}
 
-	protected int           _id;
-	protected string        _name;
-	protected string        _description;
-	protected MissionTask   _missionTask;
-	protected MissionReward _missionReward;
-
-	protected bool  _isIncremental;
-	protected int   _goldModifier;
-	protected int   _rewardModifier;
-
 	#region Properties
 
-	public int id { get { return _id; } }
-	public string name { get { return _name; } }
-	public string description { get { return _description; } }
-	public MissionTask missionTask { get { return _missionTask; } }
-	public MissionReward missionReward { get { return _missionTask; } }
+	public int    id    { get; private set; }
+	public string name  { get; private set; }
+	public string description  { get; private set; }
 
-	public bool isIncremental { get { return _isIncremental; } }
-	public int goldModifier { get { return _goldModifier; } }
-	public int rewardModifier { get { return _rewardModifier; } }
+	public bool isIncremental  { get; private set; }
+	public int  goldModifier   { get; private set; }
+	public int  rewardModifier { get; private set; }
+	
+	public MissionTask   missionTask   { get; private set; }
+	public MissionReward missionReward { get; private set; }
 
 	#endregion Properties
 
@@ -46,27 +40,91 @@ public class Mission
 
 	public Mission () 
 	{
-		_id            = Mission.GetMissionCode();
-		_isIncremental = false;
+		this.id            = Mission.GetMissionCode();
+		this.isIncremental = false;
 	}
 
 	public Mission (string name, string description, MissionTask missionTask, MissionReward missionReward) 
 		: this()
 	{
-		_name          = name;
-		_description   = description;
-		_missionTask = missionTask;
-		_missionReward = missionReward;
+		this.name          = name;
+		this.description   = description;
+
+		Debug.Log ("init ne");
+		this.missionTask   = missionTask;
+		this.missionReward = missionReward;
 	}
 
 	public Mission(string name, string description,MissionTask missionTask, MissionReward missionReward,
 	               bool isIncremental,int goldModifier, int rewardModifier) 
 		: this (name, description, missionTask, missionReward)
 	{
-		_isIncremental  = isIncremental;
-		_goldModifier   = goldModifier;
-		_rewardModifier = rewardModifier;
+		this.isIncremental  = isIncremental;
+		this.goldModifier   = goldModifier;
+		this.rewardModifier = rewardModifier;
 	}	
 
 	#endregion Constructors
+
+	public System.Xml.Schema.XmlSchema GetSchema() { return null; }
+
+	public void ReadXml(System.Xml.XmlReader reader)
+	{
+		reader.MoveToContent();
+
+		this.id   = Convert.ToInt32 (reader.GetAttribute ("id"));			
+		reader.ReadStartElement ();
+
+		this.name = reader.ReadElementString ("name");
+		this.description = reader.ReadElementString ("description");
+		string incrementalValue = reader.ReadElementString ("isIncremental");
+		this.isIncremental = Convert.ToBoolean (incrementalValue);
+		this.goldModifier  = Convert.ToInt32 (reader.ReadElementString ("goldModifier"));
+		this.rewardModifier = Convert.ToInt32 (reader.ReadElementString ("rewardModifier"));
+
+		reader.ReadStartElement ("MissionTask");
+		string typeAttribTask = reader.Name;
+
+		Type typeTask = Type.GetType(typeAttribTask);
+		if (typeTask != null) {
+			this.missionTask = (MissionTask) new XmlSerializer(typeTask).Deserialize(reader);
+		}
+		reader.ReadEndElement ();
+
+		reader.ReadStartElement ("MissionReward");
+		string typeAttribReward = reader.Name;
+
+		Type typeReward = Type.GetType(typeAttribReward);
+		if (typeReward != null) {
+			this.missionReward = (MissionReward) new XmlSerializer(typeReward).Deserialize(reader);
+		}
+		reader.ReadEndElement ();
+
+		reader.ReadEndElement ();
+	}
+	
+	public void WriteXml(System.Xml.XmlWriter writer)
+	{
+		writer.WriteAttributeString ("id", this.id.ToString());
+		writer.WriteElementString ("name", this.name);
+		writer.WriteElementString ("description", this.description);
+		writer.WriteElementString ("isIncremental", this.isIncremental.ToString());
+		writer.WriteElementString ("goldModifier", this.goldModifier.ToString());
+		writer.WriteElementString ("rewardModifier", this.rewardModifier.ToString());
+
+		if (this.missionTask != null) {
+			writer.WriteStartElement ("MissionTask");
+			XmlSerializer taskSerializer = new XmlSerializer (this.missionTask.GetType ());
+			taskSerializer.Serialize (writer, this.missionTask);
+			writer.WriteEndElement ();
+		}
+
+		if (this.missionReward != null) {
+			writer.WriteStartElement ("MissionReward");
+			Debug.Log ("reward + " + this.missionReward.GetType ().ToString());
+			XmlSerializer rewardSerialize = new XmlSerializer (this.missionReward.GetType ());
+			rewardSerialize.Serialize (writer, this.missionReward);
+			writer.WriteEndElement ();
+		}
+	}
 }

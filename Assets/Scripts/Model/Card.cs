@@ -2,6 +2,8 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Serialization;
 
 public enum CardType {
 	Mushroom,
@@ -39,32 +41,28 @@ public enum CardFaceBack {
 
 public class Card
 {
-	private CardType   _type;
-	private CardEffect _effect;
-
 	#region Properties 
 
 	public int point {
 		get {
-			return Card.GetPoint(_type); 
+			return Card.GetPoint(this.type); 
 		}
 	}
-	public CardType type {
-		get { return _type; }
-	}
-	public CardEffect effect {
-		get { return _effect; }
-	}
+
+	public CardType   type { get; private set; }
+	public CardEffect effect { get; private set; }
 
 	#endregion Properties
+
+	public Card () {}
 	
 	public Card(CardType type) {
-		_type   = type;
-		_effect = CardEffect.None;
+		this.type   = type;
+		this.effect = CardEffect.None;
 	}
 
 	#region Static function
-
+	
 	// Default point of card
 	static Dictionary<int, int> cardPointDefault = new Dictionary<int, int> () 
 	{
