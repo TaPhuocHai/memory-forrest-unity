@@ -2,10 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class MissionScrollViewScript : MonoBehaviour {
-
+public class MissionScrollViewScript : MonoBehaviour 
+{	
 	public Transform missionPrefab;
-	public Transform cardPrefab;
 
 	// Vung dat user dang choi
 	private Region     _region;
