@@ -36,6 +36,14 @@ public class CollectTask : MissionTask
 	{
 		this.isAccumulationTask = isAccumulationTask;
 	}
+
+	public CollectTask (Dictionary<string,int> cardTypeAndNumberPair, bool isAccumulationTask) 
+		: this (isAccumulationTask) 
+	{
+		foreach (string key in cardTypeAndNumberPair.Keys) {
+			this.cardTypeWithNumberPairNeedCollect[key] = cardTypeAndNumberPair[key];
+		}
+	}
 	
 	#endregion 
 

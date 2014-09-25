@@ -50,7 +50,6 @@ public class Mission : IXmlSerializable
 		this.name          = name;
 		this.description   = description;
 
-		Debug.Log ("init ne");
 		this.missionTask   = missionTask;
 		this.missionReward = missionReward;
 	}
@@ -121,7 +120,6 @@ public class Mission : IXmlSerializable
 
 		if (this.missionReward != null) {
 			writer.WriteStartElement ("MissionReward");
-			Debug.Log ("reward + " + this.missionReward.GetType ().ToString());
 			XmlSerializer rewardSerialize = new XmlSerializer (this.missionReward.GetType ());
 			rewardSerialize.Serialize (writer, this.missionReward);
 			writer.WriteEndElement ();

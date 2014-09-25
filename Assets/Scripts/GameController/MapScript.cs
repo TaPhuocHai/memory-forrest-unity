@@ -3,7 +3,17 @@ using System;
 using System.Collections;
 
 public class MapScript : MonoBehaviour {
-	
+
+	void Awake () 
+	{
+		if( Constant.kClearnAllPlayerPrefData){
+			// For test : delete all key
+			PlayerPrefs.DeleteAll ();
+		}
+		Card.Initialize ();
+		Region.Initialize ();
+	}
+
 	void Start () {	
 //		Mission mission2 = new Mission ("Carrot Harvest", "Collect 10 carrot pairs", 
 //		             					new CollectTask (CardType.Carrot, 10), 
@@ -38,7 +48,7 @@ public class MapScript : MonoBehaviour {
 //		} else {
 //			print ("read file faild");
 //		}
-//	}
+	}
 
 	void Update () {	
 	}

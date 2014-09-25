@@ -2,6 +2,8 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Serialization;
 
 public enum RegionType
 {
@@ -185,22 +187,47 @@ public class Region
 			return;
 		}
 
+		// ----------------------------------------------------------------------
 		// Region KingdomOfRabbits
+
 		List<Mission> listMissionOfKingdomOfRabbits = new List<Mission> {
 			new Mission ("Carrot Harvest", "Collect 10 carrot pairs", 
-			             new CollectTask(CardType.Carrot,10), 
-			             new MoreTimeReward(10)),
+			             new CollectTask (CardType.Carrot,10), 
+			             new MoreTimeReward (10)),
 			new Mission ("Faster Hand Level 1","Collect all card before time run out",
-			             new CollectAllCardTask(0), 
-			             new UnlockExtraRoundReward(1)),
+			             new CollectAllCardTask (0), 
+			             new UnlockExtraRoundReward (1),true,1,1),
 			new Mission ("Apple Juice","Collect 5 pairs of apple in 1 game",
-			             new CollectTask(CardType.Apple,5, false),
-			             new UnlockCardReward(CardType.WhiteRabbit)),
+			             new CollectTask (CardType.Apple,5, false),
+			             new UnlockCardReward (CardType.WhiteRabbit)),
 			new Mission ("Carrot Master","Collect 30 carrot pairs",
-			             new CollectTask(CardType.Carrot,30),
-			             new AdditionPointReward(CardType.Carrot,5))
+			             new CollectTask (CardType.Carrot,30),
+			             new AdditionPointReward (CardType.Carrot,5)),
+			new Mission ("Apple Master","Collect 50 apple pairs",
+			             new CollectTask (CardType.Apple,50),
+			             new AdditionPointReward (CardType.Apple,5)),
+			new Mission ("Juice mix", "Collect 4 mushroom, 4 apple, 4 carrot in 1 game",
+			             new CollectTask (new Dictionary<string,int> () {{CardType.Mushroom.ToString(),4},
+																		 {CardType.Apple.ToString(),4},
+																		 {CardType.Carrot.ToString(),4}}
+							,false),
+			             new CoinReward (25)),
+			new Mission ("Colllect rabbit", "Collect 10 rabbit",
+			             new CollectTask (new Dictionary<string,int> () {{CardType.WhiteRabbit.ToString(),5},
+																		{CardType.RabbitKing.ToString(),5}}
+										,true),
+			             new CoinReward (25)),
+			new Mission ("Big Score", "Score 500 points",
+			             new PointTask (500,true),
+			             new CoinReward (50),true,200,5)
 		};
-	
+		// Save to file
+		if (UnityXMLSerializer.SerializeToXMLFile<List<Mission>> (Application.persistentDataPath + "_KingdomOfRabbits_mission.xml", listMissionOfKingdomOfRabbits, true)) {
+			Debug.Log ("Init mission KingdomOfRabbits success");
+		} else {
+			Debug.Log ("Init mission KingdomOfRabbits faild");
+		}
+
 		PlayerPrefs.SetInt("REGION_INITIALIZE",1);
 		PlayerPrefs.Save ();
 		/// ----------------------------------------------------------------------

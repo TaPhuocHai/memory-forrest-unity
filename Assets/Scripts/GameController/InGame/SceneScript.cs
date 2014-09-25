@@ -21,8 +21,6 @@ public class SceneScript : MonoBehaviour {
 
 	void Awake () {
 		print ("Awake");
-		Card.Initialize ();
-		Region.Initialize ();
 	}
 	
 	void Start () {
