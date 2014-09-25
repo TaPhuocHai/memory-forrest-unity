@@ -22,6 +22,9 @@ public class TimerScript : MonoBehaviour {
 		if (TimerScript.timerCountDown <= 0) {
 			TimerScript.timerCountDown = 0;
 
+			// Luu thong tin man choi user da choi
+			PlayGameData.currentPlayGameData.Save ();
+
 			// Game Over
 			Transform gameOver = this.transform.parent.FindChild("GameOver");
 			if (gameOver) {

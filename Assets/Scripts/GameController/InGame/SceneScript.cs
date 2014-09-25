@@ -81,6 +81,9 @@ public class SceneScript : MonoBehaviour {
 	/// </summary>
 	public void ResetRound () 
 	{
+		// Tao moi lop luu thong tin man choi
+		this._playGameData = new PlayGameData (this._region.regionType);
+
 		// Clear debug
 		DebugScript.Clear ();
 
@@ -289,6 +292,9 @@ public class SceneScript : MonoBehaviour {
 				// Init round
 				StartCoroutine(this.InitRound ());
 			} else {
+				// Luu thong tin man choi
+				this._playGameData.Save();
+
 				// Game Over
 				Transform gameOver = this.transform.parent.FindChild("GameOver");
 				if (gameOver) {
