@@ -21,6 +21,9 @@ public class CoinTask : MissionTask
 	
 	override public bool DoTask () 
 	{
+		if (PlayerData.Coin >= coin) {
+			return true;
+		}
 		return false;
 	}
 	
