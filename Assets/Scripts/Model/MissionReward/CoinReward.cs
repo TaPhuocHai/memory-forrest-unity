@@ -18,6 +18,7 @@ public class CoinReward : MissionReward
 	
 	override public bool DoGetReward () 
 	{
+		PlayerData.Coin = PlayerData.Coin + coin;
 		return true;
 	}
 

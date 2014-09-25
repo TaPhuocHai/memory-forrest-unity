@@ -18,6 +18,7 @@ public class UnlockCardReward : MissionReward
 	
 	override public bool DoGetReward () 
 	{
+		Card.Unlock (cardType);
 		return true;
 	}
 
