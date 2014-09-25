@@ -315,8 +315,8 @@ public class SceneScript : MonoBehaviour {
 	/// Lay 3 cap card ngau nhien tren man hinh
 	/// </summary>
 	/// <returns>The couple card on screne.</returns>
-	private ArrayList Get3CoupleCardOnScrene () {
-
+	private ArrayList Get3CoupleCardOnScrene () 
+	{
 		if (this._cardOnScreen.Count <= 6) {
 			return this._cardOnScreen;
 		}
@@ -405,7 +405,8 @@ public class SceneScript : MonoBehaviour {
 	/// <summary>
 	/// Mo tat ca cac la bai co so luong nhiu nhat
 	/// </summary>
-	private IEnumerator OpenCardsWithHighestNumber () {
+	private IEnumerator OpenCardsWithHighestNumber () 
+	{
 		// Duyet tat ca card tren man hinh va dem so luong
 		Dictionary<int ,int> numberCardEachTypeDic = new Dictionary<int, int> ();
 
@@ -477,8 +478,8 @@ public class SceneScript : MonoBehaviour {
 	/// Ramdom card tren man hinh cho moi vong choi
 	/// </summary>
 	/// <returns>The round.</returns>
-	private IEnumerator InitRound () {
-
+	private IEnumerator InitRound () 
+	{
 		// So luong object can ve
 		int numberOfCol = this._region.numberOfCol;
 		int numberOfRow = this._region.numberOfRow;
