@@ -12,8 +12,8 @@ public class MissionScript : MonoBehaviour {
 		get { return _mission;}
 		set {
 			_mission = value;
-			this.labelName.Set(value.name);
-			this.labelDescription.Set(value.description);
+			this.labelName.Set(value.name.text);
+			this.labelDescription.Set(value.description.text);
 		}
 	}
 

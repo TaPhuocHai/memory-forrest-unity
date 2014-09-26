@@ -77,6 +77,7 @@ public class Mission : IXmlSerializable
 	public int    id    { get; private set; }
 	public MissionText name  { get; private set; }
 	public MissionText description  { get; private set; }
+	public MissionText rewardMessage  { get; private set; }
 
 	public bool isIncremental  { get; private set; }
 	public int  goldModifier   { get; private set; }
@@ -106,38 +107,41 @@ public class Mission : IXmlSerializable
 		this.isIncremental = false;
 	}
 
-	public Mission (string name, string description, MissionTask missionTask, MissionReward missionReward) 
+	public Mission (string name, string description, string rewardMessage, MissionTask missionTask, MissionReward missionReward) 
 		: this()
 	{
-		this.name          = new MissionText(name);
-		this.description   = new MissionText(description);
+		this.name          = new MissionText (name);
+		this.description   = new MissionText (description);
+		this.rewardMessage = new MissionText (rewardMessage);
 
 		this.missionTask   = missionTask;
 		this.missionReward = missionReward;
 	}
 
-	public Mission (MissionText name, MissionText description, MissionTask missionTask, MissionReward missionReward) 
+	public Mission (MissionText name, MissionText description, MissionText rewardMessage, MissionTask missionTask, MissionReward missionReward) 
 		: this()
 	{
 		this.name          = name;
 		this.description   = description;
+		this.rewardMessage = rewardMessage;
 		
 		this.missionTask   = missionTask;
 		this.missionReward = missionReward;
 	}
 
-	public Mission(string name, string description,MissionTask missionTask, MissionReward missionReward,
+	public Mission(string name, string description, string rewardMessage, MissionTask missionTask, MissionReward missionReward,
 	               bool isIncremental,int goldModifier, int rewardModifier) 
-		: this (name, description, missionTask, missionReward)
+		: this (name, description,rewardMessage, missionTask, missionReward)
 	{
 		this.isIncremental  = isIncremental;
 		this.goldModifier   = goldModifier;
 		this.rewardModifier = rewardModifier;
 	}
 
-	public Mission(MissionText name, MissionText description,MissionTask missionTask, MissionReward missionReward,
+	public Mission(MissionText name, MissionText description, MissionText rewardMessage,
+	               MissionTask missionTask, MissionReward missionReward,
 	               bool isIncremental,int goldModifier, int rewardModifier) 
-		: this (name, description, missionTask, missionReward)
+		: this (name, description,rewardMessage, missionTask, missionReward)
 	{
 		this.isIncremental  = isIncremental;
 		this.goldModifier   = goldModifier;
@@ -220,6 +224,7 @@ public class Mission : IXmlSerializable
 
 		this.name = (MissionText)new XmlSerializer (typeof(MissionText)).Deserialize (reader);
 		this.description = (MissionText)new XmlSerializer (typeof(MissionText)).Deserialize (reader);
+		this.rewardMessage = (MissionText)new XmlSerializer (typeof(MissionText)).Deserialize (reader);
 
 		string incrementalValue = reader.ReadElementString ("isIncremental");
 		this.isIncremental = Convert.ToBoolean (incrementalValue);
@@ -258,6 +263,8 @@ public class Mission : IXmlSerializable
 		XmlSerializer descriptionSerializer = new XmlSerializer (typeof(MissionText));
 		descriptionSerializer.Serialize (writer, this.description);
 
+		XmlSerializer rewardMessageSerializer = new XmlSerializer (typeof(MissionText));
+		rewardMessageSerializer.Serialize (writer, this.rewardMessage);
 
 		writer.WriteElementString ("isIncremental", this.isIncremental.ToString());
 		writer.WriteElementString ("goldModifier", this.goldModifier.ToString());
