@@ -5,20 +5,16 @@ using System.Collections.Generic;
 public class MissionScrollViewScript : MonoBehaviour 
 {	
 	public Transform missionPrefab;
-
-	// Vung dat user dang choi
-	private Region     _region;
 	
 	void Start () {
-		// Init Region
-		RegionType regionType = (RegionType)PlayerPrefs.GetInt (Constant.kPlayGameInRegion);
-		this._region = new Region (regionType);
+		// Region dang choi
+		Region region         = Region.Instance (Player.currentRegionPlay);
 
 		UIScrollView scrollView = this.gameObject.GetComponent<UIScrollView> ();
 
 		float top = 0;
 		// Draw Mission on screen
-		foreach (Mission mission in this._region.missions) {
+		foreach (Mission mission in region.currentMissions) {
 			var missionObject = Instantiate(this.missionPrefab) as Transform;
 			missionObject.parent = this.gameObject.transform;
 			if (missionObject != null) {

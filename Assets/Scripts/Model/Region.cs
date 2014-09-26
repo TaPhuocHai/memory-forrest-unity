@@ -94,6 +94,10 @@ public class Region
 
 	#region Contructors
 
+	/// <summary>
+	/// Khong nen goi ham nay de tao 1 Region
+	/// </summary>
+	/// <param name="regionType">Region type.</param>
 	public Region (RegionType regionType)
 	{
 		// Goi init mission data neu can thiet

@@ -3,7 +3,12 @@ using System.Collections;
 
 public class Player
 {
-	public static int Coin {
+	/// <summary>
+	/// Gets or sets the coin.
+	/// </summary>
+	/// <value>The coin.</value>
+	public static int Coin 
+	{
 		get {
 			return PlayerPrefs.GetInt("PLAYER_DATA_COIN",0);
 		}
@@ -12,7 +17,13 @@ public class Player
 			PlayerPrefs.Save();
 		}
 	}
-	public static int secondTimePlay {
+
+	/// <summary>
+	/// Gets or sets the second time play.
+	/// </summary>
+	/// <value>The second time play.</value>
+	public static int secondTimePlay 
+	{
 		get {
 			return PlayerPrefs.GetInt("PLAYER_DATA_TIME",Constant.kTimePlayDefault);
 		}
@@ -21,6 +32,11 @@ public class Player
 			PlayerPrefs.Save();
 		}
 	}
+
+	/// <summary>
+	/// Gets or sets the last score.
+	/// </summary>
+	/// <value>The last score.</value>
 	public static int lastScore {
 		get {
 			return PlayerPrefs.GetInt("PLAYER_DATA_LAST_SCORE",0);
@@ -30,12 +46,32 @@ public class Player
 			PlayerPrefs.Save();
 		}
 	}
+
+	/// <summary>
+	/// Gets or sets the total score.
+	/// </summary>
+	/// <value>The total score.</value>
 	public static int totalScore {
 		get {
 			return PlayerPrefs.GetInt("PLAYER_DATA_TOTAL_SCORE",0);
 		}
 		set {
 			PlayerPrefs.SetInt("PLAYER_DATA_TOTAL_SCORE", value);
+			PlayerPrefs.Save();
+		}
+	}
+
+	/// <summary>
+	/// Gets or sets the current region play.
+	/// </summary>
+	/// <value>The current region play.</value>
+	public static RegionType currentRegionPlay 
+	{
+		get {
+			return (RegionType)PlayerPrefs.GetInt("PLAYER_DATA_CURREN_REGION",0);
+		}
+		set {
+			PlayerPrefs.SetInt("PLAYER_DATA_CURREN_REGION", (int)value);
 			PlayerPrefs.Save();
 		}
 	}

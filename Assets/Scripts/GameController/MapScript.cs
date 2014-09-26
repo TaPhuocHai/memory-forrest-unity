@@ -49,25 +49,25 @@ public class MapScript : MonoBehaviour {
 	}
 
 	public void EnterMap4x4 () {
-		PlayerPrefs.SetInt (Constant.kPlayGameInRegion, (int)RegionType.KingdomOfRabbits);
+		Player.currentRegionPlay = RegionType.KingdomOfRabbits;
 		PlayerPrefs.Save ();
 		Application.LoadLevel ("Mission");
 	}
 
 	public void EnterMap5x5 () {	
-		PlayerPrefs.SetInt (Constant.kPlayGameInRegion, (int)RegionType.Forest);
+		Player.currentRegionPlay = RegionType.Forest;
 		PlayerPrefs.Save ();
 		//Application.LoadLevel ("Mission");
 	}
 
 	public void EnterMap5x5_2 () {
-		PlayerPrefs.SetInt (Constant.kPlayGameInRegion, (int)RegionType.StoneMountain);
+		Player.currentRegionPlay = RegionType.StoneMountain;
 		PlayerPrefs.Save ();
 		//Application.LoadLevel ("Mission");
 	}
 
 	public void EnterMap6x6 () {
-		PlayerPrefs.SetInt (Constant.kPlayGameInRegion, (int)RegionType.WolfCamp);
+		Player.currentRegionPlay = RegionType.WolfCamp;
 		PlayerPrefs.Save ();
 		//Application.LoadLevel ("Mission");
 	}

@@ -8,7 +8,8 @@ public class MissionScript : MonoBehaviour {
 	public PropertyReference labelName;
 	public PropertyReference labelDescription;
 
-	public Mission mission {
+	public Mission mission 
+	{
 		get { return _mission;}
 		set {
 			_mission = value;
