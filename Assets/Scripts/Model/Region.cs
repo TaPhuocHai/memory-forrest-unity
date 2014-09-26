@@ -202,6 +202,7 @@ public class Region
 	/// <param name="missionId">Mission identifier.</param>
 	public void GetRewardAndCompleteCurrentMission (int missionId) 
 	{
+		// Lay object mission can xu ly finish
 		Mission missionNeedComplete = null;
 		foreach (Mission mission in this.currentMissions) {
 			if (mission.id == missionId) {
@@ -215,20 +216,39 @@ public class Region
 			return;
 		}
 
+		// Nhan reward success
 		if (missionNeedComplete.GetReward ()) {
-			// Tao 1 mission moi
+			// Neu mission la dang tang dan -> tao 1 mission moi
 			if (missionNeedComplete.isIncremental) {
-
+				Mission newMission = missionNeedComplete.CreateIncrementalMission ();
+				if (newMission != null) {
+					// Them mission moi vao danh sach mission cua region
+					this.missions.Add (newMission);
+				}
 			}
 
 			// Remove complete mission
 			this.currentMissions.Remove(missionNeedComplete);
 
 			// Luu thong tin current mission
+			List<int> currentMissionId = new List<int> ();
+			foreach (Mission mission in this.currentMissions) {
+				currentMissionId.Add (mission.id);
+			}
+			if (UnityXMLSerializer.SerializeToXMLFile<List<int>> (Region.CurrentMissionFilePath(this.regionType), currentMissionId, true)) {
+				Debug.Log ("Region : Luu thong tin current mission thanh cong");
+			} else {
+				Debug.Log ("Region : Luu thong tin current mission that bai");
+			}
 
 			// Luu thong tin mission
+			if (UnityXMLSerializer.SerializeToXMLFile<List<Mission>> (Region.MissionFilePath(this.regionType), this.missions, true)) {
+				Debug.Log ("Region : Luu thong tin mission thanh cong");
+			} else {
+				Debug.Log ("Region : Luu thong tin mission that bai");
+			}
 
-			// Update current mission
+			// Update danh sachfo current mission
 			this.LoadOrUpdateCurrentMission ();
 		} else {
 			Debug.Log ("Region : mission id : " + missionId.ToString() + " get reward faild");
@@ -253,7 +273,7 @@ public class Region
 			countNeedMore += Constant.kMaxCurrentMisison - currentMissionId.Count; 
 		}
 
-		// Tao moi danh sach
+		// Tao moi danh sach neu can thiet
 		if (_currentMissions == null) {
 			_currentMissions = new List<Mission>();
 		}
@@ -267,7 +287,7 @@ public class Region
 			}
 		}
 
-		// Lay du lieu
+		// Lay them du lieu
 		if (countNeedMore != 0) {
 			foreach (Mission mission in this.missions) {
 				// Neu mission chua duoc thuc hien hoac thu hien chua xong
