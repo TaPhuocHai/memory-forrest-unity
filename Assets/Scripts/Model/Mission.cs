@@ -23,6 +23,15 @@ public class MissionText : IXmlSerializable
 		this.text = text;
 	}
 
+	public MissionText (MissionText missionText) 
+	{
+		this.text = missionText.text;
+		this.value = missionText.value;
+		if (missionText.code != null) {
+			this.code = missionText.code;
+		}
+	}
+
 	public MissionText (string code, int value) 
 	{
 		this.code = code;
@@ -176,8 +185,29 @@ public class Mission : IXmlSerializable
 			return null;
 		}
 
+		MissionText newName;
+		if (this.name.code != null && this.name.code.Length > 0) {
+			newName = new MissionText (this.name.code, this.name.value + this.goldModifier);
+		} else {
+			newName = new MissionText (this.name);
+		}
+
+		MissionText newDescription;
+		if (this.description.code != null && this.description.code.Length > 0) {
+			newDescription = new MissionText (this.description.code, this.description.value + this.rewardModifier);
+		} else {
+			newDescription = new MissionText (this.description);
+		}
+
+		MissionText newRewardMessage;
+		if (this.rewardMessage.code != null && this.rewardMessage.code.Length > 0) {
+			newRewardMessage = new MissionText (this.rewardMessage.code, this.rewardMessage.value + this.rewardModifier);
+		} else {
+			newRewardMessage = new MissionText (this.rewardMessage);
+		}
+
 		// Incremental task
-		MissionTask newTask;
+		MissionTask newTask = null;
 		if (this.missionTask.GetType () == typeof(CoinTask)) {
 			CoinTask oldTaks = (CoinTask)this.missionTask;
 			newTask = new CoinTask(oldTaks.coin + this.goldModifier);
@@ -198,15 +228,34 @@ public class Mission : IXmlSerializable
 		}
 
 		// Incremental reward
-		MissionReward newReward;
+		MissionReward newReward = null;
 		if (this.missionReward.GetType () == typeof(AdditionPointReward)) {
+			AdditionPointReward oldReward = (AdditionPointReward)this.missionReward;
+			newReward = new AdditionPointReward(oldReward.cardType, oldReward.pointToAddMore + this.rewardModifier);
 		} else if (this.missionReward.GetType () == typeof(CoinReward)) {
+			CoinReward oldReward = (CoinReward)this.missionReward;
+			newReward = new CoinReward (oldReward.coin + this.rewardModifier);
 		} else if (this.missionReward.GetType () == typeof(MoreTimeReward)) {
+			MoreTimeReward oldReward = (MoreTimeReward)this.missionReward;
+			newReward = new MoreTimeReward (oldReward.second + this.rewardModifier);
 		} else if (this.missionReward.GetType () == typeof(UnlockCardReward)) {
+			// Loai nay khong co tu dong tang
 		} else if (this.missionReward.GetType () == typeof(UnlockExtraRoundReward)) {
+			UnlockExtraRoundReward oldReward = (UnlockExtraRoundReward)this.missionReward;
+			newReward = new UnlockExtraRoundReward (oldReward.regionType, oldReward.roundToUnlock + this.rewardModifier);
 		}
 
-		return null;
+		// Tao mission
+		Mission newMission = null;
+		if (newTask != null && newReward != null) {
+			newMission = new Mission(newName, newDescription,
+			                         newRewardMessage,
+			                         newTask,
+			                         newReward,
+			                         this.isIncremental,this.goldModifier, this.rewardModifier);
+		}
+
+		return newMission;
 	}
 
 	#endregion
