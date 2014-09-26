@@ -83,7 +83,8 @@ public class Region
 	{
 		get {
 			if (_currentMissions == null) {
-				_currentMissions = this.LoadOrUpdateCurrentMission ();
+				// Tao du lieu
+				this.LoadOrUpdateCurrentMission ();
 			}
 			return _currentMissions;
 		}
@@ -201,7 +202,7 @@ public class Region
 	/// <param name="missionId">Mission identifier.</param>
 	public void GetRewardAndCompleteCurrentMission (int missionId) 
 	{
-		Mission missionNeedComplete;
+		Mission missionNeedComplete = null;
 		foreach (Mission mission in this.currentMissions) {
 			if (mission.id == missionId) {
 				missionNeedComplete = mission;
@@ -217,6 +218,7 @@ public class Region
 		if (missionNeedComplete.GetReward ()) {
 			// Tao 1 mission moi
 			if (missionNeedComplete.isIncremental) {
+
 			}
 
 			// Remove complete mission
@@ -237,17 +239,66 @@ public class Region
 
 	#region Private functions
 
-	private List<Mission> LoadOrUpdateCurrentMission () 
+	private void LoadOrUpdateCurrentMission () 
 	{
-		// Kiem tra va clear complete mission
-		for ()
+		// Doc du lieu tu file
+		List<int> currentMissionId = UnityXMLSerializer.DeserializeFromXMLFile<List<int>> (Region.CurrentMissionFilePath(this.regionType));
 
-		// 
-		if (this.currentMissions.Count == Constant.kMaxCurrentMisison) {
-			return this.currentMissions;
+		// Kiem tra xem can lay them bao nhieu mission
+		int countNeedMore = 0;
+		if (currentMissionId == null) {
+			countNeedMore = Constant.kMaxCurrentMisison;
+		}
+		if (currentMissionId.Count < Constant.kMaxCurrentMisison) {
+			countNeedMore += Constant.kMaxCurrentMisison - currentMissionId.Count; 
 		}
 
+		// Tao moi danh sach
+		if (_currentMissions == null) {
+			_currentMissions = new List<Mission>();
+		}
 
+		// Current Mission
+		foreach (int id in currentMissionId) {
+			foreach (Mission mission in this.missions) {
+				if (mission.id == id) {
+					_currentMissions.Add (mission);
+				}
+			}
+		}
+
+		// Lay du lieu
+		if (countNeedMore != 0) {
+			foreach (Mission mission in this.missions) {
+				// Neu mission chua duoc thuc hien hoac thu hien chua xong
+				if (!mission.isFinish) {
+					bool isInCurrentMisison = true;
+					// Kiem tra xem mission nay da trong o trong danh current mission chua
+					foreach (Mission cMission in this.currentMissions) {
+						if (mission.id == cMission.id) {
+							isInCurrentMisison = true;
+							break;
+						}
+					}
+					// Neu no chua co trong danh sach mission currrent
+					if (!isInCurrentMisison) {
+						// Them misison nay vao current mission
+						currentMissionId.Add(mission.id);
+						_currentMissions.Add(mission);
+						if (currentMissionId.Count == Constant.kMaxCurrentMisison) {
+							break;
+						}
+					}
+				}
+			}
+
+			// Luu thong tin current mission 
+			if (UnityXMLSerializer.SerializeToXMLFile<List<int>> (Region.CurrentMissionFilePath(this.regionType), currentMissionId, true)) {
+				Debug.Log ("Region : Luu thong tin current mission thanh cong");
+			} else {
+				Debug.Log ("Region : Luu thong tin current mission that bai");
+			}
+		}
 	}
 	
 	#endregion
@@ -312,7 +363,8 @@ public class Region
 			new Mission ("Carrot Harvest", "Collect 10 carrot pairs", 
 			             new CollectTask (CardType.Carrot,20), 
 			             new MoreTimeReward (10)),
-			new Mission ("Faster Hand Level 1","Collect all card before time run out",
+			new Mission (new MissionText("Faster Hand Level @D"), 
+			             new MissionText("Collect all card before time run out"),
 			             new CollectAllCardTask (0), 
 			             new UnlockExtraRoundReward (RegionType.KingdomOfRabbits, 1),true,1,1),
 			new Mission ("Apple Juice","Collect 5 pairs of apple in 1 game",
@@ -335,7 +387,8 @@ public class Region
 																		{CardType.RabbitKing.ToString(),10}}
 										,true),
 			             new CoinReward (25)),
-			new Mission ("Big Score", "Score 500 points",
+			new Mission (new MissionText ("Big Score"),
+			             new MissionText ("Score @D points",500),
 			             new ScoreTask (500,true),
 			             new CoinReward (50),true,200,5)
 		};

@@ -5,6 +5,57 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
 
+/// <summary>
+/// Mission text
+/// Using @D to replace a int value
+/// </summary>
+[XmlRoot(ElementName="MissionText")]
+public class MissionText : IXmlSerializable
+{
+	#region Properties
+	public string text  { get ; private set; }
+	public int    value { get ; private set; }
+	public string code  { get ; private set; }
+	#endregion
+
+	public MissionText (string text) 
+	{
+		this.text = text;
+	}
+
+	public MissionText (string code, int value) 
+	{
+		this.code = code;
+		this.value = value;
+		this.text = code.Replace ("@D", value.ToString ());
+	}
+
+	#region IXmlSerializable
+	
+	public System.Xml.Schema.XmlSchema GetSchema() { return null; }
+	
+	virtual public void ReadXml(System.Xml.XmlReader reader)
+	{	
+		reader.MoveToContent ();
+		reader.ReadStartElement ();
+
+		this.text  = reader.ReadElementString ("text");
+		this.value = Convert.ToInt32 (reader.ReadElementString ("value"));
+		this.code = reader.ReadElementString ("code");
+
+		reader.ReadEndElement ();
+	}
+	
+	virtual public void WriteXml(System.Xml.XmlWriter writer)
+	{
+		writer.WriteElementString ("text", this.text);
+		writer.WriteElementString ("value", this.value.ToString());
+		writer.WriteElementString ("code", this.code);
+	}
+	
+	#endregion
+}
+
 public class Mission : IXmlSerializable
 {
 	static private int _missionCode;
@@ -24,8 +75,8 @@ public class Mission : IXmlSerializable
 	#region Properties
 
 	public int    id    { get; private set; }
-	public string name  { get; private set; }
-	public string description  { get; private set; }
+	public MissionText name  { get; private set; }
+	public MissionText description  { get; private set; }
 
 	public bool isIncremental  { get; private set; }
 	public int  goldModifier   { get; private set; }
@@ -58,9 +109,19 @@ public class Mission : IXmlSerializable
 	public Mission (string name, string description, MissionTask missionTask, MissionReward missionReward) 
 		: this()
 	{
+		this.name          = new MissionText(name);
+		this.description   = new MissionText(description);
+
+		this.missionTask   = missionTask;
+		this.missionReward = missionReward;
+	}
+
+	public Mission (MissionText name, MissionText description, MissionTask missionTask, MissionReward missionReward) 
+		: this()
+	{
 		this.name          = name;
 		this.description   = description;
-
+		
 		this.missionTask   = missionTask;
 		this.missionReward = missionReward;
 	}
@@ -72,7 +133,16 @@ public class Mission : IXmlSerializable
 		this.isIncremental  = isIncremental;
 		this.goldModifier   = goldModifier;
 		this.rewardModifier = rewardModifier;
-	}	
+	}
+
+	public Mission(MissionText name, MissionText description,MissionTask missionTask, MissionReward missionReward,
+	               bool isIncremental,int goldModifier, int rewardModifier) 
+		: this (name, description, missionTask, missionReward)
+	{
+		this.isIncremental  = isIncremental;
+		this.goldModifier   = goldModifier;
+		this.rewardModifier = rewardModifier;
+	}
 
 	#endregion 
 
@@ -96,6 +166,45 @@ public class Mission : IXmlSerializable
 		return this.isFinish;
 	}
 
+	public Mission CreateIncrementalMission () 
+	{
+		if (!this.isIncremental) {
+			return null;
+		}
+
+		// Incremental task
+		MissionTask newTask;
+		if (this.missionTask.GetType () == typeof(CoinTask)) {
+			CoinTask oldTaks = (CoinTask)this.missionTask;
+			newTask = new CoinTask(oldTaks.coin + this.goldModifier);
+		} else if (this.missionTask.GetType () == typeof(CollectAllCardTask)) {
+			CollectAllCardTask oldTaks = (CollectAllCardTask)this.missionTask;
+			newTask = new CollectAllCardTask(oldTaks.round + this.goldModifier);
+		} else if (this.missionTask.GetType () == typeof(CollectTask)) {
+			CollectTask oldTaks = (CollectTask)this.missionTask;
+			SerializableDictionary<string, int> oldDicCardTypeAndNumber = oldTaks.cardTypeWithNumberNeedCollect;
+			SerializableDictionary<string, int> newDic = new SerializableDictionary<string, int>();
+			foreach (string key in oldDicCardTypeAndNumber.Keys) {
+				newDic[key] = oldDicCardTypeAndNumber[key] + this.goldModifier;
+			}
+			newTask = new CollectTask(newDic,oldTaks.isAccumulationTask);
+		} else if (this.missionTask.GetType () == typeof(ScoreTask)) {
+			ScoreTask oldTaks = (ScoreTask)this.missionTask;
+			newTask = new ScoreTask(oldTaks.score + this.goldModifier,oldTaks.isAccumulationTask);
+		}
+
+		// Incremental reward
+		MissionReward newReward;
+		if (this.missionReward.GetType () == typeof(AdditionPointReward)) {
+		} else if (this.missionReward.GetType () == typeof(CoinReward)) {
+		} else if (this.missionReward.GetType () == typeof(MoreTimeReward)) {
+		} else if (this.missionReward.GetType () == typeof(UnlockCardReward)) {
+		} else if (this.missionReward.GetType () == typeof(UnlockExtraRoundReward)) {
+		}
+
+		return null;
+	}
+
 	#endregion
 
 	#region IXmlSerializable
@@ -109,8 +218,9 @@ public class Mission : IXmlSerializable
 		this.id   = Convert.ToInt32 (reader.GetAttribute ("id"));			
 		reader.ReadStartElement ();
 
-		this.name = reader.ReadElementString ("name");
-		this.description = reader.ReadElementString ("description");
+		this.name = (MissionText)new XmlSerializer (typeof(MissionText)).Deserialize (reader);
+		this.description = (MissionText)new XmlSerializer (typeof(MissionText)).Deserialize (reader);
+
 		string incrementalValue = reader.ReadElementString ("isIncremental");
 		this.isIncremental = Convert.ToBoolean (incrementalValue);
 		this.goldModifier  = Convert.ToInt32 (reader.ReadElementString ("goldModifier"));
@@ -141,8 +251,14 @@ public class Mission : IXmlSerializable
 	public void WriteXml(System.Xml.XmlWriter writer)
 	{
 		writer.WriteAttributeString ("id", this.id.ToString());
-		writer.WriteElementString ("name", this.name);
-		writer.WriteElementString ("description", this.description);
+
+		XmlSerializer nameSerializer = new XmlSerializer (typeof(MissionText));
+		nameSerializer.Serialize (writer, this.name);
+
+		XmlSerializer descriptionSerializer = new XmlSerializer (typeof(MissionText));
+		descriptionSerializer.Serialize (writer, this.description);
+
+
 		writer.WriteElementString ("isIncremental", this.isIncremental.ToString());
 		writer.WriteElementString ("goldModifier", this.goldModifier.ToString());
 		writer.WriteElementString ("rewardModifier", this.rewardModifier.ToString());

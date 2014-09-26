@@ -35,8 +35,8 @@ public class CollectTask : MissionTask
 		cardTypeWithNumberNeedCollect.Add (cardType.ToString(), numberToCollect);
 	}
 
-	public CollectTask (CardType cardType, int pair, bool isAccumulationTask) 
-		: this (cardType, pair) 
+	public CollectTask (CardType cardType, int numberToCollect, bool isAccumulationTask) 
+		: this (cardType, numberToCollect) 
 	{
 		this.isAccumulationTask = isAccumulationTask;
 	}
