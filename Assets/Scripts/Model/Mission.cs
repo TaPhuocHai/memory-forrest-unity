@@ -18,6 +18,7 @@ public class MissionText : IXmlSerializable
 	public string code  { get ; private set; }
 	#endregion
 
+	public MissionText () {}
 	public MissionText (string text) 
 	{
 		this.text = text;

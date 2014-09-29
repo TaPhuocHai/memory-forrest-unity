@@ -267,6 +267,9 @@ public class Region
 	{
 		// Doc du lieu tu file
 		List<int> currentMissionId = UnityXMLSerializer.DeserializeFromXMLFile<List<int>> (Region.CurrentMissionFilePath(this.regionType));
+		if (currentMissionId == null) {
+			currentMissionId = new List<int>();
+		}
 
 		// Kiem tra xem can lay them bao nhieu mission
 		int countNeedMore = 0;
@@ -296,7 +299,7 @@ public class Region
 			foreach (Mission mission in this.missions) {
 				// Neu mission chua duoc thuc hien hoac thu hien chua xong
 				if (!mission.isFinish) {
-					bool isInCurrentMisison = true;
+					bool isInCurrentMisison = false;
 					// Kiem tra xem mission nay da trong o trong danh current mission chua
 					foreach (Mission cMission in this.currentMissions) {
 						if (mission.id == cMission.id) {
