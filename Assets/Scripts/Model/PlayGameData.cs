@@ -4,7 +4,7 @@ using System.Collections;
 using System.Xml;
 using System.Xml.Serialization;
 
-// Luu thong tin du lieu play trong 1 game
+// Luu thong tin du lieu user choi trong 1 game
 [XmlRoot(ElementName="PlayGameData")]
 public class PlayGameData : IXmlSerializable
 {

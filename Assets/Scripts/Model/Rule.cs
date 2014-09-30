@@ -14,6 +14,8 @@ public abstract class Rule
 		}
 	}
 
+	virtual public bool isCache { get ; set; }
+
 	/// <summary>
 	/// Randoms the card.
 	/// </summary>
@@ -55,13 +57,16 @@ public class SimpleRule : Rule
 
 public class ComplexRule : Rule
 {
-	private List<int>  listValue;
-	private List<Rule> listRule;
+	private List<float>  _listValue;
+	private List<Rule>   _listRule;
+
+	private List<float>  _listValueEnable;
+	private List<Rule>   _listRuleEnable;
 
 	public ComplexRule () 
 	{
-		listValue = new List<int> ();
-		listRule = new List<Rule> ();
+		_listValue = new List<float> ();
+		_listRule = new List<Rule> ();
 	}
 
 	/// <summary>
@@ -69,31 +74,31 @@ public class ComplexRule : Rule
 	/// </summary>
 	/// <param name="cardType">Card type.</param>
 	/// <param name="value">Value : 0 -> 100</param>
-	public ComplexRule (CardType cardType, int value)
+	public ComplexRule (CardType cardType, float value)
 	{
-		listValue.Add (value);
-		listRule.Add (new SimpleRule (cardType));
+		this._listValue.Add (value);
+		this._listRule.Add (new SimpleRule (cardType));
 	}
 	
-	public ComplexRule (Dictionary<CardType,int> cardTypeAndValue)
+	public ComplexRule (Dictionary<CardType,float> cardTypeAndValue)
 	{
 		foreach (CardType type in cardTypeAndValue.Keys) {
-			int value = cardTypeAndValue[type];
-			this.listValue.Add (value);
-			this.listRule.Add (new SimpleRule (type));
+			float value = cardTypeAndValue[type];
+			this._listValue.Add (value);
+			this._listRule.Add (new SimpleRule (type));
 		}
 	}
 	
-	public void AddMore (CardType cardType, int value) 
+	public void AddMore (CardType cardType, float value) 
 	{
-		this.listValue.Add (value);
-		this.listRule.Add (new SimpleRule (cardType));
+		this._listValue.Add (value);
+		this._listRule.Add (new SimpleRule (cardType));
 	}
 	
-	public void AddMore (Rule rule, int value) 
+	public void AddMore (Rule rule, float value) 
 	{
-		this.listValue.Add (value);
-		this.listRule.Add (rule);
+		this._listValue.Add (value);
+		this._listRule.Add (rule);
 	}
 
 	#region Override 
@@ -107,7 +112,7 @@ public class ComplexRule : Rule
 	{
 		get {
 			// Neu co 1 rule da duoc enable thi no duoc enable
-			foreach (Rule rule in this.listRule) {
+			foreach (Rule rule in this._listRule) {
 				if (rule.isEnable) {
 					return true;
 				}
@@ -116,29 +121,74 @@ public class ComplexRule : Rule
 		}
 	}
 
+	private bool _isCache;
+	override public bool isCache { 
+		get {return _isCache; }
+		set {
+			_isCache = value;
+			if (_isCache == false) {
+				_listRuleEnable = new List<Rule> ();
+				_listValueEnable = new List<float> ();
+			}
+		}
+	}
+
 	public override CardType RandomCard () 
 	{
 		// Co mot so card chua duoc unlock
 		// Can kiem tra va tao danh sach rule moi
-		List<int>  listValueUnlocked;
-		List<Rule> listRuleUnlocked;
+		if (_isCache == false || _listRuleEnable == null || _listRuleEnable.Count == 0) {
+			// Khoi tao neu can thiet
+			if (_listRuleEnable == null) {
+				_listRuleEnable = new List<Rule> ();
+				_listValueEnable = new List<float> ();
+			}
+			List<Rule> listRuleLocked = new List<Rule> ();
+			List<float>  listValueLocked = new List<float> ();
+			// Duyet qua cac phan tu 
+			for (int i = 0 ; i < this._listRule.Count ; i ++) {
+				Rule rule = this._listRule[i];
+				// Neu rule nay chua enable thi luu lai thong tin
+				if (rule.isEnable == false) {
+					listRuleLocked.Add (rule);
+					listValueLocked.Add (this._listValue[i]);
+				}
+				// Da enable rule nay
+				else {
+					this._listRuleEnable.Add (rule);
+					this._listValueEnable.Add (this._listValue[i]);
+				}
+			}
 
+			// Phan bo cac ti le % cua rule bi loced vao cac rule duoc enable
+			foreach (float percent in listValueLocked) {
+				float giaTriCongThem = percent/this._listValueEnable.Count;
+				for (int i = 0 ; i < this._listValueEnable.Count ; i ++) {
+					this._listValueEnable[i] = this._listValueEnable[i] + giaTriCongThem;
+				}
+			}
+			for (int i = 0 ; i < this._listValueEnable.Count ; i ++) {
+				Debug.Log ("ket qua : " + this._listValueEnable[i].ToString());
+			}
+		}		
 
+		// Random 1 so
 		int radomValue = Random.Range (0, 100);
 
 		int index = 0;
-		int value = this.listValue[0];
+		float value = this._listValueEnable[0];
+		// Tai phan tu i neu value > radomValue thi ket qua la i - 1;
 		while (value < radomValue){
 			index ++;
-			if (index >= this.listValue.Count) {
+			if (index >= this._listValueEnable.Count) {
 				break;
 			}
-			value += this.listValue[index];
+			value += this._listValueEnable[index];
 		}
 
 		index --;
-		Rule rule = this.listRule [index];
-		return rule.RandomCard();
+		Rule resultRule = this._listRuleEnable [index];
+		return resultRule.RandomCard();
 	}
 
 	#endregion
