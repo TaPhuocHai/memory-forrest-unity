@@ -168,7 +168,9 @@ public class Mission : IXmlSerializable
 		if (this.isFinish) { return; }
 
 		if (this.missionTask != null) {
-			this.missionTask.DoTask ();
+			if (this.missionTask.DoTask ()) {
+				Debug.Log ("Mission : " + this.name.text + " complete");
+			}
 		}
 	}
 
