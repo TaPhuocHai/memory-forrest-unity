@@ -20,6 +20,7 @@ public class AdditionPointReward : MissionReward
 	
 	override public bool DoGetReward () 
 	{
+		Debug.Log ("AdditionPointReward : " + this.pointToAddMore.ToString() + " to card " + this.cardType.ToString());
 		int oldPoint = Card.GetPoint (cardType);
 		int newPoint = oldPoint + pointToAddMore;
 		Card.SavePoint (newPoint, cardType);

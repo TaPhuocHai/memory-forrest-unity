@@ -20,6 +20,7 @@ public class UnlockExtraRoundReward : MissionReward
 	
 	override public bool DoGetReward () 
 	{
+		Debug.Log ("UnlockExtraRoundReward :" + this.roundToUnlock.ToString());
 		Region.UnlockRound (regionType,roundToUnlock);
 		return true;
 	}

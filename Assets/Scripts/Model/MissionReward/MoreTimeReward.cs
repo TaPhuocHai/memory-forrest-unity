@@ -29,6 +29,7 @@ public class MoreTimeReward : MissionReward
 	override public bool DoGetReward () 
 	{
 		Player.secondTimePlay = Player.secondTimePlay + second;
+		Debug.Log ("MoreTimeReward : " + this.second.ToString());
 		return true;
 	}
 
