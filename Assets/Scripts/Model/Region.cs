@@ -142,6 +142,7 @@ public class Region
 
 		// Rule random
 		Rule rule = Region.GetRule (this._regionType, round);
+		rule.isCache = true;
 
 		// Bien chua thong tin card : so luong
 		Dictionary<CardType, int> numberCardToRandomWithTypeKey = new Dictionary<CardType, int> ();

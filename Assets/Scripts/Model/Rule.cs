@@ -75,12 +75,14 @@ public class ComplexRule : Rule
 	/// <param name="cardType">Card type.</param>
 	/// <param name="value">Value : 0 -> 100</param>
 	public ComplexRule (CardType cardType, float value)
+		: this ()
 	{
 		this._listValue.Add (value);
 		this._listRule.Add (new SimpleRule (cardType));
 	}
 	
 	public ComplexRule (Dictionary<CardType,float> cardTypeAndValue)
+		: this ()
 	{
 		foreach (CardType type in cardTypeAndValue.Keys) {
 			float value = cardTypeAndValue[type];
@@ -170,7 +172,7 @@ public class ComplexRule : Rule
 			for (int i = 0 ; i < this._listValueEnable.Count ; i ++) {
 				Debug.Log ("ket qua : " + this._listValueEnable[i].ToString());
 			}
-		}		
+		}
 
 		// Random 1 so
 		int radomValue = Random.Range (0, 100);
@@ -181,12 +183,12 @@ public class ComplexRule : Rule
 		while (value < radomValue){
 			index ++;
 			if (index >= this._listValueEnable.Count) {
+				index --;
 				break;
 			}
 			value += this._listValueEnable[index];
 		}
 
-		index --;
 		Rule resultRule = this._listRuleEnable [index];
 		return resultRule.RandomCard();
 	}
