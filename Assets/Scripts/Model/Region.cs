@@ -132,51 +132,14 @@ public class Region
 	/// Gets the cards.
 	/// </summary>
 	/// <returns>Danh sach : loai card : so luong</returns>
-	/// <param name="region">Region.</param>
 	/// <param name="round">Round : bat dau tu 0.</param>
-	/// <param name="numberOfCol">Number of col.</param>
-	/// <param name="numberOfRow">Number of row.</param>
 	public Dictionary<CardType, int> GetCards (int round) 
 	{
 		int numberOfObjectToDraw = this.numberOfCol * this.numberOfRow;
 
 		// Rule random
-		Rule rule = Region.GetRule (this._regionType, round);
-		rule.isCache = true;
-
-		// Bien chua thong tin card : so luong
-		Dictionary<CardType, int> numberCardToRandomWithTypeKey = new Dictionary<CardType, int> ();
-
-		// Tinh toan special card
-		if (this._regionType == RegionType.KingdomOfRabbits) {
-		} else if (this._regionType == RegionType.Forest) {
-		} else if (this._regionType == RegionType.StoneMountain) {
-		} else if (this._regionType == RegionType.WolfCamp) {
-		}
-		
-		// Dem so luong tong so card special da random
-		int totalCarDidRandom = 0;
-		foreach (CardType key in numberCardToRandomWithTypeKey.Keys) {
-			totalCarDidRandom += (int)numberCardToRandomWithTypeKey[key];
-		}
-		
-		// So luong card con lai danh cho card thuong
-		int numberOfNormalCard = numberOfObjectToDraw - totalCarDidRandom;
-		// Random cac cap thuong
-		for (int i = 0; i < numberOfNormalCard/2; i ++) {		
-			// Random type
-			CardType type = rule.RandomCard ();
-			
-			// Lay so luong da random truoc danh cho type nay
-			int numberCardDidRandomForType = 0;
-			if (numberCardToRandomWithTypeKey.ContainsKey(type)) {
-				numberCardDidRandomForType = numberCardToRandomWithTypeKey[type];
-			}
-			numberCardDidRandomForType += 2;
-			numberCardToRandomWithTypeKey[type] = numberCardDidRandomForType;
-		}
-
-		return numberCardToRandomWithTypeKey;
+		CardRandomCode cardRandomCode = Region.GetCardRandomCode (this._regionType, round);
+		return cardRandomCode.GetCards (numberOfObjectToDraw);
 	}
 
 	/// <summary>
@@ -614,24 +577,26 @@ public class Region
 
 	}	
 
-	private static Rule GetRule (RegionType regionType, int round) 
+	private static CardRandomCode GetCardRandomCode (RegionType regionType, int round) 
 	{
-		Rule rule = null;
+		CardRandomCode cardRandomCode = null;
 		if (regionType == RegionType.KingdomOfRabbits) {
 			if (round == 0) {
-				rule = new ComplexRule (new Dictionary <CardType, float> () {
-					{CardType.Mushroom, 30},
-					{CardType.Apple, 30},
-					{CardType.Carrot, 30},
-					{CardType.WhiteRabbit, 10},
-				});
+				cardRandomCode = new CardRandomCode (
+					 new ComplexRule (new Dictionary <CardType, float> () {
+						{CardType.Mushroom, 30},
+						{CardType.Apple, 30},
+						{CardType.Carrot, 30},
+						{CardType.WhiteRabbit, 10}})
+				);
 			} else {
-				rule = new ComplexRule (new Dictionary <CardType, float> () {
-					{CardType.Mushroom, 25},
-					{CardType.Apple, 25},
-					{CardType.Carrot, 25},
-					{CardType.WhiteRabbit, 25},
-				});
+				cardRandomCode = new CardRandomCode (
+					 new ComplexRule (new Dictionary <CardType, float> () {
+						{CardType.Mushroom, 25},
+						{CardType.Apple, 25},
+						{CardType.Carrot, 25},
+						{CardType.WhiteRabbit, 25}})
+				);
 			}
 		} else if (regionType == RegionType.Forest) {
 			if (round == 0) {
@@ -641,7 +606,7 @@ public class Region
 		} else if (regionType == RegionType.StoneMountain) {
 		} else if (regionType == RegionType.WolfCamp) {
 		}
-		return rule;
+		return cardRandomCode;
 	}
 
 	private static string MissionFilePath (RegionType type)

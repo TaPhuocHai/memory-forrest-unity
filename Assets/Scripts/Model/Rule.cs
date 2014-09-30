@@ -129,8 +129,16 @@ public class ComplexRule : Rule
 		set {
 			_isCache = value;
 			if (_isCache == false) {
-				_listRuleEnable = new List<Rule> ();
-				_listValueEnable = new List<float> ();
+				_listRuleEnable = null;
+				_listValueEnable = null;
+
+				foreach (Rule rule in this._listRule) {
+					rule.isCache = false;
+				}
+			} else {
+				foreach (Rule rule in this._listRule) {
+					rule.isCache = true;
+				}
 			}
 		}
 	}
@@ -194,4 +202,71 @@ public class ComplexRule : Rule
 	}
 
 	#endregion
+}
+
+public class CardRandomCode
+{
+	private Dictionary<CardType, int> _cardTypeAndNumberRequired;
+	private Rule _rule;
+
+	public CardRandomCode(Rule rule)
+	{
+		this._rule = rule;
+	}
+
+	public CardRandomCode(Rule rule, Dictionary<CardType, int> cardTypeAndNumberRequired)
+	{
+		this._rule = rule;
+		this._cardTypeAndNumberRequired = cardTypeAndNumberRequired;
+	}
+
+	public Dictionary<CardType, int> GetCards (int totalCardNeed) 
+	{
+		// Bien chua thong tin card : so luong
+		Dictionary<CardType, int> numberCardToRandomWithTypeKey = new Dictionary<CardType, int> ();
+
+		// Get card can phai co
+		foreach (CardType type in this._cardTypeAndNumberRequired.Keys) {
+			numberCardToRandomWithTypeKey[type] = this._cardTypeAndNumberRequired[type];
+		}
+
+		// Dem so luong tong so card special da random
+		int totalCarDidRandom = 0;
+		foreach (CardType key in numberCardToRandomWithTypeKey.Keys) {
+			totalCarDidRandom += (int)numberCardToRandomWithTypeKey[key];
+		}
+
+		this._rule.isEnable = true;
+
+		// So luong card con lai danh cho card thuong
+		int numberOfNormalCard = totalCardNeed - totalCarDidRandom;
+
+		// Neu la so le thi bo sung them 1 card da
+		if (numberOfNormalCard % 2 == 1) {
+			int numberCardStone = 0;
+			if (numberCardToRandomWithTypeKey.ContainsKey(CardType.Stone)) {
+				numberCardStone = numberCardToRandomWithTypeKey[CardType.Stone];
+			}
+			numberCardStone += 1;
+			numberCardToRandomWithTypeKey[CardType.Stone] = numberCardStone;
+		}
+
+		// Random cac cap thuong
+		for (int i = 0; i < numberOfNormalCard/2; i ++) {		
+			// Random type
+			CardType type = this._rule.RandomCard ();
+			
+			// Lay so luong da random truoc danh cho type nay
+			int numberCardDidRandomForType = 0;
+			if (numberCardToRandomWithTypeKey.ContainsKey(type)) {
+				numberCardDidRandomForType = numberCardToRandomWithTypeKey[type];
+			}
+			numberCardDidRandomForType += 2;
+			numberCardToRandomWithTypeKey[type] = numberCardDidRandomForType;
+		}
+
+		this._rule.isEnable = false;
+
+		return numberCardToRandomWithTypeKey;
+	}
 }
