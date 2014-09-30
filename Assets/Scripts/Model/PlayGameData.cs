@@ -88,16 +88,17 @@ public class PlayGameData : IXmlSerializable
 	{	
 		reader.MoveToContent();
 
-		string regionStr = reader.ReadElementString ("regionType");
+		string regionStr = reader.GetAttribute ("regionType");
 		this.regionType = (RegionType)Enum.Parse (typeof(RegionType), regionStr);
-		this.isClearAllARound = Convert.ToBoolean (reader.ReadElementString ("isClearAllARound"));
-		this.roundClearAll = Convert.ToInt32 (reader.ReadElementString ("roundClearAll"));
-		this.score = Convert.ToInt32 (reader.ReadElementString ("score"));
+		this.isClearAllARound = Convert.ToBoolean (reader.GetAttribute ("isClearAllARound"));
+		this.roundClearAll = Convert.ToInt32 (reader.GetAttribute ("roundClearAll"));
+		this.score = Convert.ToInt32 (reader.GetAttribute ("score"));
+
+		reader.ReadStartElement ();
 
 		XmlSerializer serializer = new XmlSerializer (typeof(SerializableDictionary<string, int>));
 		this.cardTypeAndNumberCollected = (SerializableDictionary<string, int>) serializer.Deserialize (reader);
 
-		reader.ReadStartElement ();
 		reader.ReadEndElement ();
 	}
 	

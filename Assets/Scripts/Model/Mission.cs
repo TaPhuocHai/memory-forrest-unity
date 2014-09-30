@@ -259,6 +259,20 @@ public class Mission : IXmlSerializable
 		return newMission;
 	}
 
+	/// <summary>
+	/// Sets the complete mission.
+	/// Ham nay chi co gia tri khi Constant.kDebugMission = true
+	/// </summary>
+	/// <param name="isComplete">If set to <c>true</c> is complete.</param>
+	public void SetCompleteTask (bool isComplete) 
+	{
+		if (Constant.kDebugMission == false) {
+			return;
+		}
+		Debug.Log ("set mission : " + this.id.ToString () + " complete");
+		this.missionTask.SetCompleteTask (isComplete);
+	}
+
 	#endregion
 
 	#region IXmlSerializable

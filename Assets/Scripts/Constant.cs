@@ -2,6 +2,12 @@
 using System.Collections;
 
 public class Constant {
+
+	/// <summary>
+	/// Gia tri nay = true thi co the goi ham de complete mission
+	/// </summary>
+	public static bool  kDebugMission = true;
+
 	/// <summary>
 	/// Xoa het tat thong tin ve mission khi chay app
 	/// </summary>

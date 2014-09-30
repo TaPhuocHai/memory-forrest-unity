@@ -39,7 +39,7 @@ public class Region
 		get {
 			switch (_regionType) {
 			case RegionType.KingdomOfRabbits:
-				return 4;
+				return 3;
 			case RegionType.Forest:
 				return 5;
 			case RegionType.StoneMountain:
@@ -55,7 +55,7 @@ public class Region
 		get {
 			switch (_regionType) {
 			case RegionType.KingdomOfRabbits:
-				return 4;
+				return 2;
 			case RegionType.Forest:
 				return 5;
 			case RegionType.StoneMountain:
@@ -265,22 +265,46 @@ public class Region
 			_currentMissions = new List<Mission>();
 		}
 
-		// Current Mission
-		foreach (int id in currentMissionId) {
-			foreach (Mission mission in this.missions) {
-				if (mission.id == id) {
-					_currentMissions.Add (mission);
+		if (currentMissionId.Count != 0) {
+			// Duyet qua cac phan tu cua currentMissionId,
+			// Bam bao rang currentMissionId chua cac misison co trong danh sach _missions
+			// Neu id do khong ton tai, thi xoa no khoi danh sach currentMissionId
+			for (int i = 0 ; i < currentMissionId.Count ; i ++) {
+				int id = currentMissionId[i];
+				bool idIsExitInMission = false;
+				foreach (Mission mission in this.missions) {
+					if (id == mission.id) {
+						idIsExitInMission = true;
+						break;
+					}
+				}
+				// Neu id do khong ton tai trong _missions
+				if (!idIsExitInMission) {
+					currentMissionId.Remove(id);
+					i --;
 				}
 			}
 		}
 
-		// Neu so luong currentMisison va curretnMissionId khong bang nhau 
-		// nghia la currentMissionId co chua id ma khong ton tai trong mission
-		// Can xoa du lieu currentMissionId
-		if (_currentMissions.Count != currentMissionId.Count) 
-		{
-			currentMissionId = new List<int>();
-			_currentMissions = new List<Mission>();
+		//Cap nhat danh sach Current Mission
+		foreach (int id in currentMissionId) {
+			bool idIsExitInCurrentMission = false;
+			// Tim xem no da ton tai trong current mission chua
+			foreach (Mission mission in _currentMissions) {
+				if (mission.id == id) {
+					idIsExitInCurrentMission = true;
+					break;
+				}
+			}
+
+			// Neu chua ton tai thi them moi
+			if (!idIsExitInCurrentMission) {
+				foreach (Mission mission in this.missions) {
+					if (mission.id == id) {
+						_currentMissions.Add (mission);
+					}
+				}
+			}
 		}
 
 		// Kiem tra xem can lay them bao nhieu mission

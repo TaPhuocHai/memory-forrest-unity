@@ -18,7 +18,21 @@ public abstract class MissionTask : IXmlSerializable
 	{
 		this.isAccumulationTask = isAccumulationTask;
 	}
-	
+
+	/// <summary>
+	/// Sets the complete task. 
+	/// Ham nay chi co gia tri khi Constant.kDebugMission = true
+	/// </summary>
+	/// <returns><c>true</c>, if complete task was set, <c>false</c> otherwise.</returns>
+	/// <param name="isCompleteTask">If set to <c>true</c> is complete task.</param>
+	public void SetCompleteTask (bool isCompleteTask) 
+	{
+		if (Constant.kDebugMission == false) {
+			return;
+		}
+		this.isFinish = true;
+	}
+
 	/// <summary>
 	/// Dos the task.
 	/// </summary>
