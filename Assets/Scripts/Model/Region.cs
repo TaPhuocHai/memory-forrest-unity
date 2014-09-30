@@ -600,10 +600,64 @@ public class Region
 			}
 		} else if (regionType == RegionType.Forest) {
 			if (round == 0) {
+				cardRandomCode = new CardRandomCode (
+					new ComplexRule (
+						new Dictionary <CardType,float> () {
+							{CardType.Mushroom, 25},
+							{CardType.Apple, 25},
+							{CardType.Carrot, 25},
+							{CardType.WhiteRabbit, 10},
+							{CardType.PineApple, 15},
+						}
+					),
+					new Dictionary<CardType, int> () {{CardType.Wolf, 1}}
+				);
+			} else if (round == 1) {
+				cardRandomCode = new CardRandomCode (
+					new ComplexRule (
+						new Dictionary <CardType,float> () {
+							{CardType.Strawberry, 15},
+							{CardType.Apple, 25},
+							{CardType.Carrot, 25},
+							{CardType.BrownRabbit, 10},
+							{CardType.PineApple, 25},
+						}
+					),
+					new Dictionary<CardType, int> () {{CardType.Wolf, 1}}
+				);
+			} else {
+				cardRandomCode = new CardRandomCode (
+					new ComplexRule (
+						new Dictionary <CardType,float> () {
+							{CardType.RabbitKing, 10},
+							{CardType.Strawberry, 15},
+							{CardType.Apple, 20},
+							{CardType.Carrot, 20},
+							{CardType.BrownRabbit, 10},
+							{CardType.PineApple, 25},
+						}
+					),
+					new Dictionary<CardType, int> () {{CardType.Wolf, 3}}
+				);
+			}
+		} else if (regionType == RegionType.StoneMountain) {
+			if (round == 0) {
+				cardRandomCode = new CardRandomCode (
+					new ComplexRule (
+						new Dictionary <CardType,float> () {
+							{CardType.RabbitKing, 10},
+							{CardType.Strawberry, 15},
+							{CardType.Apple, 20},
+							{CardType.Carrot, 20},
+							{CardType.BrownRabbit, 10},
+							{CardType.PineApple, 25},
+						}
+					),
+					new Dictionary<CardType, int> () {{CardType.Stone, 2}}
+				);
 			} else if (round == 1) {
 			} else {
 			}
-		} else if (regionType == RegionType.StoneMountain) {
 		} else if (regionType == RegionType.WolfCamp) {
 		}
 		return cardRandomCode;
