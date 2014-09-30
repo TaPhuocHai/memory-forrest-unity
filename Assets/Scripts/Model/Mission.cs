@@ -268,11 +268,24 @@ public class Mission : IXmlSerializable
 	/// <param name="isComplete">If set to <c>true</c> is complete.</param>
 	public void SetCompleteTask (bool isComplete) 
 	{
-		if (Constant.kDebugMission == false) {
+		if (!Constant.kDebugMission) {
 			return;
 		}
 		Debug.Log ("set mission : " + this.id.ToString () + " complete");
 		this.missionTask.SetCompleteTask (isComplete);
+	}
+
+	/// <summary>
+	/// Clears the unlock mission.
+	/// Ham nay chi co gia tri khi Constant.kClearMissionData = true
+	/// </summary>
+	public void ClearUnlockMission () 
+	{
+		if (!Constant.kClearMissionData) {
+			return;
+		}
+		this.isFinish = false;
+		this.missionReward.DoUndoGetReward ();
 	}
 
 	#endregion

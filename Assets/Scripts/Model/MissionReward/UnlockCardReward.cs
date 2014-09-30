@@ -18,9 +18,17 @@ public class UnlockCardReward : MissionReward
 	
 	override public bool DoGetReward () 
 	{
-		Card.Unlock (cardType);
+		Card.Unlock (cardType,true);
 		Debug.Log ("UnlockCardReward : " + cardType.ToString());
 		return true;
+	}
+
+	override public void DoUndoGetReward () 
+	{
+		if (!Constant.kClearMissionData) {
+			return;
+		}
+		Card.Unlock (cardType,false);
 	}
 
 	#region IXmlSerializable

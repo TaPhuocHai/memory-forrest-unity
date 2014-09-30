@@ -33,6 +33,14 @@ public class MoreTimeReward : MissionReward
 		return true;
 	}
 
+	override public void DoUndoGetReward () 
+	{
+		if (!Constant.kClearMissionData) {
+			return;
+		}
+		Player.secondTimePlay = Constant.kTimePlayDefault;
+	}
+
 	#endregion
 
 	#region IXmlSerializable

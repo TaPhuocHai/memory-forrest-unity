@@ -21,8 +21,16 @@ public class UnlockExtraRoundReward : MissionReward
 	override public bool DoGetReward () 
 	{
 		Debug.Log ("UnlockExtraRoundReward :" + this.roundToUnlock.ToString());
-		Region.UnlockRound (regionType,roundToUnlock);
+		Region.UnlockRound (regionType,roundToUnlock, true);
 		return true;
+	}
+
+	override public void DoUndoGetReward () 
+	{
+		if (!Constant.kClearMissionData) {
+			return;
+		}
+		Region.UnlockRound (regionType,roundToUnlock, false);
 	}
 
 	#region IXmlSerializable

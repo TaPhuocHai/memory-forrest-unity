@@ -27,6 +27,14 @@ public class AdditionPointReward : MissionReward
 		return true;
 	}
 
+	override public void DoUndoGetReward () 
+	{
+		if (!Constant.kClearMissionData) {
+			return;
+		}
+		Card.SavePoint (0, cardType);
+	}
+
 	#region IXmlSerializable
 	
 	override public void ReadXml(System.Xml.XmlReader reader)

@@ -145,10 +145,14 @@ public class Card
 	/// Unlock the specified cardType.
 	/// </summary>
 	/// <param name="cardType">Card type.</param>
-	public static void Unlock (CardType cardType) 
+	public static void Unlock (CardType cardType, bool isUnlock) 
 	{
 		string unlockKey = "UNLOCK_CARD_" + cardType.ToString ();
-		PlayerPrefs.SetInt (unlockKey, 1);
+		if (isUnlock) {
+			PlayerPrefs.SetInt (unlockKey, 1);
+		} else {
+			PlayerPrefs.SetInt (unlockKey, 0);
+		}
 		PlayerPrefs.Save ();
 	}
 

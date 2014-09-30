@@ -247,6 +247,22 @@ public class Region
 			Debug.Log ("Region : mission id : " + missionId.ToString() + " get reward faild");
 		}
 	}
+	
+	/// <summary>
+	/// Xoa thong tin mission da finish
+	/// Ham nay chi co gia tri khi Constant.kClearMissionData = true
+	/// </summary>
+	/// <param name="missionId">Mission identifier.</param>
+	public void ClearDataFinishMission () 
+	{
+		if (!Constant.kClearMissionData) {
+			return;
+		}
+
+		foreach (Mission mission in this.missions) {
+			mission.ClearUnlockMission ();
+		}
+	}
 
 	#endregion
 
@@ -381,10 +397,14 @@ public class Region
 	/// <returns><c>true</c>, if round was unlocked, <c>false</c> otherwise.</returns>
 	/// <param name="regionType">Region type.</param>
 	/// <param name="round">Round.</param>
-	public static void UnlockRound (RegionType regionType, int round) 
+	public static void UnlockRound (RegionType regionType, int round, bool isUnlock) 
 	{
 		string key = regionType.ToString () + round.ToString ();
-		PlayerPrefs.SetInt (key, 1);
+		if (isUnlock) {
+			PlayerPrefs.SetInt (key, 1);
+		} else {
+			PlayerPrefs.SetInt (key, 0);
+		}
 		PlayerPrefs.Save ();
 	}
 

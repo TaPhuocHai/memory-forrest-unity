@@ -23,6 +23,14 @@ public class CoinReward : MissionReward
 		return true;
 	}
 
+	override public void DoUndoGetReward () 
+	{
+		if (!Constant.kClearMissionData) {
+			return;
+		}
+		Player.Coin = 0;
+	}
+
 	#region IXmlSerializable
 	
 	override public void ReadXml(System.Xml.XmlReader reader)

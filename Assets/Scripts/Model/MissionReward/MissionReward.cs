@@ -12,11 +12,18 @@ public class MissionReward : IXmlSerializable
 	public MissionReward () {}
 
 	/// <summary>
-	/// Dos the task.
+	/// Do the task.
 	/// </summary>
 	/// <returns><c>true</c>, if task was done, <c>false</c> otherwise.</returns>
 	public virtual bool DoGetReward () {
 		return true;
+	}
+
+	/// <summary>
+	/// Do the undo get reward.
+	/// Chi thuc hien nay nay khi Constant.kClearMissionData = true
+	/// </summary>
+	public virtual void DoUndoGetReward () {
 	}
 
 	#region IXmlSerializable
