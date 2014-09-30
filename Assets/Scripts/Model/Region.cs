@@ -481,6 +481,7 @@ public class Region
 
 		// -----------------------------------------------------------------------------------------------
 		// Region Forest
+
 		List<Mission> listMissionOfForest = new List<Mission> () {
 			new Mission ("Pine Apple Tree", "Collect 10 apples and 10 carrots in one game",
 			             "You have just Unlock pine apple",
@@ -490,8 +491,8 @@ public class Region
 			             new UnlockCardReward(CardType.PineApple)),
 			new Mission ("Unlock Strawberry", "Collect 40 apple and  40 mushroom",
 			             "You have just Unlock Strawberry",
-			             new CollectTask(new Dictionary<CardType,int>() {{CardType.Apple, 40},
-																		{CardType.Mushroom, 40}
+			             new CollectTask(new Dictionary<CardType,int>() {{CardType.Apple, 80},
+																		{CardType.Mushroom, 80}
 											}, true),
 			             new UnlockCardReward(CardType.Strawberry)),						
 			new Mission (new MissionText ("Amazing Score"),
@@ -501,22 +502,22 @@ public class Region
 			             new CoinReward (100),true,300,20),
 			new Mission ("Harvest time", "Collect 4 mushroom, 4 Pine Apple, 4 Strawberry in 1 game",
 			             "You have just earned 50 coins",
-			             new CollectTask(new Dictionary<CardType,int>() {{CardType.Mushroom, 4},
-																		 {CardType.PineApple, 4},
-																		 {CardType.Strawberry, 4}
+			             new CollectTask(new Dictionary<CardType,int>() {{CardType.Mushroom, 8},
+																		 {CardType.PineApple, 8},
+																		 {CardType.Strawberry, 8}
 											}, false),
 			             new CoinReward(50)),
 			new Mission ("Army of Rabbit", "Collect 10 Brown Rabbit, 10 White Rabbits",
 			             "You have just earned 50 coins",
-			             new CollectTask(new Dictionary<CardType,int>() {{CardType.WhiteRabbit, 10},
-																		{CardType.BrownRabbit, 10}
+			             new CollectTask(new Dictionary<CardType,int>() {{CardType.WhiteRabbit, 20},
+																		{CardType.BrownRabbit, 20}
 												}, true),
 			             new CoinReward(50)),
 			new Mission (new MissionText ("Explore the forrest"), 
 			             new MissionText ("Collect all card before time run out"),
 			             new MissionText ("You have just Unlock Round @D",3),
 			             new CollectAllCardTask (1), 
-			             new UnlockExtraRoundReward (RegionType.Forest, 1),true,1,1),
+			             new UnlockExtraRoundReward (RegionType.Forest, 2),true,1,1),
 			new Mission ("Money can buy time", "Have 200 coin in you pocket",
 			             "You have just Add 10s to timer",
 			             new CoinTask(200),
@@ -529,16 +530,88 @@ public class Region
 			Debug.Log ("Init mission Forest faild");
 		}
 
-//		// -----------------------------------------------------------------------------------------------
-//		// Region StoneMountain
-//
-//
-//		// Save to file
-//		if (UnityXMLSerializer.SerializeToXMLFile<List<Mission>> (Region.MissionFilePath(RegionType.StoneMountain), listMissionOfStoneMountain, true)) {
-//			Debug.Log ("Init mission StoneMountain success");
-//		} else {
-//			Debug.Log ("Init mission StoneMountain faild");
-//		}
+		// -----------------------------------------------------------------------------------------------
+		// Region StoneMountain
+
+		List<Mission> listMissionOfStoneMountain = new List<Mission> () {
+			new Mission ("Wanna see some magic?","Escape 10 wolves",
+			             "Unlock Blue Butterfly",
+			             new CollectTask (CardType.Wolf,10),
+			             new UnlockCardReward (CardType.BlueButterfly)),
+			new Mission (new MissionText ("Explore the stone mountain"), 
+			             new MissionText ("Collect all card before time run out"),
+			             new MissionText ("You have just Unlock Round @D",4),
+			             new CollectAllCardTask (2), 
+			             new UnlockExtraRoundReward (RegionType.StoneMountain, 3),true,1,1),
+			new Mission ("Rune Stone","Skip 10 Stone Card",
+			             "Unlock Yellow Butterfly",
+			             new CollectTask (CardType.Stone,10),
+			             new UnlockCardReward (CardType.YellowButterfly)),
+			new Mission ("Deep in the forest","Reach Round 4",
+			             "Unlock Red Butterfly",
+			             new ReachRoundTask (3),
+			             new UnlockCardReward (CardType.RedButterfly)),
+			new Mission (new MissionText ("Bigger Score Again"),
+			             new MissionText ("Score @D points",1000),
+			             new MissionText ("You have just earned @D coins", 150),
+			             new ScoreTask (1000,true),
+			             new CoinReward (150),true,400,30)
+		};
+		// Save to file
+		if (UnityXMLSerializer.SerializeToXMLFile<List<Mission>> (Region.MissionFilePath(RegionType.StoneMountain), listMissionOfStoneMountain, true)) {
+			Debug.Log ("Init mission StoneMountain success");
+		} else {
+			Debug.Log ("Init mission StoneMountain faild");
+		}
+
+		// -----------------------------------------------------------------------------------------------
+		// Region WolfCamp
+
+		List<Mission> listMissionOfWolfCamp = new List<Mission> () {
+			new Mission ("Rescue the rabbit king","Rescue Rabbit King",
+			             "You have earned 100 coins",
+			             new CollectTask (CardType.RabbitKing,2),
+			             new CoinReward (100)),
+			new Mission ("Escape the Wolf King","Escape Wolf King 3 times",
+			             "You have earned 100 coins",
+			             new CollectTask (CardType.WolfKing,3,true),
+			             new CoinReward (100)),
+			new Mission ("Big harvest time", "3 Pine Apple, 3 carrot, 3 mushroom in 1 game",
+			             "Unlock Banana",
+			             new CollectTask(new Dictionary<CardType,int>() {{CardType.PineApple, 6},
+																		{CardType.Carrot, 6},
+																		{CardType.Mushroom, 6}
+										}, false),
+			             new UnlockCardReward (CardType.Banana)),
+			new Mission ("Precious Fruits","Reach Round 6",
+			             "Unlock Pear",
+			             new ReachRoundTask (5),
+			             new UnlockCardReward (CardType.Pears)),
+			new Mission ("Fortune of Fruits","Collect 50 Bananas, 50 Grapes, 50 Pears",
+			             "Unlock Pear",
+			             new CollectTask(new Dictionary<CardType,int>() {{CardType.Banana, 100},
+																		{CardType.Grape, 100},
+																		{CardType.Pears, 100}
+												}, true),
+			             new UnlockCardReward (CardType.Cherry)),
+			new Mission (new MissionText ("Bigger Score Again"),
+			             new MissionText ("Score @D points",1500),
+			             new MissionText ("You have just earned @D coins", 250),
+			             new ScoreTask (1500,true),
+			             new CoinReward (250),true,400,50),
+			new Mission (new MissionText ("Explore the WolfCamp"), 
+			             new MissionText ("Collect all card before time run out"),
+			             new MissionText ("You have just Unlock Round @D",5),
+			             new CollectAllCardTask (3), 
+			             new UnlockExtraRoundReward (RegionType.WolfCamp, 4),true,1,1)
+		};
+		// Save to file
+		if (UnityXMLSerializer.SerializeToXMLFile<List<Mission>> (Region.MissionFilePath(RegionType.WolfCamp), listMissionOfWolfCamp, true)) {
+			Debug.Log ("Init mission WolfCamp success");
+		} else {
+			Debug.Log ("Init mission WolfCamp faild");
+		}
+
 	}	
 
 	private static Rule GetRule (RegionType regionType, int round) 
