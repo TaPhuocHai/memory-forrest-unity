@@ -46,8 +46,7 @@ public class SceneScript : MonoBehaviour {
 		StartCoroutine (this.InitRound ());
 	}
 
-	void Update () {
-	}
+	void Update () {}
 
 	// -----------------------------------------------------------------------------
 
@@ -297,6 +296,9 @@ public class SceneScript : MonoBehaviour {
 
 				// Luu thong tin man choi
 				this._playGameData.Save();
+
+				// Stop timer
+				TimerScript.StopTimer ();
 
 				// Game Over
 				Transform gameOver = this.transform.parent.FindChild("GameOver");

@@ -62,8 +62,11 @@ public class TimerScript : MonoBehaviour {
 	static public void StartTimer () 
 	{
 		TimerScript.TIME_PLAY = (float)Player.secondTimePlay;
-
 		TimerScript.enableTimer = true;
-		print("call start timer");
+	}
+
+	static public void StopTimer () 
+	{
+		TimerScript.enableTimer = false;
 	}
 }
