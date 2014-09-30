@@ -259,15 +259,6 @@ public class Region
 			currentMissionId = new List<int>();
 		}
 
-		// Kiem tra xem can lay them bao nhieu mission
-		int countNeedMore = 0;
-		if (currentMissionId == null) {
-			countNeedMore = Constant.kMaxCurrentMisison;
-		}
-		if (currentMissionId.Count < Constant.kMaxCurrentMisison) {
-			countNeedMore += Constant.kMaxCurrentMisison - currentMissionId.Count; 
-		}
-
 		// Tao moi danh sach neu can thiet
 		if (_currentMissions == null) {
 			_currentMissions = new List<Mission>();
@@ -280,6 +271,24 @@ public class Region
 					_currentMissions.Add (mission);
 				}
 			}
+		}
+
+		// Neu so luong currentMisison va curretnMissionId khong bang nhau 
+		// nghia la currentMissionId co chua id ma khong ton tai trong mission
+		// Can xoa du lieu currentMissionId
+		if (_currentMissions.Count != currentMissionId.Count) 
+		{
+			currentMissionId = new List<int>();
+			_currentMissions = new List<Mission>();
+		}
+
+		// Kiem tra xem can lay them bao nhieu mission
+		int countNeedMore = 0;
+		if (currentMissionId == null) {
+			countNeedMore = Constant.kMaxCurrentMisison;
+		}
+		if (currentMissionId.Count < Constant.kMaxCurrentMisison) {
+			countNeedMore += Constant.kMaxCurrentMisison - currentMissionId.Count; 
 		}
 
 		// Lay them du lieu
