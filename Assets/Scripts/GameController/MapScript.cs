@@ -12,8 +12,6 @@ public class MapScript : MonoBehaviour {
 		if (Constant.kClearMissionData) {
 			// Id auto of mission 
 			PlayerPrefs.SetInt ("AUTO_MISSION_CODE", 0);
-			// Init mission of region
-			PlayerPrefs.SetInt("REGION_INITIALIZE",0);
 			PlayerPrefs.Save ();
 
 			foreach (RegionType regionType in (RegionType[]) Enum.GetValues(typeof(RegionType))) {			

@@ -421,10 +421,11 @@ public class Region
 	{
 		/// ----------------------------------------------------------------------
 		/// Chi Init 1 lan duy nhat khi User moi cai dat
-		
-		int didCardInitValue = PlayerPrefs.GetInt ("REGION_INITIALIZE", 0);
-		if (didCardInitValue == 1) {
+		if (System.IO.File.Exists (Region.MissionFilePath (RegionType.KingdomOfRabbits))) {
+			Debug.Log ("FileMission da ton tai");
 			return;
+		} else {
+			Debug.Log ("FileMission khong ton tai");
 		}
 
 		// ----------------------------------------------------------------------
@@ -538,10 +539,6 @@ public class Region
 //		} else {
 //			Debug.Log ("Init mission StoneMountain faild");
 //		}
-
-		PlayerPrefs.SetInt("REGION_INITIALIZE",1);
-		PlayerPrefs.Save ();
-		/// ----------------------------------------------------------------------
 	}	
 
 	private static Rule GetRule (RegionType regionType, int round) 
@@ -564,6 +561,10 @@ public class Region
 				});
 			}
 		} else if (regionType == RegionType.Forest) {
+			if (round == 0) {
+			} else if (round == 1) {
+			} else {
+			}
 		} else if (regionType == RegionType.StoneMountain) {
 		} else if (regionType == RegionType.WolfCamp) {
 		}
@@ -572,11 +573,11 @@ public class Region
 
 	private static string MissionFilePath (RegionType type)
 	{
-		return Application.persistentDataPath + "_" + type.ToString() + "_mission.xml";
+		return Application.persistentDataPath + "/" + type.ToString() + "_mission.xml";
 	}
 	private static string CurrentMissionFilePath (RegionType type) 
 	{
-		return Application.persistentDataPath + "_" + type.ToString() + "_current_mission.xml";
+		return Application.persistentDataPath + "/" + type.ToString() + "_current_mission.xml";
 	}
 	#endregion
 }
