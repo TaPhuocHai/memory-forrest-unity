@@ -83,6 +83,8 @@ public class SceneScript : MonoBehaviour {
 		// Tao moi lop luu thong tin man choi
 		this._playGameData.Reset ();
 
+		this._round = 0;
+
 		// Clear debug
 		DebugScript.Clear ();
 
@@ -149,6 +151,7 @@ public class SceneScript : MonoBehaviour {
 				if (isAllowAddPoint) {
 					// Add point				
 					this._playGameData.score += cardScript.card.point;
+					Debug.Log ("Get point : " + cardScript.card.point.ToString());
 				}
 
 				if (isNeedDestroyCard) {
@@ -164,6 +167,8 @@ public class SceneScript : MonoBehaviour {
 
 					// Luu thong tin
 					this._playGameData.CollectCard(cardScript.cardType,2);
+
+					Debug.Log ("Card : " + cardScript.card.type.ToString());
 				}
 				else {
 					// Flip card

@@ -8,8 +8,11 @@ public class TimerScript : MonoBehaviour {
 
 	static private bool enableTimer;
 
+	public PropertyReference labelTime;
+
 	void Start () 
 	{
+		TimerScript.TIME_PLAY = Player.secondTimePlay;
 		TimerScript.timerCountDown = TIME_PLAY;
 		TimerScript.enableTimer = false;
 	}
@@ -21,6 +24,11 @@ public class TimerScript : MonoBehaviour {
 		}
 
 		TimerScript.timerCountDown -= Time.deltaTime;
+
+		if (labelTime != null) {
+			this.labelTime.Set(TimerScript.timerCountDown.ToString());
+		} 
+
 		if (TimerScript.timerCountDown <= 0) {
 			TimerScript.timerCountDown = 0;
 
@@ -36,6 +44,8 @@ public class TimerScript : MonoBehaviour {
 				GameOverScipt gameOverScipt = gameOver.GetComponent<GameOverScipt> ();
 				gameOverScipt.EnterGameOver ();
 			}
+
+			TimerScript.enableTimer = false;
 		}
 
 		GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -51,6 +61,7 @@ public class TimerScript : MonoBehaviour {
 
 	static public void ResetTimer () 
 	{
+		TimerScript.TIME_PLAY = (float)Player.secondTimePlay;
 		TimerScript.timerCountDown = TimerScript.TIME_PLAY;
 	}
 

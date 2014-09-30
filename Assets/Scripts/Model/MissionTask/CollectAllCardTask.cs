@@ -21,7 +21,7 @@ public class CollectAllCardTask : MissionTask
 	
 	override public bool DoTask () 
 	{
-		PlayGameData lastData = PlayGameData.GetLastSave ();
+		PlayGameData lastData = PlayGameData.Instance;
 		if (lastData != null) {
 			if (lastData.isClearAllARound && lastData.roundClearAll >= round) {
 				this.isFinish = true;

@@ -39,7 +39,7 @@ public class Region
 		get {
 			switch (_regionType) {
 			case RegionType.KingdomOfRabbits:
-				return 3;
+				return 4;
 			case RegionType.Forest:
 				return 5;
 			case RegionType.StoneMountain:
@@ -55,7 +55,7 @@ public class Region
 		get {
 			switch (_regionType) {
 			case RegionType.KingdomOfRabbits:
-				return 2;
+				return 4;
 			case RegionType.Forest:
 				return 5;
 			case RegionType.StoneMountain:
@@ -259,8 +259,10 @@ public class Region
 			return;
 		}
 
-		foreach (Mission mission in this.missions) {
-			mission.ClearUnlockMission ();
+		if (this.missions != null && this.missions.Count != 0) {
+			foreach (Mission mission in this.missions) {
+				mission.ClearUnlockMission ();
+			}
 		}
 	}
 
@@ -421,7 +423,7 @@ public class Region
 		/// Chi Init 1 lan duy nhat khi User moi cai dat
 		
 		int didCardInitValue = PlayerPrefs.GetInt ("REGION_INITIALIZE", 0);
-		if (didCardInitValue == 1 && !Constant.kClearMissionData) {
+		if (didCardInitValue == 1) {
 			return;
 		}
 

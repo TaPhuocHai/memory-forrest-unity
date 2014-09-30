@@ -74,11 +74,11 @@ public class PlayGameData : IXmlSerializable
 		return false;
 	}
 
-	public static PlayGameData GetLastSave () 
-	{
-		PlayGameData data = UnityXMLSerializer.DeserializeFromXMLFile<PlayGameData> (Application.persistentDataPath + "_playgamedata.xml");
-		return data;
-	}
+//	public static PlayGameData GetLastSave () 
+//	{
+//		PlayGameData data = UnityXMLSerializer.DeserializeFromXMLFile<PlayGameData> (Application.persistentDataPath + "_playgamedata.xml");
+//		return data;
+//	}
 
 	#region IXmlSerializable
 	

@@ -10,6 +10,12 @@ public class MapScript : MonoBehaviour {
 
 		// Clear reward data
 		if (Constant.kClearMissionData) {
+			// Id auto of mission 
+			PlayerPrefs.SetInt ("AUTO_MISSION_CODE", 0);
+			// Init mission of region
+			PlayerPrefs.SetInt("REGION_INITIALIZE",0);
+			PlayerPrefs.Save ();
+
 			foreach (RegionType regionType in (RegionType[]) Enum.GetValues(typeof(RegionType))) {			
 				Region region = Region.Instance (regionType);
 				region.ClearDataFinishMission ();
@@ -23,6 +29,7 @@ public class MapScript : MonoBehaviour {
 
 	public void EnterMap4x4 () 
 	{
+		Debug.Log ("load 4x4");
 		Player.currentRegionPlay = RegionType.KingdomOfRabbits;
 		PlayerPrefs.Save ();
 		Application.LoadLevel ("Mission");

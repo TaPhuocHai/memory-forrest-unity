@@ -63,7 +63,7 @@ public class CollectTask : MissionTask
 
 	override public bool DoTask () 
 	{
-		PlayGameData lastData = PlayGameData.GetLastSave ();
+		PlayGameData lastData = PlayGameData.Instance;
 
 		// Neu la mission tich luy qua cac vong
 		if (this.isAccumulationTask) {
