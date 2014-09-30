@@ -13,6 +13,7 @@ public class PlayGameData : IXmlSerializable
 	public RegionType regionType { get; set; }
 	public bool       isClearAllARound { get; set; }
 	public int        roundClearAll { get; set; }
+	public int        lastRound { get; set; }
 	public int        score { get; set; }
 
 	// So luong card da collect : cardType : so luong
@@ -92,6 +93,7 @@ public class PlayGameData : IXmlSerializable
 		this.isClearAllARound = Convert.ToBoolean (reader.GetAttribute ("isClearAllARound"));
 		this.roundClearAll = Convert.ToInt32 (reader.GetAttribute ("roundClearAll"));
 		this.score = Convert.ToInt32 (reader.GetAttribute ("score"));
+		this.lastRound = Convert.ToInt32 (reader.GetAttribute ("lastRound"));
 
 		reader.ReadStartElement ();
 
@@ -107,6 +109,7 @@ public class PlayGameData : IXmlSerializable
 		writer.WriteAttributeString ("isClearAllARound", this.isClearAllARound.ToString());
 		writer.WriteAttributeString ("roundClearAll", this.roundClearAll.ToString());
 		writer.WriteAttributeString ("score", this.score.ToString());
+		writer.WriteAttributeString ("lastRound", this.lastRound.ToString());
 
 		XmlSerializer serializer = new XmlSerializer (this.cardTypeAndNumberCollected.GetType ());
 		serializer.Serialize (writer, this.cardTypeAndNumberCollected);
