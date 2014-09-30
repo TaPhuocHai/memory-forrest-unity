@@ -136,34 +136,22 @@ public class Region
 	/// <param name="round">Round : bat dau tu 0.</param>
 	/// <param name="numberOfCol">Number of col.</param>
 	/// <param name="numberOfRow">Number of row.</param>
-	public Dictionary<int, int> GetCards (int round) 
+	public Dictionary<CardType, int> GetCards (int round) 
 	{
 		int numberOfObjectToDraw = this.numberOfCol * this.numberOfRow;
 
-		Dictionary<int, int> numberCardToRandomWithTypeKey = new Dictionary<int, int> ();
-		
-		if (numberOfObjectToDraw <= 6) {
-			numberCardToRandomWithTypeKey [(int)CardType.Stone] = 2;
-			int value = UnityEngine.Random.Range(0,2);
-			if (value == 0) {
-				numberCardToRandomWithTypeKey[(int)CardType.Wolf]  = 2;
-			}
-		} else {
-			numberCardToRandomWithTypeKey [(int)CardType.Stone] = 2;
-			numberCardToRandomWithTypeKey[(int)CardType.Wolf]  = 2;
+		// Rule random
+		Rule rule = Region.GetRule (this._regionType, round);
+
+		// Bien chua thong tin card : so luong
+		Dictionary<CardType, int> numberCardToRandomWithTypeKey = new Dictionary<CardType, int> ();
+
+		// Tinh toan special card
+		if (this._regionType == RegionType.KingdomOfRabbits) {
+		} else if (this._regionType == RegionType.Forest) {
+		} else if (this._regionType == RegionType.StoneMountain) {
+		} else if (this._regionType == RegionType.WolfCamp) {
 		}
-		
-		if (numberOfObjectToDraw >= 12) {
-			numberCardToRandomWithTypeKey[(int)CardType.BlueButterfly] = 2;
-			numberCardToRandomWithTypeKey[(int)CardType.RedButterfly]  = 2;
-		}
-		if (numberOfObjectToDraw >= 16) {
-			numberCardToRandomWithTypeKey[(int)CardType.YellowButterfly] = 2;
-			numberCardToRandomWithTypeKey[(int)CardType.VioletButterfly] = 2;
-		}
-		
-		// Test only
-		//numberCardToRandomWithTypeKey[(int)CardType.YellowButterfly] = 2;
 		
 		// Dem so luong tong so card special da random
 		int totalCarDidRandom = 0;
@@ -176,15 +164,15 @@ public class Region
 		// Random cac cap thuong
 		for (int i = 0; i < numberOfNormalCard/2; i ++) {		
 			// Random type
-			CardType type = (CardType)UnityEngine.Random.Range (0, (int)CardType.Cherry + 1);
+			CardType type = rule.RandomCard ();
 			
 			// Lay so luong da random truoc danh cho type nay
 			int numberCardDidRandomForType = 0;
-			if (numberCardToRandomWithTypeKey.ContainsKey((int)type)) {
-				numberCardDidRandomForType = numberCardToRandomWithTypeKey[(int)type];
+			if (numberCardToRandomWithTypeKey.ContainsKey(type)) {
+				numberCardDidRandomForType = numberCardToRandomWithTypeKey[type];
 			}
 			numberCardDidRandomForType += 2;
-			numberCardToRandomWithTypeKey[(int)type] = numberCardDidRandomForType;
+			numberCardToRandomWithTypeKey[type] = numberCardDidRandomForType;
 		}
 
 		return numberCardToRandomWithTypeKey;
