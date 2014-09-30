@@ -439,6 +439,32 @@ public class Region
 		/// ----------------------------------------------------------------------
 	}	
 
+	private static Rule GetRule (RegionType regionType, int round) 
+	{
+		Rule rule = null;
+		if (regionType == RegionType.KingdomOfRabbits) {
+			if (round == 0) {
+				rule = new ComplexRule (new Dictionary <CardType, int> () {
+					{CardType.Mushroom, 30},
+					{CardType.Apple, 30},
+					{CardType.Carrot, 30},
+					{CardType.WhiteRabbit, 10},
+				});
+			} else {
+				rule = new ComplexRule (new Dictionary <CardType, int> () {
+					{CardType.Mushroom, 25},
+					{CardType.Apple, 25},
+					{CardType.Carrot, 25},
+					{CardType.WhiteRabbit, 25},
+				});
+			}
+		} else if (regionType == RegionType.Forest) {
+		} else if (regionType == RegionType.StoneMountain) {
+		} else if (regionType == RegionType.WolfCamp) {
+		}
+		return rule;
+	}
+
 	private static string MissionFilePath (RegionType type)
 	{
 		return Application.persistentDataPath + "_" + type.ToString() + "_mission.xml";
