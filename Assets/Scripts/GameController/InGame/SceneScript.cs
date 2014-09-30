@@ -561,11 +561,11 @@ public class SceneScript : MonoBehaviour {
 		//Dictionary<string,int> cardDic = new Dictionary<string, int> ();
 
 		// loai card : so luong
-		Dictionary<int, int> numberCardToRandomWithTypeKey = this._region.GetCards (0);
+		Dictionary<CardType, int> numberCardToRandomWithTypeKey = this._region.GetCards (0);
 
 		// Random card thanh cac the hien 
 		this._cardOnScreen = new ArrayList ();
-		foreach (int key in numberCardToRandomWithTypeKey.Keys) {
+		foreach (CardType key in numberCardToRandomWithTypeKey.Keys) {
 			int numberCardToRandom = (int)numberCardToRandomWithTypeKey[key];
 			for (int i = 0; i < numberCardToRandom ; i ++) {
 				var card = Instantiate(cardPrefab) as Transform;

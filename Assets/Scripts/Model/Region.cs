@@ -155,7 +155,7 @@ public class Region
 		
 		// Dem so luong tong so card special da random
 		int totalCarDidRandom = 0;
-		foreach (int key in numberCardToRandomWithTypeKey.Keys) {
+		foreach (CardType key in numberCardToRandomWithTypeKey.Keys) {
 			totalCarDidRandom += (int)numberCardToRandomWithTypeKey[key];
 		}
 		
@@ -432,14 +432,14 @@ public class Region
 		Rule rule = null;
 		if (regionType == RegionType.KingdomOfRabbits) {
 			if (round == 0) {
-				rule = new ComplexRule (new Dictionary <CardType, int> () {
+				rule = new ComplexRule (new Dictionary <CardType, float> () {
 					{CardType.Mushroom, 30},
 					{CardType.Apple, 30},
 					{CardType.Carrot, 30},
 					{CardType.WhiteRabbit, 10},
 				});
 			} else {
-				rule = new ComplexRule (new Dictionary <CardType, int> () {
+				rule = new ComplexRule (new Dictionary <CardType, float> () {
 					{CardType.Mushroom, 25},
 					{CardType.Apple, 25},
 					{CardType.Carrot, 25},
