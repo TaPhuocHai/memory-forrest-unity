@@ -219,9 +219,9 @@ public class Mission : IXmlSerializable
 			newTask = new CollectAllCardTask(oldTaks.round + this.goldModifier);
 		} else if (this.missionTask.GetType () == typeof(CollectTask)) {
 			CollectTask oldTaks = (CollectTask)this.missionTask;
-			SerializableDictionary<string, int> oldDicCardTypeAndNumber = oldTaks.cardTypeWithNumberNeedCollect;
-			SerializableDictionary<string, int> newDic = new SerializableDictionary<string, int>();
-			foreach (string key in oldDicCardTypeAndNumber.Keys) {
+			SerializableDictionary<CardType, int> oldDicCardTypeAndNumber = oldTaks.cardTypeWithNumberNeedCollect;
+			SerializableDictionary<CardType, int> newDic = new SerializableDictionary<CardType, int>();
+			foreach (CardType key in oldDicCardTypeAndNumber.Keys) {
 				newDic[key] = oldDicCardTypeAndNumber[key] + this.goldModifier;
 			}
 			newTask = new CollectTask(newDic,oldTaks.isAccumulationTask);

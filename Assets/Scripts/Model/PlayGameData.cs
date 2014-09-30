@@ -16,7 +16,7 @@ public class PlayGameData : IXmlSerializable
 	public int        score { get; set; }
 
 	// So luong card da collect : cardType : so luong
-	public SerializableDictionary<string, int> cardTypeAndNumberCollected { get; set;}
+	public SerializableDictionary<CardType, int> cardTypeAndNumberCollected { get; set;}
 
 	static PlayGameData _instance;
 	public static PlayGameData Instance {
@@ -34,7 +34,7 @@ public class PlayGameData : IXmlSerializable
 	
 	public PlayGameData () 
 	{
-		this.cardTypeAndNumberCollected = new SerializableDictionary<string, int> ();
+		this.cardTypeAndNumberCollected = new SerializableDictionary<CardType, int> ();
 	}
 	public PlayGameData (RegionType regionType) 
 		: this()
@@ -47,12 +47,11 @@ public class PlayGameData : IXmlSerializable
 	public void CollectCard (CardType cardType, int value) 
 	{
 		int savedCollect = 0;
-		string cardKey = cardType.ToString ();
-		if (this.cardTypeAndNumberCollected.ContainsKey (cardKey)) {
-			savedCollect = this.cardTypeAndNumberCollected[cardKey];
+		if (this.cardTypeAndNumberCollected.ContainsKey (cardType)) {
+			savedCollect = this.cardTypeAndNumberCollected[cardType];
 		}
 		savedCollect += value;
-		this.cardTypeAndNumberCollected [cardKey] = savedCollect;
+		this.cardTypeAndNumberCollected [cardType] = savedCollect;
 	}
 
 	public void Reset () 
@@ -60,7 +59,7 @@ public class PlayGameData : IXmlSerializable
 		this.isClearAllARound = false;
 		this.roundClearAll = -1;
 		this.score = 0;
-		this.cardTypeAndNumberCollected = new SerializableDictionary<string, int> ();
+		this.cardTypeAndNumberCollected = new SerializableDictionary<CardType, int> ();
 	}
 
 	public bool Save ()
@@ -96,8 +95,8 @@ public class PlayGameData : IXmlSerializable
 
 		reader.ReadStartElement ();
 
-		XmlSerializer serializer = new XmlSerializer (typeof(SerializableDictionary<string, int>));
-		this.cardTypeAndNumberCollected = (SerializableDictionary<string, int>) serializer.Deserialize (reader);
+		XmlSerializer serializer = new XmlSerializer (typeof(SerializableDictionary<CardType, int>));
+		this.cardTypeAndNumberCollected = (SerializableDictionary<CardType, int>) serializer.Deserialize (reader);
 
 		reader.ReadEndElement ();
 	}

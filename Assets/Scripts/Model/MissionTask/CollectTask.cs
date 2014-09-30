@@ -13,18 +13,18 @@ public class CollectTask : MissionTask
 	/// </summary>
 	/// <value>The card type with number pair need collect.</value>
 	//public Dictionary<int, int> cardTypeWithNumberPairNeedCollect { get; private set;}
-	public SerializableDictionary<string, int> cardTypeWithNumberNeedCollect { get; private set;}
+	public SerializableDictionary<CardType, int> cardTypeWithNumberNeedCollect { get; private set;}
 
 	// Danh sach da lay
-	public SerializableDictionary<string, int> cardTypeWithNumberCollected  { get; private set;}
+	public SerializableDictionary<CardType, int> cardTypeWithNumberCollected  { get; private set;}
 
 	#region Constructors
 
 	public CollectTask (bool isAccumulationTask)
 		: base (isAccumulationTask)
 	{
-		cardTypeWithNumberNeedCollect = new SerializableDictionary<string, int> ();
-		cardTypeWithNumberCollected   = new SerializableDictionary<string, int> ();
+		cardTypeWithNumberNeedCollect = new SerializableDictionary<CardType, int> ();
+		cardTypeWithNumberCollected   = new SerializableDictionary<CardType, int> ();
 	}
 
 	public CollectTask () : this (true) {}
@@ -32,7 +32,7 @@ public class CollectTask : MissionTask
 	public CollectTask (CardType cardType, int numberToCollect) 
 	: this (true) 
 	{
-		cardTypeWithNumberNeedCollect.Add (cardType.ToString(), numberToCollect);
+		cardTypeWithNumberNeedCollect.Add (cardType, numberToCollect);
 	}
 
 	public CollectTask (CardType cardType, int numberToCollect, bool isAccumulationTask) 
@@ -41,10 +41,10 @@ public class CollectTask : MissionTask
 		this.isAccumulationTask = isAccumulationTask;
 	}
 
-	public CollectTask (Dictionary<string,int> cardTypeAndNumberCollet, bool isAccumulationTask) 
+	public CollectTask (Dictionary<CardType,int> cardTypeAndNumberCollet, bool isAccumulationTask) 
 		: this (isAccumulationTask) 
 	{
-		foreach (string key in cardTypeAndNumberCollet.Keys) {
+		foreach (CardType key in cardTypeAndNumberCollet.Keys) {
 			this.cardTypeWithNumberNeedCollect[key] = cardTypeAndNumberCollet[key];
 		}
 	}
@@ -58,7 +58,7 @@ public class CollectTask : MissionTask
 
 	public void AddTask (CardType cardType, int numberToCollect) 
 	{
-		cardTypeWithNumberNeedCollect.Add (cardType.ToString(), numberToCollect);
+		cardTypeWithNumberNeedCollect.Add (cardType, numberToCollect);
 	}
 
 	override public bool DoTask () 
@@ -67,7 +67,7 @@ public class CollectTask : MissionTask
 
 		// Neu la mission tich luy qua cac vong
 		if (this.isAccumulationTask) {
-			foreach (string key in this.cardTypeWithNumberNeedCollect.Keys) {
+			foreach (CardType key in this.cardTypeWithNumberNeedCollect.Keys) {
 				// Neu man choi da lay dc loai card ma Mission nay yeu cau
 				if (lastData.cardTypeAndNumberCollected.ContainsKey(key)) {
 					int savedNumberCollect = 0;
@@ -88,7 +88,7 @@ public class CollectTask : MissionTask
 		}
 
 		// Kiem tra xem da du yeu cau
-		foreach (string key in this.cardTypeWithNumberNeedCollect.Keys) {
+		foreach (CardType key in this.cardTypeWithNumberNeedCollect.Keys) {
 			if (this.cardTypeWithNumberCollected.ContainsKey(key)) {
 				// Neu co 1 loai cardType nao do, ma so luong nhat chu du thi task chua hoan thanh
 				if (this.cardTypeWithNumberCollected[key] < this.cardTypeWithNumberNeedCollect[key]) {
@@ -121,13 +121,13 @@ public class CollectTask : MissionTask
 		reader.ReadStartElement ();
 
 		reader.ReadStartElement ("CardTypeAndNumberPair");
-		XmlSerializer serializer = new XmlSerializer (typeof (SerializableDictionary<string, int>));
-		this.cardTypeWithNumberNeedCollect = (SerializableDictionary<string, int>) serializer.Deserialize (reader);
+		XmlSerializer serializer = new XmlSerializer (typeof (SerializableDictionary<CardType, int>));
+		this.cardTypeWithNumberNeedCollect = (SerializableDictionary<CardType, int>) serializer.Deserialize (reader);
 		reader.ReadEndElement ();
 
 		reader.ReadStartElement ("CardTypeAndNumberPairColleted");
-		XmlSerializer serializerCollected = new XmlSerializer (typeof (SerializableDictionary<string, int>));
-		this.cardTypeWithNumberCollected = (SerializableDictionary<string, int>) serializerCollected.Deserialize (reader);
+		XmlSerializer serializerCollected = new XmlSerializer (typeof (SerializableDictionary<CardType, int>));
+		this.cardTypeWithNumberCollected = (SerializableDictionary<CardType, int>) serializerCollected.Deserialize (reader);
 		reader.ReadEndElement ();
 
 		reader.ReadEndElement ();

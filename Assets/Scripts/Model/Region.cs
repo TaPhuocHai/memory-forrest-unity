@@ -454,15 +454,15 @@ public class Region
 			             new AdditionPointReward (CardType.Apple,5)),
 			new Mission ("Juice mix", "Collect 4 mushroom, 4 apple, 4 carrot in 1 game",
 			             "You have just earned 25 coins",
-			             new CollectTask (new Dictionary<string,int> () {{CardType.Mushroom.ToString(),8},
-																		 {CardType.Apple.ToString(),8},
-																		 {CardType.Carrot.ToString(),8}}
+			             new CollectTask (new Dictionary<CardType,int> () {{CardType.Mushroom,8},
+																		 {CardType.Apple,8},
+																		 {CardType.Carrot,8}}
 							,false),
 			             new CoinReward (25)),
 			new Mission ("Colllect rabbit", "collect 5 whiterabbit pairs, 5 rabbit king pairs",
 			             "You have just earned 25 coints",
-			             new CollectTask (new Dictionary<string,int> () {{CardType.WhiteRabbit.ToString(),10},
-																		{CardType.RabbitKing.ToString(),10}}
+			             new CollectTask (new Dictionary<CardType,int> () {{CardType.WhiteRabbit,10},
+																		{CardType.RabbitKing,10}}
 										,true),
 			             new CoinReward (25)),
 			new Mission (new MissionText ("Big Score"),
@@ -477,6 +477,67 @@ public class Region
 		} else {
 			Debug.Log ("Init mission KingdomOfRabbits faild");
 		}
+
+		// -----------------------------------------------------------------------------------------------
+		// Region Forest
+		List<Mission> listMissionOfForest = new List<Mission> () {
+			new Mission ("Pine Apple Tree", "Collect 10 apples and 10 carrots in one game",
+			             "You have just Unlock pine apple",
+			             new CollectTask(new Dictionary<CardType,int>() {{CardType.Apple, 10},
+																		 {CardType.Carrot, 10}
+											}, false),
+			             new UnlockCardReward(CardType.PineApple)),
+			new Mission ("Unlock Strawberry", "Collect 40 apple and  40 mushroom",
+			             "You have just Unlock Strawberry",
+			             new CollectTask(new Dictionary<CardType,int>() {{CardType.Apple, 40},
+																		{CardType.Mushroom, 40}
+											}, true),
+			             new UnlockCardReward(CardType.Strawberry)),						
+			new Mission (new MissionText ("Amazing Score"),
+			             new MissionText ("Score @D points",800),
+			             new MissionText ("You have just earned @D coins", 100),
+			             new ScoreTask (800,true),
+			             new CoinReward (100),true,300,20),
+			new Mission ("Harvest time", "Collect 4 mushroom, 4 Pine Apple, 4 Strawberry in 1 game",
+			             "You have just earned 50 coins",
+			             new CollectTask(new Dictionary<CardType,int>() {{CardType.Mushroom, 4},
+																		 {CardType.PineApple, 4},
+																		 {CardType.Strawberry, 4}
+											}, false),
+			             new CoinReward(50)),
+			new Mission ("Army of Rabbit", "Collect 10 Brown Rabbit, 10 White Rabbits",
+			             "You have just earned 50 coins",
+			             new CollectTask(new Dictionary<CardType,int>() {{CardType.WhiteRabbit, 10},
+																		{CardType.BrownRabbit, 10}
+												}, true),
+			             new CoinReward(50)),
+			new Mission (new MissionText ("Explore the forrest"), 
+			             new MissionText ("Collect all card before time run out"),
+			             new MissionText ("You have just Unlock Round @D",3),
+			             new CollectAllCardTask (1), 
+			             new UnlockExtraRoundReward (RegionType.Forest, 1),true,1,1),
+			new Mission ("Money can buy time", "Have 200 coin in you pocket",
+			             "You have just Add 10s to timer",
+			             new CoinTask(200),
+			             new MoreTimeReward(10))
+		};
+		// Save to file
+		if (UnityXMLSerializer.SerializeToXMLFile<List<Mission>> (Region.MissionFilePath(RegionType.Forest), listMissionOfForest, true)) {
+			Debug.Log ("Init mission Forest success");
+		} else {
+			Debug.Log ("Init mission Forest faild");
+		}
+
+//		// -----------------------------------------------------------------------------------------------
+//		// Region StoneMountain
+//
+//
+//		// Save to file
+//		if (UnityXMLSerializer.SerializeToXMLFile<List<Mission>> (Region.MissionFilePath(RegionType.StoneMountain), listMissionOfStoneMountain, true)) {
+//			Debug.Log ("Init mission StoneMountain success");
+//		} else {
+//			Debug.Log ("Init mission StoneMountain faild");
+//		}
 
 		PlayerPrefs.SetInt("REGION_INITIALIZE",1);
 		PlayerPrefs.Save ();
