@@ -13,11 +13,11 @@ using System.Collections.Generic;
 /// </summary>
 public class PercentRule : Rule
 {
-	private List<float>  _listValue;
-	private List<Rule>   _listRule;
+	protected List<float>  _listValue;
+	protected List<Rule>   _listRule;
 	
-	private List<float>  _listValueEnable;
-	private List<Rule>   _listRuleEnable;
+	protected List<float>  _listValueEnable;
+	protected List<Rule>   _listRuleEnable;
 
 	#region Contructor
 
@@ -93,7 +93,7 @@ public class PercentRule : Rule
 	/// cho lan goi RandomCard lan sau -> toi uu xu ly cho CPU
 	/// Neu isCache = false : xoa het du lieu tinh toan
 	/// </summary>
-	private bool _isCache;
+	protected bool _isCache;
 	override public bool isCache { 
 		get {return _isCache; }
 		set {
