@@ -360,8 +360,8 @@ public class Region
 	/// <param name="isUnlock">If set to <c>true</c> is unlock.</param>
 	/// <param name="isAutoUnlockItemsRequired">
 	/// - If set to <c>true</c> is auto unlock items required. 
-	/// - Chi co tac dung khi isUnlock = true
-	/// - Neu isAutoUnlockItemsRequired : neu chua du tieu chuan unlock map thi tu dong unlock cac item yeu cau
+	/// - Neu isAutoUnlockItemsRequired = true va isUnlock = true : neu chua du tieu chuan unlock map thi tu dong unlock cac item yeu cau
+	/// - Neu isAutoUnlockItemsRequired = true va isUnlock = false : lock map va lock item require (Dieu nay co the dan den mot so mission reward da complete bi anh huong) 
 	/// </param>
 	public static bool UnlockMap (RegionType regionType, bool isUnlock, bool isAutoUnlockItemsRequired) 
 	{
@@ -369,6 +369,15 @@ public class Region
 		if (isUnlock == false) {
 			PlayerPrefs.SetInt(unlockMapKey,0);
 			PlayerPrefs.Save ();
+
+			if (isAutoUnlockItemsRequired) {
+				// Lock card type lien quan
+				List<CardType> listCardTypeLockRequired = Region.CardTypesUnlockRequiredForUnlockMap (regionType);
+				foreach (CardType cardType in listCardTypeLockRequired) {
+					Card.Unlock (cardType, false);
+				}
+			}
+
 			return true;
 		}
 
