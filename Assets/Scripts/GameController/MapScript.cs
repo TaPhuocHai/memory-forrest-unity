@@ -35,22 +35,28 @@ public class MapScript : MonoBehaviour {
 
 	public void EnterMap5x5 () 
 	{	
+		Region.UnlockMap (RegionType.Forest, true, true);
+
 		Player.currentRegionPlay = RegionType.Forest;
 		PlayerPrefs.Save ();
-		//Application.LoadLevel ("Mission");
+		Application.LoadLevel ("Mission");
 	}
 
 	public void EnterMap5x5_2 () 
 	{
+		Region.UnlockMap (RegionType.StoneMountain, true, true);
+
 		Player.currentRegionPlay = RegionType.StoneMountain;
 		PlayerPrefs.Save ();
-		//Application.LoadLevel ("Mission");
+		Application.LoadLevel ("Mission");
 	}
 
 	public void EnterMap6x6 () 
 	{
+		Region.UnlockMap (RegionType.WolfCamp, true, true);
+
 		Player.currentRegionPlay = RegionType.WolfCamp;
 		PlayerPrefs.Save ();
-		//Application.LoadLevel ("Mission");
+		Application.LoadLevel ("Mission");
 	}
 }
