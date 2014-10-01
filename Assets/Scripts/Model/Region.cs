@@ -375,14 +375,22 @@ public class Region
 		// ----   isUnlock = true  ----
 
 		// Chua du tieu chuan de co the unlock
-		// Va khong cho phep tu dong unlock items required de unlock
-		if (Region.CanUnlockMap (regionType) == false && isAutoUnlockItemsRequired == false) {
-			// Khong unlock thanh cong
-			return false;
-		}
-
-		// Can tu dong unlock cac items required 
-		if (Region.CanUnlockMap (regionType) == false && isAutoUnlockItemsRequired == true) {
+		if (Region.CanUnlockMap (regionType) == false) {
+			// Va khong cho phep tu dong unlock items required de unlock
+			if (isAutoUnlockItemsRequired == false) {
+				// Khong unlock thanh cong
+				return false;
+			} 
+			// Cho phep tu dong unlock items
+			else {
+				// Xem ham Region.CanUnlockMap de can biet tuong ung phai thuc hien unlock nhung items nao
+				
+				// Unlock cardType 
+				List<CardType> listCardTypeUnlockRequired = Region.CardTypesUnlockRequiredForUnlockMap (regionType);
+				foreach (CardType cardType in listCardTypeUnlockRequired) {
+					Card.Unlock (cardType, true);
+				}
+			}
 		}
 
 		// Unlock
@@ -398,7 +406,17 @@ public class Region
 	/// <param name="regionType">Region type.</param>
 	public static bool CanUnlockMap (RegionType regionType) 
 	{
-		return false;
+		// Kiem tra thong tin unlock card data
+		List<CardType> listCardTypeUnlockRequired = Region.CardTypesUnlockRequiredForUnlockMap (regionType);
+		if (listCardTypeUnlockRequired != null) {
+			foreach (CardType cardType in listCardTypeUnlockRequired) {
+				// Neu co 1 card chua duoc unlock thi chua the unlock map
+				if (!Card.IsUnlock (cardType)) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	/// <summary>
@@ -442,7 +460,59 @@ public class Region
 	#endregion
 
 	#region Private static functions
-	
+
+	private static string MissionFilePath (RegionType type)
+	{
+		return Application.persistentDataPath + "/" + type.ToString() + "_mission.xml";
+	}
+	private static string CurrentMissionFilePath (RegionType type) 
+	{
+		return Application.persistentDataPath + "/" + type.ToString() + "_current_mission.xml";
+	}
+
+	// UNLOCK MAP ----------------------------------------------------------------------------
+
+	/// <summary>
+	/// Tra ve danh sach cardTypes can duoc unlock de co the unlock map RegionType
+	/// </summary>
+	/// <returns>The types unlock required for unlock map.</returns>
+	/// <param name="regionType">Region type.</param>
+	private static List<CardType> CardTypesUnlockRequiredForUnlockMap (RegionType regionType) 
+	{
+		List<CardType> listCardTypeUnlockRequired = null;
+		if (regionType == RegionType.KingdomOfRabbits) {
+			// Khong co yeu cau
+		} else if (regionType == RegionType.Forest) {
+			listCardTypeUnlockRequired = new List<CardType> () {
+				CardType.WhiteRabbit
+			};
+		} else if (regionType == RegionType.StoneMountain) {
+			listCardTypeUnlockRequired = new List<CardType> () {
+				CardType.WhiteRabbit,
+				CardType.PineApple,
+				CardType.Strawberry,
+				CardType.Peace
+			};
+		} else {
+			listCardTypeUnlockRequired = new List<CardType> () {
+				CardType.WhiteRabbit,
+				CardType.PineApple,
+				CardType.Strawberry,
+				CardType.Peace,
+				CardType.BlueButterfly,
+				CardType.RedButterfly,
+				CardType.YellowButterfly,
+				CardType.VioletButterfly
+			};
+		}
+		return listCardTypeUnlockRequired;
+	}
+
+	// ----------------------------------------------------------------------------
+
+
+	// INIT MAP ----------------------------------------------------------------------------
+
 	/// <summary>
 	/// Initialize default value.
 	/// </summary>
@@ -640,7 +710,6 @@ public class Region
 		} else {
 			Debug.Log ("Init mission WolfCamp faild");
 		}
-
 	}	
 
 	private static CardRandomCode GetCardRandomCode (RegionType regionType, int round) 
@@ -862,15 +931,7 @@ public class Region
 		}
 		return cardRandomCode;
 	}
-
-	private static string MissionFilePath (RegionType type)
-	{
-		return Application.persistentDataPath + "/" + type.ToString() + "_mission.xml";
-	}
-	private static string CurrentMissionFilePath (RegionType type) 
-	{
-		return Application.persistentDataPath + "/" + type.ToString() + "_current_mission.xml";
-	}
+	
 	#endregion
 }
 
