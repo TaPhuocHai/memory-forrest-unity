@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -10,7 +11,24 @@ using System.Collections.Generic;
 /// </summary>
 public class FixCachePercentRule : PercentRule
 {
-	protected CardType cardTypeDidRandom;
+	protected CardType _cardTypeDidRandom;
+	protected bool     _isSetValue;
+
+	#region Contructors
+
+	public FixCachePercentRule () 
+		: base ()
+	{
+		this._isSetValue = false;
+	}
+	
+	public FixCachePercentRule (Dictionary<CardType,float> cardTypeAndValue)
+		: base (cardTypeAndValue)
+	{
+		this._isSetValue = false;
+	}
+
+	#endregion
 
 	#region Override 
 	
@@ -24,17 +42,18 @@ public class FixCachePercentRule : PercentRule
 			base.isCache = value;
 
 			if (_isCache == false) {
-				cardTypeDidRandom = null;
+				_isSetValue = false;
 			}
 		}
 	}
 	
 	public override CardType RandomCard () 
 	{
-		if (cardTypeDidRandom == null || !this.isCache) {
-			cardTypeDidRandom = base.RandomCard ();
+		if (_isSetValue == false || this.isCache == false) {
+			_cardTypeDidRandom = base.RandomCard ();
+			_isSetValue = true;
 		}
-		return cardTypeDidRandom;
+		return _cardTypeDidRandom;
 	}
 	
 	#endregion

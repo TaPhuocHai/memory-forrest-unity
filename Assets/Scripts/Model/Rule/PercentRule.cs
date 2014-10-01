@@ -38,7 +38,11 @@ public class PercentRule : Rule
 		this._listValue.Add (value);
 		this._listRule.Add (new SimpleRule (cardType));
 	}
-	
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="PercentRule"/> class.
+	/// </summary>
+	/// <param name="cardTypeAndValue">Card type and value (percent).</param>
 	public PercentRule (Dictionary<CardType,float> cardTypeAndValue)
 		: this ()
 	{
@@ -47,6 +51,19 @@ public class PercentRule : Rule
 			this._listValue.Add (value);
 			this._listRule.Add (new SimpleRule (type));
 		}
+	}
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="PercentRule"/> class.
+	/// Can dam bao rang rules.Count == percents.Count
+	/// </summary>
+	/// <param name="rule">Rules.</param>
+	/// <param name="percent">Percent for rule</param>
+	public PercentRule (List<Rule> rules, List<float> percents) 
+		: this ()
+	{
+		this._listRule = rules;
+		this._listValue = percents;
 	}
 
 	#endregion

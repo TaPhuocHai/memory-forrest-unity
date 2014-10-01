@@ -644,19 +644,57 @@ public class Region
 			if (round == 0) {
 				cardRandomCode = new CardRandomCode (
 					new PercentRule (
-						new Dictionary <CardType,float> () {
-							{CardType.RabbitKing, 10},
-							{CardType.Strawberry, 15},
-							{CardType.Apple, 20},
-							{CardType.Carrot, 20},
-							{CardType.BrownRabbit, 10},
-							{CardType.PineApple, 25},
-						}
+						new List<Rule> () {new SimpleRule(CardType.Strawberry),
+										    new SimpleRule(CardType.Apple),
+											new SimpleRule(CardType.Carrot),
+											new SimpleRule(CardType.PineApple),
+											new FixCachePercentRule (
+												new Dictionary<CardType,float>() {
+													{CardType.BrownRabbit, 30},
+													{CardType.WhiteRabbit, 40},
+													{CardType.BlueButterfly, 30},
+												})
+						},
+						new List<float>() {20,20,20,20,20}
 					),
 					new Dictionary<CardType, int> () {{CardType.Stone, 1}}
 				);
 			} else if (round == 1) {
+				cardRandomCode = new CardRandomCode (
+					new PercentRule (
+						new List<Rule> () {new SimpleRule(CardType.Strawberry),
+											new SimpleRule(CardType.Apple),
+											new SimpleRule(CardType.Carrot),
+											new SimpleRule(CardType.PineApple),
+											new FixCachePercentRule (
+												new Dictionary<CardType,float>() {
+													{CardType.BrownRabbit, 30},
+													{CardType.WhiteRabbit, 40},
+													{CardType.RedButterfly, 30},
+											})
+						},
+						new List<float>() {20,20,20,20,20}
+					),
+					new Dictionary<CardType, int> () {{CardType.Stone, 1}}
+				);
 			} else {
+				cardRandomCode = new CardRandomCode (
+					new PercentRule (
+						new List<Rule> () {new SimpleRule(CardType.Strawberry),
+											new SimpleRule(CardType.Apple),
+											new SimpleRule(CardType.Carrot),
+											new SimpleRule(CardType.PineApple),
+											new FixCachePercentRule (
+												new Dictionary<CardType,float>() {
+													{CardType.BrownRabbit, 30},
+													{CardType.WhiteRabbit, 40},
+													{CardType.YellowButterfly, 30},
+											})
+						},
+						new List<float>() {20,20,20,20,20}
+					),
+					new Dictionary<CardType, int> () {{CardType.Stone, 3}}
+				);
 			}
 		} else if (regionType == RegionType.WolfCamp) {
 		}
