@@ -279,9 +279,9 @@ public class Mission : IXmlSerializable
 	/// Clears the unlock mission.
 	/// Ham nay chi co gia tri khi Constant.kClearMissionData = true
 	/// </summary>
-	public void ClearUnlockMission () 
+	public void ClearRewardData () 
 	{
-		if (!Constant.kClearMissionData) {
+		if (!Constant.kClearRewardData) {
 			return;
 		}
 		this.isFinish = false;

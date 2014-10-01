@@ -216,15 +216,15 @@ public class Region
 	/// Ham nay chi co gia tri khi Constant.kClearMissionData = true
 	/// </summary>
 	/// <param name="missionId">Mission identifier.</param>
-	public void ClearDataFinishMission () 
+	public void ClearRewardOfMission () 
 	{
-		if (!Constant.kClearMissionData) {
+		if (!Constant.kClearRewardData) {
 			return;
 		}
 
 		if (this.missions != null && this.missions.Count != 0) {
 			foreach (Mission mission in this.missions) {
-				mission.ClearUnlockMission ();
+				mission.ClearRewardData ();
 			}
 		}
 	}
@@ -351,21 +351,54 @@ public class Region
 		}
 		return true;
 	}
-
+	
 	/// <summary>
 	/// Unlocks the map.
 	/// </summary>
+	/// <returns><c>true</c>, if map was unlocked, <c>false</c> otherwise.</returns>
 	/// <param name="regionType">Region type.</param>
 	/// <param name="isUnlock">If set to <c>true</c> is unlock.</param>
-	public static void UnlockMap (RegionType regionType, bool isUnlock) 
+	/// <param name="isAutoUnlockItemsRequired">
+	/// - If set to <c>true</c> is auto unlock items required. 
+	/// - Chi co tac dung khi isUnlock = true
+	/// - Neu isAutoUnlockItemsRequired : neu chua du tieu chuan unlock map thi tu dong unlock cac item yeu cau
+	/// </param>
+	public static bool UnlockMap (RegionType regionType, bool isUnlock, bool isAutoUnlockItemsRequired) 
 	{
 		string unlockMapKey = "UNLOCK_MAP_" + regionType.ToString ();
-		if (isUnlock) {
-			PlayerPrefs.SetInt (unlockMapKey, 1);
-		} else {
+		if (isUnlock == false) {
 			PlayerPrefs.SetInt(unlockMapKey,0);
+			PlayerPrefs.Save ();
+			return true;
 		}
+
+		// ----   isUnlock = true  ----
+
+		// Chua du tieu chuan de co the unlock
+		// Va khong cho phep tu dong unlock items required de unlock
+		if (Region.CanUnlockMap (regionType) == false && isAutoUnlockItemsRequired == false) {
+			// Khong unlock thanh cong
+			return false;
+		}
+
+		// Can tu dong unlock cac items required 
+		if (Region.CanUnlockMap (regionType) == false && isAutoUnlockItemsRequired == true) {
+		}
+
+		// Unlock
+		PlayerPrefs.SetInt (unlockMapKey, 1);
 		PlayerPrefs.Save ();
+		return true;
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns><c>true</c> if can unlock map the specified regionType; otherwise, <c>false</c>.</returns>
+	/// <param name="regionType">Region type.</param>
+	public static bool CanUnlockMap (RegionType regionType) 
+	{
+		return false;
 	}
 
 	/// <summary>

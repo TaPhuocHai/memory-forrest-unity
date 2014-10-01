@@ -9,14 +9,14 @@ public class MapScript : MonoBehaviour {
 		Card.Initialize ();
 
 		// Clear reward data
-		if (Constant.kClearMissionData) {
+		if (Constant.kClearRewardData) {
 			// Id auto of mission 
 			PlayerPrefs.SetInt ("AUTO_MISSION_CODE", 0);
 			PlayerPrefs.Save ();
 
 			foreach (RegionType regionType in (RegionType[]) Enum.GetValues(typeof(RegionType))) {			
 				Region region = Region.Instance (regionType);
-				region.ClearDataFinishMission ();
+				region.ClearRewardOfMission ();
 			}
 		}
 	}

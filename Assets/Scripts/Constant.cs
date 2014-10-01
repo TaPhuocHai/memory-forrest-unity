@@ -4,15 +4,20 @@ using System.Collections;
 public class Constant {
 
 	/// <summary>
-	/// Gia tri nay = true thi co the goi ham de task mission complete
+	/// Debug mode : su dung de chung thuc 1 so ham chi duoc phep chay o che do debug mode
+	/// </summary>
+	public static bool kDebugMode = true;
+
+	/// <summary>
+	/// Gia tri nay = true thi co the goi ham de set task mission complete
 	/// </summary>
 	public static bool  kDebugMission = false;
 
 	/// <summary>
 	/// Xoa het tat thong tin ve mission khi chay app
-	/// Xoa thong tin unlock khi thuc hien mission
+	/// Xoa thong tin reward khi thuc hien mission
 	/// </summary>
-	public static bool   kClearMissionData = false;
+	public static bool   kClearRewardData = false;
 
 	/// <summary>
 	/// Time play default.
