@@ -697,6 +697,102 @@ public class Region
 				);
 			}
 		} else if (regionType == RegionType.WolfCamp) {
+			if (round == 0) {
+				cardRandomCode = new CardRandomCode (
+					new PercentRule (
+						new List<Rule> () {
+							new SimpleRule(CardType.Banana),
+							new SimpleRule(CardType.Grape),
+							new SimpleRule(CardType.Pears),
+							new SimpleRule(CardType.Cherry),
+							new SimpleRule(CardType.PineApple),
+							new SimpleRule(CardType.Carrot),
+							new FixCachePercentRule (
+								new Dictionary<CardType,float>() {
+									{CardType.BlueButterfly, 40},
+									{CardType.RedButterfly, 30},
+									{CardType.YellowButterfly, 30},
+								})
+						},
+						new List<float>() {15,15,15,15,15,15,10}
+					),
+					new Dictionary<CardType, int> () {{CardType.Stone, 1}, {CardType.Wolf, 3}}
+				);
+			} else if (round == 1) {
+				cardRandomCode = new CardRandomCode (
+					new PercentRule (
+						new List<Rule> () {
+							new SimpleRule(CardType.Banana),
+							new SimpleRule(CardType.Grape),
+							new SimpleRule(CardType.Pears),
+							new SimpleRule(CardType.Cherry),
+							new SimpleRule(CardType.PineApple),
+							new SimpleRule(CardType.Carrot),
+							new FixCachePercentRule (
+								new Dictionary<CardType,float>() {
+									{CardType.BlueButterfly, 25},
+									{CardType.RedButterfly, 25},
+									{CardType.YellowButterfly, 25},
+									{CardType.VioletButterfly, 25},
+								})
+						},
+						new List<float>() {15,15,15,15,15,15,10}
+					),
+					new Dictionary<CardType, int> () {{CardType.Stone, 3}, {CardType.Wolf, 1}}
+				);
+			} else if (round == 2) {
+				cardRandomCode = new CardRandomCode (
+					new PercentRule (
+						new List<Rule> () {
+							new SimpleRule(CardType.Banana),
+							new SimpleRule(CardType.Grape),
+							new SimpleRule(CardType.Pears),
+							new SimpleRule(CardType.Cherry),
+							new SimpleRule(CardType.PineApple),
+							new SimpleRule(CardType.Carrot),
+							new FixCachePercentRule (
+								new Dictionary<CardType,float>() {
+									{CardType.BlueButterfly, 25},
+									{CardType.RedButterfly, 25},
+									{CardType.YellowButterfly, 25},
+									{CardType.VioletButterfly, 25},
+								})
+						},
+						new List<float>() {15,15,15,15,15,15,10}
+					),
+					new Dictionary<CardType, int> () {{CardType.Stone, 3}, {CardType.Wolf, 2}, {CardType.RabbitKing, 1}}
+				);
+			} else {
+				cardRandomCode = new CardRandomCode (
+					new PercentRule (
+						new List<Rule> () {
+							new FixCachePercentRule (
+								new Dictionary<CardType,float>() {
+									{CardType.Mushroom, 50},
+									{CardType.Banana, 50},
+							}),
+							new FixCachePercentRule (
+								new Dictionary<CardType,float>() {
+									{CardType.Apple, 50},
+									{CardType.Grape, 50},
+							}),
+							new SimpleRule(CardType.Pears),
+							new SimpleRule(CardType.Cherry),
+							new SimpleRule(CardType.PineApple),
+							new SimpleRule(CardType.Carrot),
+							new FixCachePercentRule (
+								new Dictionary<CardType,float>() {
+									{CardType.BlueButterfly, 25},
+									{CardType.RedButterfly, 25},
+									{CardType.YellowButterfly, 25},
+									{CardType.VioletButterfly, 25},
+								})
+						},
+						new List<float>() {15,15,15,15,15,15,10}
+					),
+					new Dictionary<CardType, int> () {{CardType.Stone, 3}, {CardType.Wolf, 2}, {CardType.WolfKing, 1}}
+				);
+			}
 		}
 		return cardRandomCode;
 	}
