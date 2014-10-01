@@ -85,7 +85,18 @@ public class PercentRule : Rule
 	#endregion
 	
 	#region Override 
-	
+
+	override public string name { 
+		get {
+			string name = "( ";
+			foreach (Rule rule in this._listRule) {
+				name += rule.name;
+			}
+			name += " )";
+			return name;
+		}
+	}
+
 	/// <summary>
 	/// Rule nay duoc enable khi co it nhat 1 rule duoc enable
 	/// </summary>
@@ -164,9 +175,12 @@ public class PercentRule : Rule
 					this._listValueEnable[i] = this._listValueEnable[i] + giaTriCongThem;
 				}
 			}
+
+			string tile = "";
 			for (int i = 0 ; i < this._listValueEnable.Count ; i ++) {
-				Debug.Log ("ket qua : " + this._listValueEnable[i].ToString());
+				tile += this._listRuleEnable[i].name + " : " + this._listValueEnable[i].ToString() + " ||  ";
 			}
+			Debug.Log (tile);
 		}
 		
 		// Random 1 so

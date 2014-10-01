@@ -16,6 +16,8 @@ public abstract class Rule
 
 	virtual public bool isCache { get ; set; }
 
+	virtual public string name { get; private set;}
+
 	/// <summary>
 	/// Randoms the card.
 	/// </summary>

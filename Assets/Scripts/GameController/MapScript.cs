@@ -23,7 +23,7 @@ public class MapScript : MonoBehaviour {
 
 	void Start () 
 	{
-		CardRandomCodeTest.RunTest ();
+		CardRandomCodeTest.RunTestMap2 ();
 	}
 
 	void Update () {}

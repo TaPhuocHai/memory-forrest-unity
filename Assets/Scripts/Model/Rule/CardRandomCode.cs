@@ -38,8 +38,10 @@ public class CardRandomCode
 		Dictionary<CardType, int> numberCardToRandomWithTypeKey = new Dictionary<CardType, int> ();
 		
 		// Get card can phai co
-		foreach (CardType type in this._cardTypeAndNumberRequired.Keys) {
-			numberCardToRandomWithTypeKey[type] = this._cardTypeAndNumberRequired[type];
+		if (this._cardTypeAndNumberRequired != null && this._cardTypeAndNumberRequired.Count != 0) {
+			foreach (CardType type in this._cardTypeAndNumberRequired.Keys) {
+				numberCardToRandomWithTypeKey[type] = this._cardTypeAndNumberRequired[type];
+			}
 		}
 		
 		// Dem so luong tong so card special da random

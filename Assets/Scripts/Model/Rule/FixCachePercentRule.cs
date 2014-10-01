@@ -31,7 +31,13 @@ public class FixCachePercentRule : PercentRule
 	#endregion
 
 	#region Override 
-	
+
+	override public string name { 
+		get {
+			return base.name;
+		}
+	}
+
 	/// <summary>
 	/// isCache = true : su dung ket qua cardType da random truoc do
 	/// </summary>

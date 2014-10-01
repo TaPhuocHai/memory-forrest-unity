@@ -33,6 +33,8 @@ public class SimpleRule : Rule
 	{
 		return this.cardType;
 	}
-	
+
+	override public string name { get { return this.cardType.ToString(); }}
+
 	#endregion
 }
