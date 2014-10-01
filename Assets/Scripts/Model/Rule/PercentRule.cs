@@ -180,7 +180,7 @@ public class PercentRule : Rule
 			for (int i = 0 ; i < this._listValueEnable.Count ; i ++) {
 				tile += this._listRuleEnable[i].name + " : " + this._listValueEnable[i].ToString() + " ||  ";
 			}
-			Debug.Log (tile);
+			//Debug.Log (tile);
 		}
 		
 		// Random 1 so

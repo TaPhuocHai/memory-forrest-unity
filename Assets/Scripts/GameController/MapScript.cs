@@ -23,6 +23,9 @@ public class MapScript : MonoBehaviour {
 
 	void Start () 
 	{
+		CardRandomCodeTest.RunTestMap1 ();
+		CardRandomCodeTest.RunTestMap3 ();
+		CardRandomCodeTest.RunTestMap4 ();
 		CardRandomCodeTest.RunTestMap2 ();
 	}
 
