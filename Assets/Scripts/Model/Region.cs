@@ -336,6 +336,39 @@ public class Region
 	#region Static Functions
 
 	/// <summary>
+	/// Determines if is unlock map the specified regionType.
+	/// </summary>
+	/// <returns><c>true</c> if is unlock map the specified regionType; otherwise, <c>false</c>.</returns>
+	/// <param name="regionType">Region type.</param>
+	public static bool IsUnlockMap (RegionType regionType) 
+	{
+		if (regionType == RegionType.KingdomOfRabbits) {
+			return true;
+		}
+		string unlockMapKey = "UNLOCK_MAP_" + regionType.ToString ();
+		if (PlayerPrefs.GetInt (unlockMapKey, 0) == 0) {
+			return false;
+		}
+		return true;
+	}
+
+	/// <summary>
+	/// Unlocks the map.
+	/// </summary>
+	/// <param name="regionType">Region type.</param>
+	/// <param name="isUnlock">If set to <c>true</c> is unlock.</param>
+	public static void UnlockMap (RegionType regionType, bool isUnlock) 
+	{
+		string unlockMapKey = "UNLOCK_MAP_" + regionType.ToString ();
+		if (isUnlock) {
+			PlayerPrefs.SetInt (unlockMapKey, 1);
+		} else {
+			PlayerPrefs.SetInt(unlockMapKey,0);
+		}
+		PlayerPrefs.Save ();
+	}
+
+	/// <summary>
 	/// Determines if is unlock round the specified regionType round.
 	/// </summary>
 	/// <returns><c>true</c> if is unlock round the specified regionType round; otherwise, <c>false</c>.</returns>
