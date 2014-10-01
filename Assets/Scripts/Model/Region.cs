@@ -583,7 +583,7 @@ public class Region
 		if (regionType == RegionType.KingdomOfRabbits) {
 			if (round == 0) {
 				cardRandomCode = new CardRandomCode (
-					 new ComplexRule (new Dictionary <CardType, float> () {
+					new PercentRule (new Dictionary <CardType, float> () {
 						{CardType.Mushroom, 30},
 						{CardType.Apple, 30},
 						{CardType.Carrot, 30},
@@ -591,7 +591,7 @@ public class Region
 				);
 			} else {
 				cardRandomCode = new CardRandomCode (
-					 new ComplexRule (new Dictionary <CardType, float> () {
+					new PercentRule (new Dictionary <CardType, float> () {
 						{CardType.Mushroom, 25},
 						{CardType.Apple, 25},
 						{CardType.Carrot, 25},
@@ -601,7 +601,7 @@ public class Region
 		} else if (regionType == RegionType.Forest) {
 			if (round == 0) {
 				cardRandomCode = new CardRandomCode (
-					new ComplexRule (
+					new PercentRule (
 						new Dictionary <CardType,float> () {
 							{CardType.Mushroom, 25},
 							{CardType.Apple, 25},
@@ -614,7 +614,7 @@ public class Region
 				);
 			} else if (round == 1) {
 				cardRandomCode = new CardRandomCode (
-					new ComplexRule (
+					new PercentRule (
 						new Dictionary <CardType,float> () {
 							{CardType.Strawberry, 15},
 							{CardType.Apple, 25},
@@ -627,7 +627,7 @@ public class Region
 				);
 			} else {
 				cardRandomCode = new CardRandomCode (
-					new ComplexRule (
+					new PercentRule (
 						new Dictionary <CardType,float> () {
 							{CardType.RabbitKing, 10},
 							{CardType.Strawberry, 15},
@@ -643,7 +643,7 @@ public class Region
 		} else if (regionType == RegionType.StoneMountain) {
 			if (round == 0) {
 				cardRandomCode = new CardRandomCode (
-					new ComplexRule (
+					new PercentRule (
 						new Dictionary <CardType,float> () {
 							{CardType.RabbitKing, 10},
 							{CardType.Strawberry, 15},
@@ -653,7 +653,7 @@ public class Region
 							{CardType.PineApple, 25},
 						}
 					),
-					new Dictionary<CardType, int> () {{CardType.Stone, 2}}
+					new Dictionary<CardType, int> () {{CardType.Stone, 1}}
 				);
 			} else if (round == 1) {
 			} else {

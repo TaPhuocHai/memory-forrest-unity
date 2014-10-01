@@ -1,87 +1,45 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
-/// Rule.
+/// PercentRule rule.
+/// Chua danh sach Rule : ti le %
+/// Moi lan goi RandomCard no se dua vao ti le % cua moi Rule de quyet dinh Rule nao duoc su dung de RandomCard
+/// Vi moi loai card co the bi unlock, moi lan goi RandomCard no se tu dong chia ti le % cua rule bi lock sang cho cac rule khac
+/// Card bi unlock duoc the hien duoi properties isEnable
+/// Neu isCache = true : luu ket qua tinh toan : chia ti le % cua Rule bi unlock cho cac rule khac.
+/// Neu isCache = false : xoa het du lieu tinh toan
 /// </summary>
-public abstract class Rule
-{	
-	virtual public bool isEnable 
-	{
-		get {
-			return true;
-		}
-	}
-
-	virtual public bool isCache { get ; set; }
-
-	/// <summary>
-	/// Randoms the card.
-	/// </summary>
-	/// <returns>The card.</returns>
-	virtual public CardType RandomCard ()  { return CardType.Apple; }
-}
-
-public class SimpleRule : Rule 
-{
-	private CardType cardType;
-
-	public SimpleRule (CardType cardType)
-	{
-		this.cardType = cardType;
-	}
-
-	#region Override 
-
-	/// <summary>
-	/// Rule dua tren cardtype, chi unlock rule neu card type duoc unlock
-	/// </summary>
-	/// <returns>true</returns>
-	/// <c>false</c>
-	/// 
-	override public bool isEnable 
-	{
-		get {
-			return Card.IsUnlock (cardType);
-		}
-	}
-
-	override public  CardType RandomCard () 
-	{
-		return this.cardType;
-	}
-
-	#endregion
-}
-
-public class ComplexRule : Rule
+public class PercentRule : Rule
 {
 	private List<float>  _listValue;
 	private List<Rule>   _listRule;
-
+	
 	private List<float>  _listValueEnable;
 	private List<Rule>   _listRuleEnable;
 
-	public ComplexRule () 
+	#region Contructor
+
+	public PercentRule () 
 	{
 		_listValue = new List<float> ();
 		_listRule = new List<Rule> ();
 	}
-
+	
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ComplexRule"/> class.
 	/// </summary>
 	/// <param name="cardType">Card type.</param>
 	/// <param name="value">Value : 0 -> 100</param>
-	public ComplexRule (CardType cardType, float value)
+	public PercentRule (CardType cardType, float value)
 		: this ()
 	{
 		this._listValue.Add (value);
 		this._listRule.Add (new SimpleRule (cardType));
 	}
 	
-	public ComplexRule (Dictionary<CardType,float> cardTypeAndValue)
+	public PercentRule (Dictionary<CardType,float> cardTypeAndValue)
 		: this ()
 	{
 		foreach (CardType type in cardTypeAndValue.Keys) {
@@ -90,6 +48,10 @@ public class ComplexRule : Rule
 			this._listRule.Add (new SimpleRule (type));
 		}
 	}
+
+	#endregion
+
+	#region Functions
 	
 	public void AddMore (CardType cardType, float value) 
 	{
@@ -103,10 +65,12 @@ public class ComplexRule : Rule
 		this._listRule.Add (rule);
 	}
 
+	#endregion
+	
 	#region Override 
-
+	
 	/// <summary>
-	/// Moi rule dua tren card type
+	/// Rule nay duoc enable khi co it nhat 1 rule duoc enable
 	/// </summary>
 	/// <returns>true</returns>
 	/// <c>false</c>
@@ -122,7 +86,13 @@ public class ComplexRule : Rule
 			return false;
 		}
 	}
-
+	
+	/// <summary>
+	/// The _is cache.
+	/// Neu isCache = true : luu ket qua tinh toan (chia ti le % cua Rule bi unlock cho cac rule khac)
+	/// cho lan goi RandomCard lan sau -> toi uu xu ly cho CPU
+	/// Neu isCache = false : xoa het du lieu tinh toan
+	/// </summary>
 	private bool _isCache;
 	override public bool isCache { 
 		get {return _isCache; }
@@ -131,7 +101,7 @@ public class ComplexRule : Rule
 			if (_isCache == false) {
 				_listRuleEnable = null;
 				_listValueEnable = null;
-
+				
 				foreach (Rule rule in this._listRule) {
 					rule.isCache = false;
 				}
@@ -142,7 +112,7 @@ public class ComplexRule : Rule
 			}
 		}
 	}
-
+	
 	public override CardType RandomCard () 
 	{
 		// Co mot so card chua duoc unlock
@@ -169,7 +139,7 @@ public class ComplexRule : Rule
 					this._listValueEnable.Add (this._listValue[i]);
 				}
 			}
-
+			
 			// Phan bo cac ti le % cua rule bi loced vao cac rule duoc enable
 			foreach (float percent in listValueLocked) {
 				float giaTriCongThem = percent/this._listValueEnable.Count;
@@ -181,10 +151,10 @@ public class ComplexRule : Rule
 				Debug.Log ("ket qua : " + this._listValueEnable[i].ToString());
 			}
 		}
-
+		
 		// Random 1 so
 		int radomValue = Random.Range (0, 100);
-
+		
 		int index = 0;
 		float value = this._listValueEnable[0];
 		// Tai phan tu i neu value > radomValue thi ket qua la i - 1;
@@ -196,77 +166,10 @@ public class ComplexRule : Rule
 			}
 			value += this._listValueEnable[index];
 		}
-
+		
 		Rule resultRule = this._listRuleEnable [index];
 		return resultRule.RandomCard();
 	}
-
+	
 	#endregion
-}
-
-public class CardRandomCode
-{
-	private Dictionary<CardType, int> _cardTypeAndNumberRequired;
-	private Rule _rule;
-
-	public CardRandomCode(Rule rule)
-	{
-		this._rule = rule;
-	}
-
-	public CardRandomCode(Rule rule, Dictionary<CardType, int> cardTypeAndNumberRequired)
-	{
-		this._rule = rule;
-		this._cardTypeAndNumberRequired = cardTypeAndNumberRequired;
-	}
-
-	public Dictionary<CardType, int> GetCards (int totalCardNeed) 
-	{
-		// Bien chua thong tin card : so luong
-		Dictionary<CardType, int> numberCardToRandomWithTypeKey = new Dictionary<CardType, int> ();
-
-		// Get card can phai co
-		foreach (CardType type in this._cardTypeAndNumberRequired.Keys) {
-			numberCardToRandomWithTypeKey[type] = this._cardTypeAndNumberRequired[type];
-		}
-
-		// Dem so luong tong so card special da random
-		int totalCarDidRandom = 0;
-		foreach (CardType key in numberCardToRandomWithTypeKey.Keys) {
-			totalCarDidRandom += (int)numberCardToRandomWithTypeKey[key];
-		}
-
-		this._rule.isEnable = true;
-
-		// So luong card con lai danh cho card thuong
-		int numberOfNormalCard = totalCardNeed - totalCarDidRandom;
-
-		// Neu la so le thi bo sung them 1 card da
-		if (numberOfNormalCard % 2 == 1) {
-			int numberCardStone = 0;
-			if (numberCardToRandomWithTypeKey.ContainsKey(CardType.Stone)) {
-				numberCardStone = numberCardToRandomWithTypeKey[CardType.Stone];
-			}
-			numberCardStone += 1;
-			numberCardToRandomWithTypeKey[CardType.Stone] = numberCardStone;
-		}
-
-		// Random cac cap thuong
-		for (int i = 0; i < numberOfNormalCard/2; i ++) {		
-			// Random type
-			CardType type = this._rule.RandomCard ();
-			
-			// Lay so luong da random truoc danh cho type nay
-			int numberCardDidRandomForType = 0;
-			if (numberCardToRandomWithTypeKey.ContainsKey(type)) {
-				numberCardDidRandomForType = numberCardToRandomWithTypeKey[type];
-			}
-			numberCardDidRandomForType += 2;
-			numberCardToRandomWithTypeKey[type] = numberCardDidRandomForType;
-		}
-
-		this._rule.isEnable = false;
-
-		return numberCardToRandomWithTypeKey;
-	}
 }
