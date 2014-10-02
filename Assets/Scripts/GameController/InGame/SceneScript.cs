@@ -9,6 +9,14 @@ public class SceneScript : MonoBehaviour {
 	public Transform cardPrefab;
 	public Transform addPoint;
 
+	/// <summary>
+	/// The enable to touch.
+	/// Bien nay = true thi moi cho phep touch tren card
+	/// </summary>
+	static public bool EnableToTouch;
+
+	#region Private variable
+
 	// Danh sach card tren man hinh
 	private ArrayList  _cardOnScreen;
 	// Card da duoc mo
@@ -22,13 +30,14 @@ public class SceneScript : MonoBehaviour {
 	// Vong choi hien tai
 	private int          _round;
 
-	// Cho phep touch
-	static public bool EnableToTouch;
+	#endregion
+
+	#region Game Cycle
 
 	void Awake () 
 	{
 	}
-	
+
 	void Start () 
 	{
 		// Init Region
@@ -48,7 +57,60 @@ public class SceneScript : MonoBehaviour {
 
 	void Update () {}
 
-	// -----------------------------------------------------------------------------
+	#endregion
+
+	#region Game navigation
+
+	/// <summary>
+	/// Exits to map.
+	/// </summary>
+	public void ExitToMap () 
+	{
+		Application.LoadLevel ("Map");
+	}
+	
+	/// <summary>
+	/// Reset man choi, choi lai
+	/// </summary>
+	public void ResetRound () 
+	{
+		Player.lastScore = this._playGameData.score;
+		
+		// Tao moi lop luu thong tin man choi
+		this._playGameData.Reset ();
+		
+		this._round = 0;
+		
+		// Clear debug
+		DebugScript.Clear ();
+		
+		// Destroy all card on screen
+		for (int i = 0; i < this._cardOnScreen.Count; i ++) {
+			Transform card = (Transform)this._cardOnScreen [i];
+			Destroy (card.gameObject);
+		}
+		
+		// Exit Game Over
+		Transform gameOver = this.transform.parent.FindChild("GameOver");
+		if (gameOver) {
+			GameOverScipt gameOverScipt = gameOver.GetComponent<GameOverScipt> ();
+			gameOverScipt.ExitGameOver ();
+		}
+		
+		// Reset time
+		TimerScript.ResetTimer ();
+		
+		// Reset POINT
+		this._playGameData.score = 0;
+		
+		// Init round
+		StartCoroutine (this.InitRound ());
+	}
+
+	#endregion
+
+
+	#region Open Card
 
 	/// <summary>
 	/// Opens the card - Tinh diem
@@ -63,52 +125,6 @@ public class SceneScript : MonoBehaviour {
 		} else {
 			StartCoroutine(WaitAndCheckOpenCard(card));
 		}
-	}
-
-	/// <summary>
-	/// Exits to map.
-	/// </summary>
-	public void ExitToMap () 
-	{
-		Application.LoadLevel ("Map");
-	}
-
-	/// <summary>
-	/// Reset man choi, choi lai
-	/// </summary>
-	public void ResetRound () 
-	{
-		Player.lastScore = this._playGameData.score;
-
-		// Tao moi lop luu thong tin man choi
-		this._playGameData.Reset ();
-
-		this._round = 0;
-
-		// Clear debug
-		DebugScript.Clear ();
-
-		// Destroy all card on screen
-		for (int i = 0; i < this._cardOnScreen.Count; i ++) {
-			Transform card = (Transform)this._cardOnScreen [i];
-			Destroy (card.gameObject);
-		}
-
-		// Exit Game Over
-		Transform gameOver = this.transform.parent.FindChild("GameOver");
-		if (gameOver) {
-			GameOverScipt gameOverScipt = gameOver.GetComponent<GameOverScipt> ();
-			gameOverScipt.ExitGameOver ();
-		}
-
-		// Reset time
-		TimerScript.ResetTimer ();
-
-		// Reset POINT
-		this._playGameData.score = 0;
-
-		// Init round
-		StartCoroutine (this.InitRound ());
 	}
 
 	// -----------------------------------------------------------------------------
@@ -522,6 +538,10 @@ public class SceneScript : MonoBehaviour {
 		StartCoroutine(this.CheckCardOnScreenAndInitNextRoundIfNeed ());
 	}
 
+	#endregion
+
+	#region Private function
+
 	/// <summary>
 	/// Ramdom card tren man hinh cho moi vong choi
 	/// </summary>
@@ -633,4 +653,7 @@ public class SceneScript : MonoBehaviour {
 		// Cho phep user co the choi
 		SceneScript.EnableToTouch = true;
 	}
+
+
+	#endregion
 }
