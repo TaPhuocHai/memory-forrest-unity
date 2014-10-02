@@ -845,9 +845,21 @@ public class Region
 				cardRandomCode = new CardRandomCode (
 					new PercentRule (
 						new List<Rule> () {
-							new SimpleRule(CardType.Banana),
-							new SimpleRule(CardType.Grape),
-							new SimpleRule(CardType.Pears),
+							new FixCachePercentRule (
+								new Dictionary<CardType,float>() {
+								{CardType.Mushroom, 50},
+								{CardType.Banana, 50},
+							}),
+							new FixCachePercentRule (
+								new Dictionary<CardType,float>() {
+								{CardType.Apple, 50},
+								{CardType.Grape, 50},
+							}),
+							new FixCachePercentRule (
+								new Dictionary<CardType,float>() {
+								{CardType.Pears, 50},
+								{CardType.Strawberry, 50},
+							}),
 							new SimpleRule(CardType.Cherry),
 							new SimpleRule(CardType.PineApple),
 							new SimpleRule(CardType.Carrot),
@@ -866,9 +878,21 @@ public class Region
 				cardRandomCode = new CardRandomCode (
 					new PercentRule (
 						new List<Rule> () {
-							new SimpleRule(CardType.Banana),
-							new SimpleRule(CardType.Grape),
-							new SimpleRule(CardType.Pears),
+							new FixCachePercentRule (
+								new Dictionary<CardType,float>() {
+									{CardType.Mushroom, 50},
+									{CardType.Banana, 50},
+							}),
+							new FixCachePercentRule (
+								new Dictionary<CardType,float>() {
+									{CardType.Apple, 50},
+									{CardType.Grape, 50},
+							}),
+							new FixCachePercentRule (
+								new Dictionary<CardType,float>() {
+									{CardType.Pears, 50},
+									{CardType.Strawberry, 50},
+							}),
 							new SimpleRule(CardType.Cherry),
 							new SimpleRule(CardType.PineApple),
 							new SimpleRule(CardType.Carrot),
@@ -888,9 +912,21 @@ public class Region
 				cardRandomCode = new CardRandomCode (
 					new PercentRule (
 						new List<Rule> () {
-							new SimpleRule(CardType.Banana),
-							new SimpleRule(CardType.Grape),
-							new SimpleRule(CardType.Pears),
+							new FixCachePercentRule (
+								new Dictionary<CardType,float>() {
+								{CardType.Mushroom, 50},
+								{CardType.Banana, 50},
+							}),
+							new FixCachePercentRule (
+								new Dictionary<CardType,float>() {
+								{CardType.Apple, 50},
+								{CardType.Grape, 50},
+							}),
+							new FixCachePercentRule (
+								new Dictionary<CardType,float>() {
+								{CardType.Pears, 50},
+								{CardType.Strawberry, 50},
+							}),
 							new SimpleRule(CardType.Cherry),
 							new SimpleRule(CardType.PineApple),
 							new SimpleRule(CardType.Carrot),
@@ -920,7 +956,11 @@ public class Region
 									{CardType.Apple, 50},
 									{CardType.Grape, 50},
 							}),
-							new SimpleRule(CardType.Pears),
+							new FixCachePercentRule (
+								new Dictionary<CardType,float>() {
+								{CardType.Pears, 50},
+								{CardType.Strawberry, 50},
+							}),
 							new SimpleRule(CardType.Cherry),
 							new SimpleRule(CardType.PineApple),
 							new SimpleRule(CardType.Carrot),

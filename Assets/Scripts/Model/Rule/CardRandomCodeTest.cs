@@ -8,6 +8,23 @@ public class CardRandomCodeTest
 	static int NUMBER_ROUND = 4;
 	static int NUMBER_TEST_IN_ROUND = 5;
 
+	/// <summary>
+	/// Khi chay cac RunTestMap cac card co the bi unlock, goi ham nay de tra ve mat dinh
+	/// </summary>
+	public static void ResertLockCardDefault () 
+	{
+		Region.UnlockMap (RegionType.KingdomOfRabbits, false, true);
+		Region.UnlockMap (RegionType.Forest, false, true);
+		Region.UnlockMap (RegionType.StoneMountain, false, true);
+		Region.UnlockMap (RegionType.WolfCamp, false, true);
+
+		// Lock 1 so card cua map 4
+		Card.Unlock (CardType.Banana, false);
+		Card.Unlock (CardType.Grape, false);
+		Card.Unlock (CardType.Pears, false);
+		Card.Unlock (CardType.Cherry, false);
+	}
+
 	public static void RunTestMap1 () 
 	{
 		Region map1 = Region.Instance (RegionType.KingdomOfRabbits);

@@ -23,10 +23,11 @@ public class MapScript : MonoBehaviour {
 
 	void Start () 
 	{
-		CardRandomCodeTest.RunTestMap1 ();
-		CardRandomCodeTest.RunTestMap3 ();
-		CardRandomCodeTest.RunTestMap4 ();
-		CardRandomCodeTest.RunTestMap2 ();
+//		CardRandomCodeTest.RunTestMap1 ();
+//		CardRandomCodeTest.RunTestMap2 ();
+//		CardRandomCodeTest.RunTestMap3 ();
+//		CardRandomCodeTest.RunTestMap4 ();
+//		CardRandomCodeTest.ResertLockCardDefault ();
 	}
 
 	void Update () {}
