@@ -18,7 +18,7 @@ public class SceneScript : MonoBehaviour {
 	#region Private variable
 
 	// Danh sach card tren man hinh
-	private ArrayList  _cardOnScreen;
+	private List<Transform>  _cardOnScreen;
 	// Card da duoc mo
 	private GameObject _prevCardOpen;
 
@@ -150,10 +150,19 @@ public class SceneScript : MonoBehaviour {
 		// Neu la soi binh thuong
 		if (cardScript.card.type == CardType.Wolf) {
 			// Thay doi vi tri cua 3 la bai
+			List<Transform> listChangePosition = new List<Transform>();
+			foreach (Transform cardObject in this._cardOnScreen) {
+				listChangePosition.Add (cardObject);
+				if (listChangePosition.Count == 3) {
+					break;
+				}
+			}
+			this.SwapPositionObjects (listChangePosition);
 		} 
 		// Soi vui
 		else {
 			// Thay doi vi tri cua tat ca la bai
+			this.SwapPositionObjects (this._cardOnScreen);
 		}
 		// cho phep user tiep tuc chon card khac
 		EnableToTouch = true;
@@ -368,7 +377,7 @@ public class SceneScript : MonoBehaviour {
 	/// </summary>
 	private void ChangeFaceBack3CoupleCard () 
 	{
-		ArrayList cardNeedOpenList = this.Get3CoupleCardOnScrene ();
+		List<Transform> cardNeedOpenList = this.Get3CoupleCardOnScrene ();
 
 		foreach (Transform c in cardNeedOpenList) {
 			CardScript cScript = c.GetComponent<CardScript> ();
@@ -384,7 +393,7 @@ public class SceneScript : MonoBehaviour {
 	{
 		EnableToTouch = false;
 
-		ArrayList cardNeedOpenList = this.Get3CoupleCardOnScrene ();
+		List<Transform> cardNeedOpenList = this.Get3CoupleCardOnScrene ();
 		print ("cardNeedOpenList : " + cardNeedOpenList.Count.ToString());
 
 		// Lat tat ca card 
@@ -407,7 +416,7 @@ public class SceneScript : MonoBehaviour {
 	/// Lay 3 cap card ngau nhien tren man hinh
 	/// </summary>
 	/// <returns>The couple card on screne.</returns>
-	private ArrayList Get3CoupleCardOnScrene () 
+	private List<Transform> Get3CoupleCardOnScrene () 
 	{
 		if (this._cardOnScreen.Count <= 6) {
 			return this._cardOnScreen;
@@ -469,7 +478,7 @@ public class SceneScript : MonoBehaviour {
 			}
 		}
 
-		ArrayList cardNeedOpenList = new ArrayList ();
+		List<Transform> cardNeedOpenList = new List<Transform> ();
 
 		// Lay ra cac card can open
 		foreach (int key in numberCoupleCardWithEachTypeToOpen.Keys) {
@@ -526,7 +535,7 @@ public class SceneScript : MonoBehaviour {
 		print ("type : " + type.ToString ());
 
 		// Lay tat ca card co type la keyWithMaxValue
-		ArrayList cardNeedOpenList = new ArrayList ();
+		List<Transform> cardNeedOpenList = new List<Transform> ();
 		foreach (Transform c in this._cardOnScreen) {
 			CardScript cScript = c.GetComponent<CardScript> ();
 			if ((int)cScript.cardType == typeWithMaxValue) {
@@ -567,6 +576,10 @@ public class SceneScript : MonoBehaviour {
 
 		yield return new WaitForSeconds(0.2f);
 		StartCoroutine(this.CheckCardOnScreenAndInitNextRoundIfNeed ());
+	}
+
+	private void SwapPositionObjects (List<Transform> listObjects) 
+	{
 	}
 
 	#endregion
@@ -622,7 +635,7 @@ public class SceneScript : MonoBehaviour {
 		Dictionary<CardType, int> numberCardToRandomWithTypeKey = this._region.GetCards (0);
 
 		// Random card thanh cac the hien 
-		this._cardOnScreen = new ArrayList ();
+		this._cardOnScreen = new List<Transform> ();
 		foreach (CardType key in numberCardToRandomWithTypeKey.Keys) {
 			int numberCardToRandom = (int)numberCardToRandomWithTypeKey[key];
 			for (int i = 0; i < numberCardToRandom ; i ++) {
