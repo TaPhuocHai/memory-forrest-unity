@@ -34,9 +34,7 @@ public class SceneScript : MonoBehaviour {
 
 	#region Game Cycle
 
-	void Awake () 
-	{
-	}
+	void Awake () {}
 
 	void Start () 
 	{
@@ -119,28 +117,61 @@ public class SceneScript : MonoBehaviour {
 	public void OpenCard (GameObject card) 
 	{
 		EnableToTouch = false;
+
+		// Moi mo 1 card
 		if (_prevCardOpen == null) {
-			_prevCardOpen = card;
-			EnableToTouch = true;
-		} else {
-			StartCoroutine(WaitAndCheckOpenCard(card));
+			CardScript cardScript = card.GetComponent<CardScript> ();			
+			// Neu card da mo la soi
+			if (cardScript.card.type == CardType.Wolf || cardScript.card.type == CardType.WolfKing) {
+				StartCoroutine(CheckOpenWolfCard(card));
+			} else {
+				_prevCardOpen = card;
+				// cho phep user tiep tuc chon card khac
+				EnableToTouch = true;
+			}
+		}
+		// Da mo du 2 card
+		else {
+			StartCoroutine(CheckOpenCard(card));
 		}
 	}
 
-	// -----------------------------------------------------------------------------
+	IEnumerator CheckOpenWolfCard(GameObject card) 
+	{
+		CardScript cardScript = card.GetComponent<CardScript> ();	
+
+		// Can doi 1 khoang thoi gian 0.65s de card hien thi tren man hinh
+		yield return new WaitForSeconds(0.65f);
+		
+		// Flip card Soi nay lai
+		FlipCardScript flipCardScript = card.GetComponent<FlipCardScript> ();
+		flipCardScript.FlipCard(false);
+		
+		// Neu la soi binh thuong
+		if (cardScript.card.type == CardType.Wolf) {
+			// Thay doi vi tri cua 3 la bai
+		} 
+		// Soi vui
+		else {
+			// Thay doi vi tri cua tat ca la bai
+		}
+		// cho phep user tiep tuc chon card khac
+		EnableToTouch = true;
+	}
 
 	/// <summary>
-	/// Waits the and check open card.
+	/// Check open card.
 	/// </summary>
 	/// <param name="card">Card.</param>
-	IEnumerator WaitAndCheckOpenCard(GameObject card) 
+	IEnumerator CheckOpenCard(GameObject card) 
 	{
 		// Can doi 1 khoang thoi gian 0.65s de card hien thi tren man hinh truoc khi kiem tra va flip hoac destroy no
 		yield return new WaitForSeconds(0.65f);
 
+		CardScript cardScript = card.GetComponent<CardScript> ();
+
 		if (_prevCardOpen != null) {
 			CardScript prevScript = _prevCardOpen.GetComponent<CardScript> ();				
-			CardScript cardScript = card.GetComponent<CardScript> ();
 
 			// Neu 2 card cung loai voi nhau
 			if (prevScript.cardType == cardScript.cardType) {
