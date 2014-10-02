@@ -580,6 +580,48 @@ public class SceneScript : MonoBehaviour {
 
 	private void SwapPositionObjects (List<Transform> listObjects) 
 	{
+		if (listObjects.Count == 0 || listObjects == null) {
+			return;
+		}
+
+		// B1 : tao ra 1 danh sach position
+		List<Vector3> positions = new List<Vector3> ();
+		for (int i = 0; i < listObjects.Count; i ++) {
+			Transform card = listObjects[i];
+			Vector3 pos = card.transform.position;
+			positions.Add (new Vector3(pos.x, pos.y,pos.z));
+		}
+
+		// B2 : Chay random thay doi vi tri thu tu trong mang
+		for (int i = 0; i < 100; i ++) {
+			int index1 = Random.Range(0,positions.Count);
+			int index2 = Random.Range(0,positions.Count);
+
+			// Hoan doi vi tri indexPosition
+			Vector3 value1 = positions[index1];
+			Vector3 value2 = positions[index2];
+			positions[index1] = value2;
+			positions[index2] = value1;
+		}
+
+		// B3 : Thuc hien di chuyen
+		for (int i = 0; i < listObjects.Count; i ++) {
+			Transform card = listObjects[i];
+			Vector3 toPosition = positions[i];
+
+			TweenParms parms;
+			if (i == listObjects.Count - 1) {
+				parms = new TweenParms().Prop("position", toPosition).Ease(EaseType.EaseOutQuint).OnComplete(SwapPositionObjectsComplete);
+			} else {
+				parms = new TweenParms().Prop("position", toPosition).Ease(EaseType.EaseOutQuint);
+			}
+			HOTween.To (card, 0.5f, parms);
+		}
+	}
+
+	private void SwapPositionObjectsComplete () 
+	{
+		EnableToTouch = true;
 	}
 
 	#endregion
