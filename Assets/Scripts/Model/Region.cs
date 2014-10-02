@@ -731,7 +731,8 @@ public class Region
 						{CardType.Mushroom, 30},
 						{CardType.Apple, 30},
 						{CardType.Carrot, 30},
-						{CardType.WhiteRabbit, 10}})
+						{CardType.WhiteRabbit, 10}}),
+					new Dictionary<CardType, int> () {{CardType.Wolf, 1}, {CardType.WolfKing, 1}}
 				);
 			} else {
 				cardRandomCode = new CardRandomCode (

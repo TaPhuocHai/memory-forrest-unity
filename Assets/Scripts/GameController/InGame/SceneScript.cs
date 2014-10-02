@@ -117,55 +117,7 @@ public class SceneScript : MonoBehaviour {
 	public void OpenCard (GameObject card) 
 	{
 		EnableToTouch = false;
-
-		// Moi mo 1 card
-		if (_prevCardOpen == null) {
-			CardScript cardScript = card.GetComponent<CardScript> ();			
-			// Neu card da mo la soi
-			if (cardScript.card.type == CardType.Wolf || cardScript.card.type == CardType.WolfKing) {
-				StartCoroutine(CheckOpenWolfCard(card));
-			} else {
-				_prevCardOpen = card;
-				// cho phep user tiep tuc chon card khac
-				EnableToTouch = true;
-			}
-		}
-		// Da mo du 2 card
-		else {
-			StartCoroutine(CheckOpenCard(card));
-		}
-	}
-
-	IEnumerator CheckOpenWolfCard(GameObject card) 
-	{
-		CardScript cardScript = card.GetComponent<CardScript> ();	
-
-		// Can doi 1 khoang thoi gian 0.65s de card hien thi tren man hinh
-		yield return new WaitForSeconds(0.65f);
-		
-		// Flip card Soi nay lai
-		FlipCardScript flipCardScript = card.GetComponent<FlipCardScript> ();
-		flipCardScript.FlipCard(false);
-		
-		// Neu la soi binh thuong
-		if (cardScript.card.type == CardType.Wolf) {
-			// Thay doi vi tri cua 3 la bai
-			List<Transform> listChangePosition = new List<Transform>();
-			foreach (Transform cardObject in this._cardOnScreen) {
-				listChangePosition.Add (cardObject);
-				if (listChangePosition.Count == 3) {
-					break;
-				}
-			}
-			this.SwapPositionObjects (listChangePosition);
-		} 
-		// Soi vui
-		else {
-			// Thay doi vi tri cua tat ca la bai
-			this.SwapPositionObjects (this._cardOnScreen);
-		}
-		// cho phep user tiep tuc chon card khac
-		EnableToTouch = true;
+		StartCoroutine(CheckOpenCard(card));
 	}
 
 	/// <summary>
@@ -174,12 +126,14 @@ public class SceneScript : MonoBehaviour {
 	/// <param name="card">Card.</param>
 	IEnumerator CheckOpenCard(GameObject card) 
 	{
-		// Can doi 1 khoang thoi gian 0.65s de card hien thi tren man hinh truoc khi kiem tra va flip hoac destroy no
-		yield return new WaitForSeconds(0.65f);
-
 		CardScript cardScript = card.GetComponent<CardScript> ();
 
+		// Da mo 2 la bai
 		if (_prevCardOpen != null) {
+
+			// Can doi 1 khoang thoi gian 0.65s de card hien thi tren man hinh truoc khi kiem tra va flip hoac destroy no
+			yield return new WaitForSeconds(0.65f);
+
 			CardScript prevScript = _prevCardOpen.GetComponent<CardScript> ();				
 
 			// Neu 2 card cung loai voi nhau
@@ -192,7 +146,7 @@ public class SceneScript : MonoBehaviour {
 				bool isNeedDestroyCard = true;
 				bool isAllowAddPoint   = true;
 
-				// Thua ngay lap tuc
+				// Khi mo trung la wolf hoac wolf king
 				if (cardScript.cardType == CardType.Wolf || cardScript.cardType == CardType.WolfKing) {
 					isNeedDestroyCard = false;
 					isAllowAddPoint   = false;
@@ -237,13 +191,9 @@ public class SceneScript : MonoBehaviour {
 				//---------------------------------------------------------------
 				// Buoc 2 - Effect
 
-				// Thua ngay lap tuc
+				// Thay doi vi tri khi mo la wolf hoac wolfking
 				if (cardScript.cardType == CardType.Wolf || cardScript.cardType == CardType.WolfKing) {
-					Transform gameOver = this.transform.parent.FindChild("GameOver");
-					if (gameOver) {
-						GameOverScipt gameOverScipt = gameOver.GetComponent<GameOverScipt> ();
-						gameOverScipt.EnterGameOver ();
-					}
+					this.CheckOpenWolfCard(card);
 				}
 				// Lap 3 cap bai ngau nhien tren man hinh
 				else if (cardScript.cardType == CardType.BlueButterfly) {
@@ -278,10 +228,38 @@ public class SceneScript : MonoBehaviour {
 				flipPrevScript.FlipCard(false);
 				FlipCardScript flipCardScript = card.GetComponent<FlipCardScript> ();
 				flipCardScript.FlipCard(false);
-				EnableToTouch = true;
+
+				// Neu card da mo la soi
+				if (cardScript.card.type == CardType.Wolf || cardScript.card.type == CardType.WolfKing) {
+					// Thuc hien kiem tra khi mo trung la soi
+					// EnableToTouch se duoc enable trong ham CheckOpenWolfCard hoac sau do
+					this.CheckOpenWolfCard(card);
+				} else {
+					EnableToTouch = true;
+				}
 			}
 			_prevCardOpen = null;
-		} else {
+		} 
+		// Moi mo 1 la bai
+		else {
+			// Neu card da mo la soi
+			if (cardScript.card.type == CardType.Wolf || cardScript.card.type == CardType.WolfKing) {
+
+				// Can doi 1 khoang thoi gian 0.65s de card hien thi tren man hinh truoc khi kiem tra va flip hoac destroy no
+				yield return new WaitForSeconds(0.65f);
+
+				// flip card
+				FlipCardScript flipPrevScript = card.GetComponent<FlipCardScript> ();
+				flipPrevScript.FlipCard(false);
+
+				// Thuc hien kiem tra khi mo trung la soi
+				this.CheckOpenWolfCard(card);
+			} 
+			// Khong phai la soi
+			else {
+				_prevCardOpen = card;
+			}
+			// cho phep user tiep tuc chon card khac
 			EnableToTouch = true;
 		}
 	}
@@ -369,6 +347,64 @@ public class SceneScript : MonoBehaviour {
 				}
 			}
 		}
+		EnableToTouch = true;
+	}
+
+	/// <summary>
+	/// Checks the open wolf card.
+	/// </summary>
+	/// <param name="card">Card.</param>
+	private void CheckOpenWolfCard(GameObject card) 
+	{
+		CardScript cardScript = card.GetComponent<CardScript> ();
+		
+		// Flip card Soi nay lai
+		FlipCardScript flipCardScript = card.GetComponent<FlipCardScript> ();
+		flipCardScript.FlipCard(false);
+		
+		// Neu la soi binh thuong
+		if (cardScript.card.type == CardType.Wolf) {
+			
+			List<Transform> listChangePosition = new List<Transform>();
+			
+			// Thay doi vi tri cua 3 la bai
+			if (this._cardOnScreen.Count <= 3) {
+				listChangePosition = this._cardOnScreen;
+			} else {
+				// Random cac index
+				List<int> indexRandomed = new List<int> ();
+				// Can random du 3 vi tri
+				while (indexRandomed.Count < 3) {
+					int random = Random.Range(0,this._cardOnScreen.Count);
+					// Kiem tra xem gia tri random da ton tai trong danh sach indexRandomed hay chua
+					bool isExit = false;
+					foreach (int i in indexRandomed) {
+						if (i == random) {
+							isExit = true;
+							break;
+						}
+					}
+					// Neu chua ton tai
+					if (!isExit) {
+						// Them moi random vao danh sach
+						indexRandomed.Add (random);
+					}
+				}
+				// Tao danh sach object
+				foreach (int value in indexRandomed) {
+					Transform cardObject = this._cardOnScreen[value];
+					listChangePosition.Add (cardObject);
+				}
+			}
+			// Goi ham thay doi vi tri
+			this.SwapPositionObjects (listChangePosition);
+		} 
+		// Soi vui
+		else {
+			// Thay doi vi tri cua tat ca la bai
+			this.SwapPositionObjects (this._cardOnScreen);
+		}
+		// cho phep user tiep tuc chon card khac
 		EnableToTouch = true;
 	}
 
@@ -592,16 +628,46 @@ public class SceneScript : MonoBehaviour {
 			positions.Add (new Vector3(pos.x, pos.y,pos.z));
 		}
 
-		// B2 : Chay random thay doi vi tri thu tu trong mang
-		for (int i = 0; i < 100; i ++) {
-			int index1 = Random.Range(0,positions.Count);
-			int index2 = Random.Range(0,positions.Count);
+		// B2 : Thay doi vi tri
+		// Neu chi co 3 card, thuc hien thay doi tay
+		if (positions.Count <= 1) {
+			// Khong lam gi ca
+		} if (positions.Count == 2) {
+			// Thay doi vi tri 2 phan tu
+			Vector3 value1 = positions[0];
+			Vector3 value2 = positions[1];
+			positions[0] = value2;
+			positions[1] = value1;
+		} if (positions.Count == 3) {
+			int firstIndex = Random.Range(1,positions.Count);
 
-			// Hoan doi vi tri indexPosition
-			Vector3 value1 = positions[index1];
-			Vector3 value2 = positions[index2];
-			positions[index1] = value2;
-			positions[index2] = value1;
+			Vector3 pos0 = positions[0];
+			Vector3 pos1 = positions[1];
+			Vector3 pos2 = positions[2];
+
+			Vector3 posFirstObject = positions[firstIndex];
+			positions[0] = posFirstObject;
+
+			if (firstIndex == 1) {
+				positions[1] = pos2;
+				positions[2] = pos0;
+			} else {
+				positions[1] = pos0;
+				positions[2] = pos1;
+			}
+		}
+		// Chay random thay doi vi tri thu tu trong mang
+		else {
+			for (int i = 0; i < 100; i ++) {
+				int index1 = Random.Range(0,positions.Count);
+				int index2 = Random.Range(0,positions.Count);
+				
+				// Hoan doi vi tri indexPosition
+				Vector3 value1 = positions[index1];
+				Vector3 value2 = positions[index2];
+				positions[index1] = value2;
+				positions[index2] = value1;
+			}
 		}
 
 		// B3 : Thuc hien di chuyen
@@ -615,7 +681,7 @@ public class SceneScript : MonoBehaviour {
 			} else {
 				parms = new TweenParms().Prop("position", toPosition).Ease(EaseType.EaseOutQuint);
 			}
-			HOTween.To (card, 0.5f, parms);
+			HOTween.To (card, 0.6f, parms);
 		}
 	}
 
