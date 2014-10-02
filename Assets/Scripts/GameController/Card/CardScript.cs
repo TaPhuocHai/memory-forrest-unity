@@ -8,7 +8,6 @@ public class CardScript : MonoBehaviour {
 	private CardType _cardType;
 
 	static Sprite[] sprites;
-	static Sprite[] faceBackSprite;
 
 	#region Properties
 
@@ -61,10 +60,7 @@ public class CardScript : MonoBehaviour {
 		if (type == CardFaceBack.Normal) {
 			spriteRender.sprite = CardScript.sprites [0] as Sprite;
 		} else {
-			if (CardScript.faceBackSprite == null) {
-				CardScript.faceBackSprite = Resources.LoadAll<Sprite>("Textures/GreenBackCard");
-			}
-			spriteRender.sprite = CardScript.faceBackSprite [0] as Sprite;
+			spriteRender.sprite = CardScript.sprites[Constant.kCardGreenBackSpriteIndex] as Sprite;
 		}
 	}
 }

@@ -28,4 +28,6 @@ public class Constant {
 	/// max current misison at the time.
 	/// </summary>
 	public static int    kMaxCurrentMisison = 3;
+
+	public static int    kCardGreenBackSpriteIndex = 21;
 }

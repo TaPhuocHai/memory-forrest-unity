@@ -373,8 +373,10 @@ public class Region
 			if (isAutoUnlockItemsRequired) {
 				// Lock card type lien quan
 				List<CardType> listCardTypeLockRequired = Region.CardTypesUnlockRequiredForUnlockMap (regionType);
-				foreach (CardType cardType in listCardTypeLockRequired) {
-					Card.Unlock (cardType, false);
+				if (listCardTypeLockRequired != null && listCardTypeLockRequired.Count != 0) {
+					foreach (CardType cardType in listCardTypeLockRequired) {
+						Card.Unlock (cardType, false);
+					}
 				}
 			}
 
@@ -731,8 +733,7 @@ public class Region
 						{CardType.Mushroom, 30},
 						{CardType.Apple, 30},
 						{CardType.Carrot, 30},
-						{CardType.WhiteRabbit, 10}}),
-					new Dictionary<CardType, int> () {{CardType.Wolf, 1}, {CardType.WolfKing, 1}}
+						{CardType.WhiteRabbit, 10}})
 				);
 			} else {
 				cardRandomCode = new CardRandomCode (

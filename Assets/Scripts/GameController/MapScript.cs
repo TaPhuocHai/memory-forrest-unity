@@ -28,9 +28,6 @@ public class MapScript : MonoBehaviour {
 //		CardRandomCodeTest.RunTestMap3 ();
 //		CardRandomCodeTest.RunTestMap4 ();
 //		CardRandomCodeTest.ResertLockCardDefault ();
-
-		Card.Unlock (CardType.Wolf, true);
-		Card.Unlock (CardType.WolfKing, true);
 	}
 
 	void Update () {}
