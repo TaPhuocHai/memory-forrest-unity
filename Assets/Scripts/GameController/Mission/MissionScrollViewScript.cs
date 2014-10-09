@@ -20,8 +20,8 @@ public class MissionScrollViewScript : MonoBehaviour
 			if (missionObject != null) {
 				UISprite sprite = missionObject.GetComponent<UISprite> ();
 				sprite.transform.position = new Vector3 (0, 0, 0);
-				sprite.transform.localScale = new Vector3 (1, 1, 1);
-				sprite.SetRect (-sprite.width/2,  top, sprite.width, sprite.height);
+				sprite.transform.localScale = new Vector3 (1.2f, 1.2f, 1);
+				sprite.SetRect ((float)(-sprite.width * 1.2/2),  top, sprite.width * 1.2f, sprite.height * 1.2f);
 				top += sprite.height + 5;
 
 				// Fill data

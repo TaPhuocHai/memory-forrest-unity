@@ -66,4 +66,9 @@ public class MapScript : MonoBehaviour {
 		PlayerPrefs.Save ();
 		Application.LoadLevel ("Mission");
 	}
+
+	public void ResetUnlockCard () 
+	{
+		CardRandomCodeTest.ResertLockCardDefault ();
+	}
 }
