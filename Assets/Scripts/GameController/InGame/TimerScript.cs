@@ -8,8 +8,6 @@ public class TimerScript : MonoBehaviour {
 
 	static private bool enableTimer;
 
-	public PropertyReference labelTime;
-
 	void Start () 
 	{
 		TimerScript.TIME_PLAY = Player.secondTimePlay;
@@ -24,11 +22,6 @@ public class TimerScript : MonoBehaviour {
 		}
 
 		TimerScript.timerCountDown -= Time.deltaTime;
-
-		if (labelTime != null) {
-			this.labelTime.Set(TimerScript.timerCountDown.ToString());
-		} 
-
 		if (TimerScript.timerCountDown <= 0) {
 			TimerScript.timerCountDown = 0;
 
@@ -46,16 +39,6 @@ public class TimerScript : MonoBehaviour {
 			}
 
 			TimerScript.enableTimer = false;
-		}
-
-		GameObject player = GameObject.FindGameObjectWithTag("Player");
-		Transform  progressBar = player.transform.FindChild ("ProgressBar");
-		UISlider slider = progressBar.GetComponent<UISlider> ();
-
-		if (slider) {
-			slider.value = TimerScript.timerCountDown / TimerScript.TIME_PLAY;
-		} else {
-			print ("get progress bar faild");
 		}
 	}
 

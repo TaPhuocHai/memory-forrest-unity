@@ -3,19 +3,12 @@ using System.Collections;
 using Holoville.HOTween;
 
 public class CompleteMissionScript : MonoBehaviour {
-
-	public PropertyReference missionName;
-	public PropertyReference missionDescription;
-	public PropertyReference missionReward;
-
+	
 	private Mission _mission;
 	public Mission mission {
 		get { return _mission; } 
 		set {
 			_mission = value;
-			this.missionName.Set(_mission.name.text);
-			this.missionDescription.Set(_mission.description.text);
-			this.missionReward.Set(_mission.rewardMessage.text);
 		}
 	}
 
