@@ -2,13 +2,18 @@
 using System.Collections;
 using Holoville.HOTween;
 
-public class GameOverScipt : MonoBehaviour {
-	
-	void Start () {
+public class GameOverScipt : MonoBehaviour 
+{	
+	void Start () 
+	{
+		// Hide game over popup
 		this.transform.position = new Vector3 (this.transform.position.x, 2,0);
 	}
 
-	void Update () {}
+	void Update () 
+	{
+
+	}
 
 	public void EnterGameOver () 
 	{

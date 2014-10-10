@@ -72,7 +72,6 @@ public class PHProgressBar : MonoBehaviour {
 
 		float withToScrop = spriteRenderer.bounds.size.x * progress / 100;
 		Vector3 bottomRightPoint= new Vector3 (withToScrop,spriteRenderer.bounds.size.y,0);
-		Debug.Log ("bt = " + bottomRightPoint.ToString ());
 		
 		int pixelsToUnits = 100; // It's PixelsToUnits of sprite which would be cropped
 		
@@ -80,9 +79,9 @@ public class PHProgressBar : MonoBehaviour {
 		Rect croppedSpriteRect = spriteRect;
 		croppedSpriteRect.x = 0;
 		croppedSpriteRect.y = 0;
-		croppedSpriteRect.width = (Mathf.Abs(bottomRightPoint.x - topLeftPoint.x)*pixelsToUnits) * (1/this.progressBar.transform.localScale.x);
+		croppedSpriteRect.width  = (Mathf.Abs(bottomRightPoint.x - topLeftPoint.x)*pixelsToUnits) * (1/this.progressBar.transform.localScale.x);
 		croppedSpriteRect.height = (Mathf.Abs(bottomRightPoint.y - topLeftPoint.y)*pixelsToUnits)* (1/this.progressBar.transform.localScale.y);
-		Sprite croppedSprite = Sprite.Create(spriteTexture, croppedSpriteRect, new Vector2(0.5f,0.5f), pixelsToUnits);
+		Sprite croppedSprite     = Sprite.Create(spriteTexture, croppedSpriteRect, new Vector2(0.5f,0.5f), pixelsToUnits);
 
 		return croppedSprite;
 	}
