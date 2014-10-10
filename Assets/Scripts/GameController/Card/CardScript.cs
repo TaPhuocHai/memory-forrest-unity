@@ -27,7 +27,7 @@ public class CardScript : MonoBehaviour {
 
 			// Load sprite if not loaded
 			if (CardScript.sprites == null) {
-				CardScript.sprites = Resources.LoadAll<Sprite>("Textures/Card");
+				CardScript.sprites = Resources.LoadAll<Sprite>("Textures/InGame/Card");
 			}
 
 			// Set sprite for this card

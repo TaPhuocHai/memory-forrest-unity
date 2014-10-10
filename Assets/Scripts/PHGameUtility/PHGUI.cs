@@ -15,7 +15,7 @@ public class PHGUI {
 		Rect drawPosition = position;
 		if (autoScaleScreenRatio) {
 			drawPosition = new Rect (position.x * PHScreen.Instance.ratioWith, 
-			                         position.x * PHScreen.Instance.ratioHeight,
+			                         position.y * PHScreen.Instance.ratioHeight,
 			                         position.width * PHScreen.Instance.optimalRatio, 
 			                         position.height * PHScreen.Instance.optimalRatio);
 		}
