@@ -54,6 +54,8 @@ public class PHUtility
 
 	#endregion
 
+	#region Padding helper
+
 	public static Vector2 PositionOfTransformIfPaddingTopLeftScreen (Transform transform, Vector2 topLeft)
 	{
 		if (transform.renderer == null) {
@@ -68,7 +70,7 @@ public class PHUtility
 		return new Vector2 (leftScreenOfTransform + topLeft.x , topScreenOfTransform - topLeft.y);
 	}
 
-	public static Vector2 PositionOfTransformIfPaddingBottomRightScreen (Transform transform, Vector2 bottomLeft)
+	public static Vector2 PositionOfTransformIfPaddingRightBottomScreen (Transform transform, Vector2 rightBottom)
 	{
 		if (transform.renderer == null) {
 			return new Vector2 (0,0);
@@ -76,8 +78,20 @@ public class PHUtility
 		Vector3 currentPos = transform.position;
 		Vector2 size = transform.renderer.bounds.size;
 		
-		float newX = currentPos.x + (PHUtility.WorldWidth / 2 - bottomLeft.x - size.x / 2);
-		float newY = currentPos.y - (PHUtility.WorldHeight / 2 - bottomLeft.y - size.y / 2);
-		return new Vector2 (newX, newY);
+		float rightScreenOfTransform = PHUtility.WorldWidth / 2 - size.x/2;
+		float bottomScreenOfTransform   = - PHUtility.WorldHeight / 2 + size.y/2;
+		
+		return new Vector2 (rightScreenOfTransform - rightBottom.x , bottomScreenOfTransform + rightBottom.y);
+	}
+
+	#endregion
+
+	public static void CenterTransform (Transform transform, Transform toTransform)
+	{
+		if (transform == null || toTransform == null) {
+			return;
+		}
+
+
 	}
 }

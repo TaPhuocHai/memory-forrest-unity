@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PHAnchorBottomScreen : PHAnchorMargin {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+public class PHAnchorBottomScreen : PHAnchorMargin 
+{
+	void Start () 
+	{
+		if (this.transform == null) {
+			return;
+		}
+		
+		float worldPagging = PHScreen.Instance.ConveterPixelToWorld(this.margin);
+		Vector2 pos = PHUtility.PositionOfTransformIfPaddingRightBottomScreen (this.transform, new Vector2 (0, worldPagging));
+		this.transform.position = new Vector3 (this.transform.position.x, pos.y, this.transform.position.z);
 	}
 }
