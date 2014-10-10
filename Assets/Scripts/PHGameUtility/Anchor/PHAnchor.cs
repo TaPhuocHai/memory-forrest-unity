@@ -1,17 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PHAnchor : MonoBehaviour {
-
-
-
-	// Use this for initialization
-	void Start () {
-	
+public class PHAnchor : MonoBehaviour 
+{
+	void Start ()
+	{
+		this.UpdateAnchor ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+	virtual public void UpdateAnchor () {}
 }

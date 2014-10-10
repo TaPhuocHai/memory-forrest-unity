@@ -56,12 +56,17 @@ public class PHUtility
 
 	#region Padding helper
 
+	/// <summary>
+	/// Tinh toan vi tri cua transform neu no cach top lef cua man hinh
+	/// </summary>
+	/// <returns>The of transform if padding top left screen.</returns>
+	/// <param name="transform">Transform.</param>
+	/// <param name="topLeft">Top left.</param>
 	public static Vector2 PositionOfTransformIfPaddingTopLeftScreen (Transform transform, Vector2 topLeft)
 	{
 		if (transform.renderer == null) {
 			return new Vector2 (0,0);
 		}						
-		Vector3 currentPos = transform.position;
 		Vector2 size = transform.renderer.bounds.size;
 
 		float leftScreenOfTransform = - PHUtility.WorldWidth / 2 + size.x/2;
@@ -70,12 +75,37 @@ public class PHUtility
 		return new Vector2 (leftScreenOfTransform + topLeft.x , topScreenOfTransform - topLeft.y);
 	}
 
+	/// <summary>
+	/// Tinh toan vi tri cua transform neu no cach vi tri top left so voi 1 tranform khac
+	/// </summary>
+	/// <returns>The of transform if padding top left with transform.</returns>
+	/// <param name="transform">Transform.</param>
+	/// <param name="topLeft">Top left.</param>
+	/// <param name="toTranform">To tranform.</param>
+	public static Vector2 PositionOfTransformIfPaddingTopLeftWithTransform (Transform transform, Vector2 topLeft, Transform toTranform)
+	{
+		if (transform.renderer == null || toTranform.renderer == null) {
+			return new Vector2 (0,0);
+		}						
+		Vector2 size       = transform.renderer.bounds.size;
+		
+		float leftOfTransform = - toTranform.renderer.bounds.size.x / 2 + size.x/2;
+		float topOfTransform  = toTranform.renderer.bounds.size.y / 2 - size.y/2;
+		
+		return new Vector2 (leftOfTransform + topLeft.x , topOfTransform - topLeft.y);
+	}
+
+	/// <summary>
+	/// Tinh toan vi tri cua transform neu no cach vi tri bottom right cua man hinh
+	/// </summary>
+	/// <returns>The of transform if padding right bottom screen.</returns>
+	/// <param name="transform">Transform.</param>
+	/// <param name="rightBottom">Right bottom.</param>
 	public static Vector2 PositionOfTransformIfPaddingRightBottomScreen (Transform transform, Vector2 rightBottom)
 	{
 		if (transform.renderer == null) {
 			return new Vector2 (0,0);
 		}						
-		Vector3 currentPos = transform.position;
 		Vector2 size = transform.renderer.bounds.size;
 		
 		float rightScreenOfTransform = PHUtility.WorldWidth / 2 - size.x/2;

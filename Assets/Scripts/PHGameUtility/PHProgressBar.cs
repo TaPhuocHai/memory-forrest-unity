@@ -20,11 +20,7 @@ public class PHProgressBar : MonoBehaviour {
 		}
 		set {
 			_progress = value;
-			if (this.progressBar) {
-				this.cropProgressBar = this.cropProgressBarSprite ();
-				SpriteRenderer spriteRenderer = this.progressBar.GetComponent<SpriteRenderer> ();
-				spriteRenderer.sprite = this.cropProgressBar;
-			}
+			this.UpdateProgressBar (true);
 		}
 	}
 	
@@ -39,10 +35,24 @@ public class PHProgressBar : MonoBehaviour {
 
 	void Update () 
 	{	
-		if (this.progressBar && this.cropProgressBar == null) {
+		this.UpdateProgressBar (false);
+	}
+
+	private void UpdateProgressBar (bool forceUpdate) 
+	{
+		if (forceUpdate == false && this.cropProgressBar != null) {
+			return;
+		}
+
+		if (this.progressBar) {
 			this.cropProgressBar = this.cropProgressBarSprite();
 			SpriteRenderer spriteRenderer = this.progressBar.GetComponent<SpriteRenderer> ();
 			spriteRenderer.sprite = this.cropProgressBar;
+
+			PHAnchorLeft anchorLeft = this.progressBar.GetComponent<PHAnchorLeft> ();
+			if (anchorLeft) {
+				anchorLeft.UpdateAnchor ();
+			}
 		}
 	}
 
