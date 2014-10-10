@@ -11,7 +11,6 @@ public class TimerManager : PHTimer
 
 	void Awake () 
 	{
-		Debug.Log ("init timer");
 		_timerManager = this;
 	}
 
