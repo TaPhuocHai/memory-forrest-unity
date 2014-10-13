@@ -9,7 +9,7 @@ public class TimerManager : PHTimer
 		get { return _timerManager; }
 	}
 
-	void Awake () 
+	public TimerManager ()
 	{
 		_timerManager = this;
 	}
