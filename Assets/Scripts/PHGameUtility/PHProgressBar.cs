@@ -6,8 +6,8 @@ public class PHProgressBar : MonoBehaviour {
 	public Transform progressBarBg;
 	public Transform progressBar;
 
-	public Sprite  progressBarSprite;
-	private Sprite currentProgressBarSprite;
+	public  Sprite  progressBarSprite = null;
+	private Sprite  currentProgressBarSprite = null;
 
 	/// <summary>
 	/// Gets or sets the progress. From 0 -> 100
@@ -40,6 +40,7 @@ public class PHProgressBar : MonoBehaviour {
 		if (this.progressBar) {		
 			this.currentProgressBarSprite = this.cropProgressBar();
 			SpriteRenderer spriteRenderer = this.progressBar.GetComponent<SpriteRenderer> ();
+			spriteRenderer.transform.localScale = new Vector3 (1,1,1);
 			spriteRenderer.sprite = this.currentProgressBarSprite;
 
 			PHAnchorLeft anchorLeft = this.progressBar.GetComponent<PHAnchorLeft> ();
@@ -56,8 +57,6 @@ public class PHProgressBar : MonoBehaviour {
 		}
 
 		// Calculate topLeftPoint and bottomRightPoint of drawn rectangle
-		Vector3 topLeftPoint = new Vector3 (0, 0, 0);
-
 		Texture2D spriteTexture = this.progressBarSprite.texture;
 		float withToScrop = spriteTexture.width * progress / 100;
 		
@@ -68,7 +67,7 @@ public class PHProgressBar : MonoBehaviour {
 		croppedSpriteRect.width  = withToScrop;
 		croppedSpriteRect.height = spriteTexture.height;
 
-		Sprite croppedSprite     = Sprite.Create(spriteTexture, croppedSpriteRect, new Vector2(0.5f,0.5f), 100);
+		Sprite croppedSprite  = Sprite.Create(spriteTexture, croppedSpriteRect, new Vector2(0.5f,0.5f), 100);
 
 		return croppedSprite;
 	}

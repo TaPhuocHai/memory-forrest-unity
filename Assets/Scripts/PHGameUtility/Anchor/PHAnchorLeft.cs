@@ -18,6 +18,4 @@ public class PHAnchorLeft : PHAnchorMargin
 		Vector2 pos = PHUtility.PositionOfTransformIfPaddingTopLeftWithTransform (this.transform, new Vector2 (worldPagging, 0), this.anchorObject);
 		this.transform.position = new Vector3 (pos.x, this.transform.position.y, this.transform.position.z);
 	}
-
-
 }
