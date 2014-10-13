@@ -50,7 +50,7 @@ public class SceneScript : MonoBehaviour {
 		HOTween.Init ();
 
 		// Init round
-		StartCoroutine (this.InitRound ());
+		StartCoroutine (this.InitRound (0.5f));
 	}
 
 	void Update () {}
@@ -102,7 +102,7 @@ public class SceneScript : MonoBehaviour {
 		this._playGameData.score = 0;
 		
 		// Init round
-		StartCoroutine (this.InitRound ());
+		StartCoroutine (this.InitRound (0.0f));
 	}
 
 	#endregion
@@ -328,7 +328,7 @@ public class SceneScript : MonoBehaviour {
 
 				DebugScript.Clear ();
 				// Init round
-				StartCoroutine(this.InitRound ());
+				StartCoroutine(this.InitRound (0.0f));
 			} else {
 				// Save total score
 				Player.totalScore = Player.totalScore + this._playGameData.score;
@@ -698,8 +698,10 @@ public class SceneScript : MonoBehaviour {
 	/// Ramdom card tren man hinh cho moi vong choi
 	/// </summary>
 	/// <returns>The round.</returns>
-	private IEnumerator InitRound () 
+	private IEnumerator InitRound (float watingSecondTime) 
 	{
+		yield return new WaitForSeconds(watingSecondTime);
+
 		// So luong object can ve
 		int numberOfCol = this._region.numberOfCol;
 		int numberOfRow = this._region.numberOfRow;

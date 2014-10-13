@@ -19,6 +19,12 @@ public class PHTimer : MonoBehaviour
 
 	#endregion
 
+	void Awake ()
+	{
+		this.maxSecond = 1;
+		this.currentSecond = 1;
+	}
+
 	void Start () 
 	{
 		if (this.autoStart == false) {
