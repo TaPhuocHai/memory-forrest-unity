@@ -2,18 +2,20 @@
 using System.Collections;
 using Holoville.HOTween;
 
+public enum PHPanelDirection {Top, Left, Bottom, Right}
+
 public class PHPanel : MonoBehaviour 
 {
-	public enum PHPanelDirection {Top, Left, Bottom, Right}
-
 	private Vector3 _normalPosition;
 
-	void Start ()
+	void Awake ()
 	{
 		if (this.transform != null) {
 			this._normalPosition = this.transform.position;
 		}
 	}
+
+	#region Animation
 
 	public void HideToDirection (PHPanelDirection direction, float second) 
 	{
@@ -42,7 +44,7 @@ public class PHPanel : MonoBehaviour
 		if (second == 0) {
 			this.transform.position = newPosition;
 		} else {
-			TweenParms parms = new TweenParms().Prop("position", newPosition).Ease(EaseType.EaseOutBack);
+			TweenParms parms = new TweenParms().Prop("position", newPosition).Ease(EaseType.EaseInBack);
 			HOTween.To (this.transform, second, parms);
 		}
 	}
@@ -65,4 +67,6 @@ public class PHPanel : MonoBehaviour
 			HOTween.To (this.transform, second, parms);
 		}
 	}
+
+	#endregion 
 }

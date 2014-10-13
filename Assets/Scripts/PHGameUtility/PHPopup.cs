@@ -7,7 +7,6 @@ public class PHPopup : MonoBehaviour
 	public bool hideWhenInit = true;
 
 	public PHButton   closeButton;
-	public PHPanel    panel;
 
 	#region Properties
 
@@ -58,7 +57,7 @@ public class PHPopup : MonoBehaviour
 
 		// Setup close button
 		if (closeButton != null) {
-			closeButton.buttonPressedDelegate += HandheldCloseButtonPress;
+			closeButton.buttonPressedDelegate += HandleCloseButtonPress;
 		}
 
 		// Hide popup if need
@@ -73,6 +72,8 @@ public class PHPopup : MonoBehaviour
 		this.Init ();
 	}
 
+	#region Animation
+
 	virtual public void Hide (float second) 
 	{
 		if (_bgObject == null) {
@@ -81,7 +82,7 @@ public class PHPopup : MonoBehaviour
 
 		// Hide backgroud
 		PHFade fade = _bgObject.GetComponent<PHFade> ();
-		fade.FadeOut (0.2f);
+		fade.FadeOut (second);
 	}
 
 	virtual public void Show (float second) 
@@ -91,11 +92,13 @@ public class PHPopup : MonoBehaviour
 		}
 
 		PHFade fade = _bgObject.GetComponent<PHFade> ();
-		fade.FadeIn (0.2f);
+		fade.FadeIn (second);
 	}
 
-	void HandheldCloseButtonPress ()
+	#endregion
+
+	void HandleCloseButtonPress ()
 	{
-		this.Hide (0.2f);
+		this.Hide (0.35f);
 	}
 }

@@ -15,6 +15,6 @@ public class PauseButton : PHButton
 			Debug.Log ("pauseMenuPopup not found");
 			return;
 		}
-		pauseMenuPopup.Show (2.0f);
+		pauseMenuPopup.Show (0.35f);
 	}
 }

@@ -3,8 +3,12 @@ using System.Collections;
 
 public class PauseMenuPopup : PHPopup 
 {
+	#region Singleton
 	//private static PauseMenuPopup _instance;
 	public static PauseMenuPopup Instance { get; private set;}
+	#endregion
+
+	public PHPanel    panel;
 
 	void Awake () 
 	{
@@ -12,12 +16,24 @@ public class PauseMenuPopup : PHPopup
 	}
 
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
 		this.Init ();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
+	#region Animation
+
+	override public void Hide (float second) 
+	{
+		base.Hide (second);
+		this.panel.HideToDirection (PHPanelDirection.Top,second);
 	}
+	
+	override public void Show (float second) 
+	{
+		base.Show (second);
+		this.panel.Show (second);
+	}
+
+	#endregion
 }
