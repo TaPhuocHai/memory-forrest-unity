@@ -9,6 +9,7 @@ public class PauseMenuPopup : PHPopup
 	#endregion
 
 	public PHPanel    panel;
+	public PHButton   resetButton;
 
 	void Awake () 
 	{
@@ -19,6 +20,10 @@ public class PauseMenuPopup : PHPopup
 	void Start () 
 	{
 		this.Init ();
+
+		if (this.resetButton != null) {
+			this.resetButton.onClickHandle += HandleResetButtonClick;
+		}
 	}
 	
 	#region Animation
@@ -36,4 +41,9 @@ public class PauseMenuPopup : PHPopup
 	}
 
 	#endregion
+
+	void HandleResetButtonClick () 
+	{
+
+	}
 }

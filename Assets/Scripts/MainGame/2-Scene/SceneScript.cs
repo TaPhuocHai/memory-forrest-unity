@@ -4,7 +4,11 @@ using System.Collections.Generic;
 using Holoville.HOTween.Plugins;
 using Holoville.HOTween;
 
-public class SceneScript : MonoBehaviour {
+public class SceneScript : MonoBehaviour 
+{
+	#region Singleton
+	public static SceneScript Instance { get; private set;}
+	#endregion
 
 	public Transform cardPrefab;
 	public Transform addPoint;
@@ -33,6 +37,11 @@ public class SceneScript : MonoBehaviour {
 	#endregion
 
 	#region Game Cycle
+
+	public SceneScript () 
+	{
+		SceneScript.Instance = this;
+	}
 
 	void Awake () {}
 

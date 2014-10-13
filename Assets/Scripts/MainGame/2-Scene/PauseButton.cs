@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PauseButton : PHScaleButton 
 {
-	override protected void OnButtonPressed () 
+	override protected void OnButtonClick () 
 	{
 		GameObject pauseMenu =  GameObject.FindGameObjectWithTag ("PauseMenu");
 		if (pauseMenu == null) {

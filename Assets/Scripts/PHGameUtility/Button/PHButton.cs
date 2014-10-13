@@ -3,13 +3,13 @@ using System.Collections;
 
 public class PHButton : MonoBehaviour 
 {
-	public delegate void PHButtonPressed ();
+	public delegate void PHButtonClick ();
 
 	public Sprite buttonUpSprite;
 	public Sprite buttonDownSprite;
 	public AudioClip buttonPressedSound;
 
-	public PHButtonPressed buttonPressedDelegate;
+	public PHButtonClick onClickHandle;
 
 	void Start () 
 	{	
@@ -55,17 +55,17 @@ public class PHButton : MonoBehaviour
 
 	void OnMouseUpAsButton () 
 	{
-		this.OnButtonPressed ();
+		this.OnButtonClick ();
 	}
 
 	#endregion
 
 	#region Button function
 
-	virtual protected void OnButtonPressed () 
+	virtual protected void OnButtonClick () 
 	{
-		if (this.buttonPressedDelegate != null) {
-			this.buttonPressedDelegate ();
+		if (this.onClickHandle != null) {
+			this.onClickHandle ();
 		}
 	}
 

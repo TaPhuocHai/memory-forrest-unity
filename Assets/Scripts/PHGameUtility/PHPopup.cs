@@ -57,7 +57,7 @@ public class PHPopup : MonoBehaviour
 
 		// Setup close button
 		if (closeButton != null) {
-			closeButton.buttonPressedDelegate += HandleCloseButtonPress;
+			closeButton.onClickHandle += HandleCloseButtonClick;
 		}
 
 		// Hide popup if need
@@ -97,7 +97,7 @@ public class PHPopup : MonoBehaviour
 
 	#endregion
 
-	void HandleCloseButtonPress ()
+	void HandleCloseButtonClick ()
 	{
 		this.Hide (0.35f);
 	}
