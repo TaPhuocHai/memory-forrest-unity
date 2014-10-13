@@ -44,199 +44,199 @@ TextureImporter:
     - name: Card_0
       rect:
         serializedVersion: 2
-        x: 10
-        y: 530
-        width: 92
-        height: 122
+        x: 1
+        y: 788
+        width: 228
+        height: 240
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_1
       rect:
         serializedVersion: 2
-        x: 118
-        y: 531
-        width: 92
-        height: 122
+        x: 256
+        y: 788
+        width: 228
+        height: 240
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_2
       rect:
         serializedVersion: 2
-        x: 227
-        y: 530
-        width: 92
-        height: 122
+        x: 519
+        y: 788
+        width: 228
+        height: 240
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_3
       rect:
         serializedVersion: 2
-        x: 339
-        y: 530
-        width: 92
-        height: 122
+        x: 771
+        y: 788
+        width: 228
+        height: 240
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_4
       rect:
         serializedVersion: 2
-        x: 448
-        y: 530
-        width: 92
-        height: 122
+        x: 1030
+        y: 788
+        width: 228
+        height: 240
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_5
       rect:
         serializedVersion: 2
-        x: 553
-        y: 530
-        width: 92
-        height: 122
+        x: 1279
+        y: 785
+        width: 228
+        height: 244
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_6
       rect:
         serializedVersion: 2
-        x: 7
-        y: 387
-        width: 92
-        height: 122
+        x: 1
+        y: 525
+        width: 228
+        height: 240
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_7
       rect:
         serializedVersion: 2
-        x: 117
-        y: 387
-        width: 92
-        height: 122
+        x: 256
+        y: 525
+        width: 228
+        height: 240
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_8
       rect:
         serializedVersion: 2
-        x: 226
-        y: 388
-        width: 92
-        height: 122
+        x: 519
+        y: 525
+        width: 228
+        height: 240
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_9
       rect:
         serializedVersion: 2
-        x: 333
-        y: 383
-        width: 92
-        height: 122
+        x: 771
+        y: 525
+        width: 228
+        height: 240
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_10
       rect:
         serializedVersion: 2
-        x: 435
-        y: 387
-        width: 92
-        height: 122
+        x: 1030
+        y: 525
+        width: 228
+        height: 240
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_11
       rect:
         serializedVersion: 2
-        x: 549
-        y: 387
-        width: 92
-        height: 122
+        x: 1279
+        y: 525
+        width: 228
+        height: 240
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_12
       rect:
         serializedVersion: 2
-        x: 7
-        y: 250
-        width: 92
-        height: 122
+        x: 1
+        y: 264
+        width: 228
+        height: 242
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_13
       rect:
         serializedVersion: 2
-        x: 118
-        y: 248
-        width: 92
-        height: 122
+        x: 256
+        y: 266
+        width: 228
+        height: 242
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_14
       rect:
         serializedVersion: 2
-        x: 225
-        y: 251
-        width: 92
-        height: 122
+        x: 519
+        y: 266
+        width: 228
+        height: 242
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_15
       rect:
         serializedVersion: 2
-        x: 331
-        y: 251
-        width: 92
-        height: 122
+        x: 771
+        y: 266
+        width: 228
+        height: 242
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_16
       rect:
         serializedVersion: 2
-        x: 439
-        y: 251
-        width: 92
-        height: 122
+        x: 1030
+        y: 266
+        width: 228
+        height: 242
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_17
       rect:
         serializedVersion: 2
-        x: 551
-        y: 252
-        width: 92
-        height: 122
+        x: 1279
+        y: 266
+        width: 228
+        height: 242
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_18
       rect:
         serializedVersion: 2
-        x: 7
-        y: 111
-        width: 92
-        height: 122
+        x: 1
+        y: 8
+        width: 228
+        height: 240
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_19
       rect:
         serializedVersion: 2
-        x: 116
-        y: 111
-        width: 92
-        height: 122
+        x: 256
+        y: 8
+        width: 228
+        height: 240
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_20
       rect:
         serializedVersion: 2
-        x: 222
-        y: 111
-        width: 92
-        height: 122
+        x: 516
+        y: 2
+        width: 233
+        height: 249
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: Card_21
       rect:
         serializedVersion: 2
-        x: 336
-        y: 110
-        width: 92
-        height: 122
+        x: 768
+        y: 0
+        width: 233
+        height: 248
       alignment: 0
       pivot: {x: .5, y: .5}
   spritePackingTag: 

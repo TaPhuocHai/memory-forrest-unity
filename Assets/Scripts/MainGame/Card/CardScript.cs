@@ -49,7 +49,8 @@ public class CardScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {}
 
-	void DestroyMe () {
+	void DestroyMe () 
+	{
 		Destroy (this.gameObject);
 	}
 
@@ -60,7 +61,7 @@ public class CardScript : MonoBehaviour {
 		if (type == CardFaceBack.Normal) {
 			spriteRender.sprite = CardScript.sprites [0] as Sprite;
 		} else {
-			spriteRender.sprite = CardScript.sprites[Constant.kCardGreenBackSpriteIndex] as Sprite;
+			spriteRender.sprite = CardScript.sprites[(int)CardType.Cherry + 2] as Sprite;
 		}
 	}
 }
