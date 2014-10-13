@@ -57,27 +57,18 @@ public class PHProgressBar : MonoBehaviour {
 
 		// Calculate topLeftPoint and bottomRightPoint of drawn rectangle
 		Vector3 topLeftPoint = new Vector3 (0, 0, 0);
-		
-//		SpriteRenderer spriteRenderer = this.progressBar.GetComponent<SpriteRenderer>();
-//		Sprite spriteToCropSprite     = spriteRenderer.sprite;
-//		Texture2D spriteTexture       = spriteToCropSprite.texture;
-//		Rect spriteRect               = this.progressBar.GetComponent<SpriteRenderer>().sprite.textureRect;
-//
-		//float withToScrop = spriteRenderer.bounds.size.x * progress / 100;
-		float withToScrop = this.progressBarSprite.bounds.size.x * progress / 100;
-		Vector3 bottomRightPoint= new Vector3 (withToScrop,this.progressBarSprite.bounds.size.y,0);
 
 		Texture2D spriteTexture = this.progressBarSprite.texture;
-		
-		int pixelsToUnits = 100; // It's PixelsToUnits of sprite which would be cropped
+		float withToScrop = spriteTexture.width * progress / 100;
 		
 		// Crop sprite
 		Rect croppedSpriteRect = new Rect();
 		croppedSpriteRect.x = 0;
 		croppedSpriteRect.y = 0;
-		croppedSpriteRect.width  = (Mathf.Abs(bottomRightPoint.x - topLeftPoint.x)*pixelsToUnits);
-		croppedSpriteRect.height = (Mathf.Abs(bottomRightPoint.y - topLeftPoint.y)*pixelsToUnits);
-		Sprite croppedSprite     = Sprite.Create(spriteTexture, croppedSpriteRect, new Vector2(0.5f,0.5f), pixelsToUnits);
+		croppedSpriteRect.width  = withToScrop;
+		croppedSpriteRect.height = spriteTexture.height;
+
+		Sprite croppedSprite     = Sprite.Create(spriteTexture, croppedSpriteRect, new Vector2(0.5f,0.5f), 100);
 
 		return croppedSprite;
 	}
