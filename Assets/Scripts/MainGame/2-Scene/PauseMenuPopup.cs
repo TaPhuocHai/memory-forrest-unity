@@ -4,7 +4,6 @@ using System.Collections;
 public class PauseMenuPopup : PHPopup 
 {
 	#region Singleton
-	//private static PauseMenuPopup _instance;
 	public static PauseMenuPopup Instance { get; private set;}
 	#endregion
 
