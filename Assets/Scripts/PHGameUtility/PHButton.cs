@@ -3,10 +3,14 @@ using System.Collections;
 
 public class PHButton : MonoBehaviour 
 {
+	public delegate void PHButtonPressed ();
+
 	public Sprite buttonUpSprite;
 	public Sprite buttonDownSprite;
 	public AudioClip buttonPressedSound;
-	
+
+	public PHButtonPressed buttonPressedDelegate;
+
 	void Start () 
 	{	
 	}
@@ -48,5 +52,10 @@ public class PHButton : MonoBehaviour
 		this.OnButtonPressed ();
 	}
 
-	virtual protected void OnButtonPressed () {}
+	virtual protected void OnButtonPressed () 
+	{
+		if (this.buttonPressedDelegate != null) {
+			this.buttonPressedDelegate ();
+		}
+	}
 }

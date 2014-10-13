@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Holoville.HOTween;
 
 public class PHPopup : MonoBehaviour 
 {
 	public bool hideWhenInit = true;
+
+	public PHButton   closeButton;
+	public PHPanel    panel;
 
 	#region Properties
 
@@ -15,7 +19,7 @@ public class PHPopup : MonoBehaviour
 				_grayTexture = new Texture2D (100,100);
 				for (int i = 0 ; i < 100 ; i ++)  {
 					for (int j = 0 ; j < 100 ; j ++)  {
-						_grayTexture.SetPixel(i,j,new Color (0.0f,0.0f,0.0f,0.6f));
+						_grayTexture.SetPixel(i,j,new Color (0.0f,0.0f,0.0f,0.7f));
 					}
 				}
 				_grayTexture.Apply();
@@ -48,9 +52,18 @@ public class PHPopup : MonoBehaviour
 		_bgObject.transform.localScale = new Vector3 (Camera.main.orthographicSize * 2, Camera.main.orthographicSize * 4, 0);
 		SpriteRenderer spriteRenderer = _bgObject.GetComponent<SpriteRenderer> ();
 		spriteRenderer.sprite = this.bgSprite;
+		spriteRenderer.color = new Color (0.0f, 0.0f, 0.0f, 1.0f);
+		// Add fade component
+		_bgObject.AddComponent<PHFade> ();
 
+		// Setup close button
+		if (closeButton != null) {
+			closeButton.buttonPressedDelegate += HandheldCloseButtonPress;
+		}
+
+		// Hide popup if need
 		if (hideWhenInit) {
-			this.Hide (false);
+			this.Hide (0.0f);
 			this.enabled = false;
 		}
 	}
@@ -60,18 +73,29 @@ public class PHPopup : MonoBehaviour
 		this.Init ();
 	}
 
-	void OnGUI () 
+	virtual public void Hide (float second) 
 	{
-		//GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), this.grayTexture);
+		if (_bgObject == null) {
+			return;
+		}
+
+		// Hide backgroud
+		PHFade fade = _bgObject.GetComponent<PHFade> ();
+		fade.FadeOut (0.2f);
 	}
 
-	virtual public void Hide (bool animation) 
-	{
+	virtual public void Show (float second) 
+	{	
+		if (_bgObject == null) {
+			return;
+		}
 
+		PHFade fade = _bgObject.GetComponent<PHFade> ();
+		fade.FadeIn (0.2f);
 	}
 
-	virtual public void Show (bool animation) 
+	void HandheldCloseButtonPress ()
 	{
-
+		this.Hide (0.2f);
 	}
 }

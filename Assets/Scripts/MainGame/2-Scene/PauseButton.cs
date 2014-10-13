@@ -5,5 +5,16 @@ public class PauseButton : PHButton
 {
 	override protected void OnButtonPressed () 
 	{
+		GameObject pauseMenu =  GameObject.FindGameObjectWithTag ("PauseMenu");
+		if (pauseMenu == null) {
+			Debug.Log ("pauseMenu not found");
+			return;
+		}
+		PHPopup pauseMenuPopup = pauseMenu.GetComponent<PHPopup> ();
+		if (pauseMenuPopup == null) {
+			Debug.Log ("pauseMenuPopup not found");
+			return;
+		}
+		pauseMenuPopup.Show (2.0f);
 	}
 }
