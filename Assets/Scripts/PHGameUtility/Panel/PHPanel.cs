@@ -10,6 +10,11 @@ public class PHPanel : MonoBehaviour
 
 	void Awake ()
 	{
+		this.Init ();
+	}
+
+	virtual public void Init () 
+	{
 		if (this.transform != null) {
 			this._normalPosition = this.transform.position;
 		}
@@ -17,27 +22,37 @@ public class PHPanel : MonoBehaviour
 
 	#region Animation
 
-	public void HideToDirection (PHPanelDirection direction, float second) 
+	virtual public void HideToDirection (PHPanelDirection direction, float second) 
 	{
-		if (this.transform == null || this.transform.renderer == null) {
+		if (this.transform == null) {
+			return;
+		}
+		BoxCollider boxCollider = this.gameObject.GetComponent<BoxCollider> ();
+		if (this.transform.renderer == null && boxCollider == null) {
 			return;
 		}
 
 		Vector3 newPosition = new Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.z);
-		
+		Vector3 size = this.transform.renderer.bounds.size;
+
+		// Neu co boxCollider, uu tien su dung size cua boxCollider
+		if (boxCollider) {
+			size = boxCollider.size;
+		}
+
 		switch (direction) 
 		{
 		case PHPanelDirection.Top:
-			newPosition.y = PHUtility.WorldHeight/2 + this.transform.renderer.bounds.size.y/2;
+			newPosition.y = PHUtility.WorldHeight/2 + size.y/2;
 			break;
 		case PHPanelDirection.Left: 
-			newPosition.x = - PHUtility.WorldWidth/2 - this.transform.renderer.bounds.size.x/2;
+			newPosition.x = - PHUtility.WorldWidth/2 - size.x/2;
 			break;
 		case PHPanelDirection.Bottom: 
-			newPosition.y = - PHUtility.WorldHeight/2 - this.transform.renderer.bounds.size.y/2;
+			newPosition.y = - PHUtility.WorldHeight/2 - size.y/2;
 			break;
 		case PHPanelDirection.Right: 
-			newPosition.x = PHUtility.WorldWidth/2 + this.transform.renderer.bounds.size.x/2;
+			newPosition.x = PHUtility.WorldWidth/2 + size.x/2;
 			break;
 		}
 
@@ -49,12 +64,13 @@ public class PHPanel : MonoBehaviour
 		}
 	}
 
-	public void Show (float second) 
+	virtual public void Show (float second) 
 	{
+		Debug.Log ("call show" + this._normalPosition.ToString ());
 		this.Show (this._normalPosition, second);
 	}
 
-	public void Show (Vector3 position, float second) 
+	virtual public void Show (Vector3 position, float second) 
 	{
 		if (this.transform == null || this.transform.renderer == null) {
 			return;

@@ -45,14 +45,12 @@ public class PHFade : MonoBehaviour
 		}
 
 		this.normalColor = spriteRenderer.color;
-		Debug.Log ("fade start");
 		this.enabled = false;
 	}
 
 	void Update () 
 	{
-		if (this.transform == null) {
-			Debug.Log ("update return");
+		if (this.transform == null) {		
 			return;
 		}
 
