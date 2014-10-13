@@ -750,6 +750,8 @@ public class SceneScript : MonoBehaviour {
 			int numberCardToRandom = (int)numberCardToRandomWithTypeKey[key];
 			for (int i = 0; i < numberCardToRandom ; i ++) {
 				var card = Instantiate(cardPrefab) as Transform;
+				card.transform.parent = this.gameObject.transform;
+
 				// Set type
 				CardScript cardScript = card.GetComponent<CardScript>();
 				if (cardScript != null) {
@@ -784,7 +786,7 @@ public class SceneScript : MonoBehaviour {
 			// card nam o top ben ngoai man hinh theo truc y
 			float posY = 0 + screenHeight/2 + cardHeight/2;
 
-			card.transform.position = new Vector3 (posX, posY, 0);
+			card.transform.position = new Vector3 (posX, posY, this.transform.position.z);
 		}
 		// Animation drop down
 		for (int i = 0; i < this._cardOnScreen.Count; i ++) {
@@ -796,7 +798,7 @@ public class SceneScript : MonoBehaviour {
 			float posX = (float)(topLeftOfFirstCard.x + indexCol * (cardWidth + 0.1)); 
 			float posY = (float)(topLeftOfFirstCard.y  - indexRow * (cardHeight + 0.1));
 
-			TweenParms parms = new TweenParms().Prop("position", new Vector3(posX,posY,0)).Ease(EaseType.EaseOutBack).Delay((float)0.1*i);
+			TweenParms parms = new TweenParms().Prop("position", new Vector3(posX,posY,this.transform.position.z)).Ease(EaseType.EaseOutBack).Delay((float)0.1*i);
 			HOTween.To (card, 0.5f, parms);
 		}
 		yield return new WaitForSeconds ((float)0.1*this._cardOnScreen.Count);
