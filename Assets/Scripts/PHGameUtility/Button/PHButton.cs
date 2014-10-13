@@ -15,6 +15,8 @@ public class PHButton : MonoBehaviour
 	{	
 	}
 
+	#region Mouse touch
+
 	void OnMouseDown () 
 	{
 	}
@@ -24,11 +26,13 @@ public class PHButton : MonoBehaviour
 	}
 
 	void OnMouseOver () 
-	{
+	{	
 	}
 
 	void OnMouseEnter () 
 	{
+		this.OnButtonEnter ();
+
 		if (this.transform.renderer == null) return;
 		
 		SpriteRenderer spriteRender = this.transform.GetComponent<SpriteRenderer> ();
@@ -39,6 +43,8 @@ public class PHButton : MonoBehaviour
 
 	void OnMouseExit () 
 	{
+		this.OnButtonExit ();
+
 		if (this.transform.renderer == null) return;
 		
 		SpriteRenderer spriteRender = this.transform.GetComponent<SpriteRenderer> ();
@@ -52,10 +58,19 @@ public class PHButton : MonoBehaviour
 		this.OnButtonPressed ();
 	}
 
+	#endregion
+
+	#region Button function
+
 	virtual protected void OnButtonPressed () 
 	{
 		if (this.buttonPressedDelegate != null) {
 			this.buttonPressedDelegate ();
 		}
 	}
+
+	virtual protected void OnButtonEnter () {}
+	virtual protected void OnButtonExit () {}
+
+	#endregion
 }

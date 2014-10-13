@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PauseButton : PHButton 
+public class PauseButton : PHScaleButton 
 {
 	override protected void OnButtonPressed () 
 	{
