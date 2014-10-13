@@ -44,6 +44,7 @@ public class PauseMenuPopup : PHPopup
 
 	void HandleResetButtonClick () 
 	{
+		this.Hide (0.5f);
 		SceneScript.Instance.ResetRound ();
 	}
 }

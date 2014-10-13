@@ -98,11 +98,11 @@ public class SceneScript : MonoBehaviour
 		}
 		
 		// Exit Game Over
-		Transform gameOver = this.transform.parent.FindChild("GameOver");
-		if (gameOver) {
-			GameOverScipt gameOverScipt = gameOver.GetComponent<GameOverScipt> ();
-			gameOverScipt.ExitGameOver ();
-		}
+//		Transform gameOver = this.transform.parent.FindChild("GameOver");
+//		if (gameOver) {
+//			GameOverScipt gameOverScipt = gameOver.GetComponent<GameOverScipt> ();
+//			gameOverScipt.ExitGameOver ();
+//		}
 		
 		// Reset time
 		TimerManager.Instance.StartTimer (Player.secondTimePlay, true);
