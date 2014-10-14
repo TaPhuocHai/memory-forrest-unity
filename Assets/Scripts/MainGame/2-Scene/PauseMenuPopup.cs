@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PauseMenuPopup : PHPopup 
 {
@@ -14,6 +15,8 @@ public class PauseMenuPopup : PHPopup
 	public MissionInPauseGame mission2;
 	public MissionInPauseGame mission3;
 
+	private List<MissionInPauseGame> _listMissionInPauseGame;
+
 	void Awake () 
 	{
 		PauseMenuPopup.Instance = this;
@@ -26,6 +29,11 @@ public class PauseMenuPopup : PHPopup
 		if (this.resetButton != null) {
 			this.resetButton.onClickHandle += HandleResetButtonClick;
 		}
+
+		_listMissionInPauseGame = new List<MissionInPauseGame> ();
+		if (mission1) _listMissionInPauseGame.Add (mission1);
+		if (mission2) _listMissionInPauseGame.Add (mission2);
+		if (mission3) _listMissionInPauseGame.Add (mission3);	
 	}
 	
 	#region Animation
@@ -52,6 +60,16 @@ public class PauseMenuPopup : PHPopup
 	
 	override public void Show (float second) 
 	{
+		// Set mission
+		Region region = Region.Instance (Player.currentRegionPlay);
+		for (int i = 0 ; i < region.currentMissions.Count; i ++) {
+			Mission mission = region.currentMissions[i];
+			if (_listMissionInPauseGame.Count > i) {
+				MissionInPauseGame missionObject = _listMissionInPauseGame[i];
+				missionObject.mission = mission;
+			}
+		}
+
 		base.Show (second);
 		this.panel.Show (second);
 

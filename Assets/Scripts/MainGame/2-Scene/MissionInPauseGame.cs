@@ -24,6 +24,12 @@ public class MissionInPauseGame : MonoBehaviour
 		}
 	}
 
+	void Start ()
+	{
+		title.guiText.text = "";
+		description.guiText.text = "";
+	}
+
 	public void Hide (float second) 
 	{
 		title.FadeOut (second);
