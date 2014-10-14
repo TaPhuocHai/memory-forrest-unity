@@ -33,12 +33,7 @@ public class PHPanel : MonoBehaviour
 		}
 
 		Vector3 newPosition = new Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.z);
-		Vector3 size = this.transform.renderer.bounds.size;
-
-		// Neu co boxCollider, uu tien su dung size cua boxCollider
-		if (boxCollider) {
-			size = new Vector2(boxCollider.size.x * this.transform.localScale.x, boxCollider.size.y * this.transform.localScale.y);
-		}
+		Vector3 size = PHUtility.GetSizeOfTransforum (this.transform);
 
 		switch (direction) 
 		{

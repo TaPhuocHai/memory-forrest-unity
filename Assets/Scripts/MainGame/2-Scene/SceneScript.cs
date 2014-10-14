@@ -349,11 +349,7 @@ public class SceneScript : MonoBehaviour
 				TimerManager.Instance.Stop ();
 
 				// Game Over
-				Transform gameOver = this.transform.parent.FindChild("GameOver");
-				if (gameOver) {
-					GameOverScipt gameOverScipt = gameOver.GetComponent<GameOverScipt> ();
-					gameOverScipt.EnterGameOver ();
-				}
+				GameOverPopup.Instance.Show (0.4f);
 			}
 		}
 		EnableToTouch = true;

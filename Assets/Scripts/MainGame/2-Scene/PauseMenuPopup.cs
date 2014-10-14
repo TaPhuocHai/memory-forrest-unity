@@ -77,7 +77,7 @@ public class PauseMenuPopup : PHPopup
 
 		base.Show (second);
 		// Show panel
-		this.panel.Show (new Vector3(0,0,0), second);
+		this.panel.Show (new Vector3(0,0,this.panel.gameObject.transform.position.z), second);
 
 		// Wait and show mession
 		StartCoroutine(WaitAndShowMission(second));

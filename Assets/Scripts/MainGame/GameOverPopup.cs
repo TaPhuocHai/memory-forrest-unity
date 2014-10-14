@@ -2,19 +2,53 @@
 using System.Collections;
 using Holoville.HOTween;
 
-public class GameOverScipt : MonoBehaviour 
+public class GameOverPopup : PHPopup 
 {	
-	void Start () 
+	#region Singleton
+	public static GameOverPopup Instance { get; private set;}
+	#endregion
+
+	public PHPanel    panel;
+	public PHButton   resetButton;
+
+	public GameOverPopup ()
 	{
-		// Hide game over popup
-		this.transform.position = new Vector3 (this.transform.position.x, 2,0);
+		GameOverPopup.Instance = this;
 	}
 
-	void Update () 
+	void Start ()
 	{
-
+		this.Init ();
+		
+		if (this.resetButton != null) {
+			this.resetButton.onClickHandle += HandleResetButtonClick;
+		}
 	}
 
+	#region Animation
+	
+	override public void Hide (float second) 
+	{
+		base.Hide (second);
+		this.panel.HideToDirection (PHPanelDirection.Top,second);
+	}
+	
+	override public void Show (float second) 
+	{
+		base.Show (second);
+		// Show panel
+		this.panel.Show (new Vector3(0,0,this.panel.gameObject.transform.position.z), second);
+	}
+	
+	#endregion
+
+	void HandleResetButtonClick () 
+	{
+		this.Hide (0.5f);
+		SceneScript.Instance.ResetRound ();
+	}
+
+	/*
 	public void EnterGameOver () 
 	{
 		TweenParms parms = new TweenParms().Prop("position", new Vector3(this.transform.position.x,0,0)).Ease(EaseType.EaseOutBack).OnComplete(CheckCurrentMission);
@@ -27,7 +61,8 @@ public class GameOverScipt : MonoBehaviour
 		HOTween.To (this.transform, 0.65f, parms);
 	}
 
-	private void CheckCurrentMission () {
+	private void CheckCurrentMission () 
+	{
 		// Get current region
 		RegionType regionType = Player.currentRegionPlay;
 		Region region = Region.Instance(regionType);
@@ -56,4 +91,5 @@ public class GameOverScipt : MonoBehaviour
 			}
 		}
 	}
+	*/
 }
