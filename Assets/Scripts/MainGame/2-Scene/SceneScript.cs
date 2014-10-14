@@ -59,7 +59,7 @@ public class SceneScript : MonoBehaviour
 		HOTween.Init ();
 
 		// Init round
-		StartCoroutine (this.InitRound (0.5f));
+		StartCoroutine (this.InitRound (0.5f, true));
 	}
 
 	void Update () {}
@@ -111,7 +111,7 @@ public class SceneScript : MonoBehaviour
 		this._playGameData.score = 0;
 		
 		// Init round
-		StartCoroutine (this.InitRound (0.0f));
+		StartCoroutine (this.InitRound (0.0f, true));
 	}
 
 	#endregion
@@ -337,7 +337,7 @@ public class SceneScript : MonoBehaviour
 
 				DebugScript.Clear ();
 				// Init round
-				StartCoroutine(this.InitRound (0.0f));
+				StartCoroutine(this.InitRound (0.0f, false));
 			} else {
 				// Save total score
 				Player.totalScore = Player.totalScore + this._playGameData.score;
@@ -703,7 +703,7 @@ public class SceneScript : MonoBehaviour
 	/// Ramdom card tren man hinh cho moi vong choi
 	/// </summary>
 	/// <returns>The round.</returns>
-	private IEnumerator InitRound (float watingSecondTime) 
+	private IEnumerator InitRound (float watingSecondTime, bool startTimer) 
 	{
 		yield return new WaitForSeconds(watingSecondTime);
 
@@ -808,8 +808,10 @@ public class SceneScript : MonoBehaviour
 		}
 		yield return new WaitForSeconds ((float)0.1*this._cardOnScreen.Count);
 
-		// Bat dau tinh thoi gian choi
-		TimerManager.Instance.Start (Player.secondTimePlay, true);
+		if (startTimer) {
+			// Bat dau tinh thoi gian choi
+			TimerManager.Instance.Start (Player.secondTimePlay, true);
+		}
 
 		// Cho phep user co the choi
 		SceneScript.EnableToTouch = true;
