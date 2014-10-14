@@ -54,6 +54,8 @@ public class PHPopup : MonoBehaviour
 		spriteRenderer.color = new Color (0.0f, 0.0f, 0.0f, 1.0f);
 		// Add fade component
 		_bgObject.AddComponent<PHFade> ();
+		// Add BoxCollider
+		_bgObject.AddComponent<BoxCollider> ();
 
 		// Setup close button
 		if (closeButton != null) {
@@ -83,6 +85,9 @@ public class PHPopup : MonoBehaviour
 		// Hide backgroud
 		PHFade fade = _bgObject.GetComponent<PHFade> ();
 		fade.FadeOut (second);
+
+		BoxCollider boxCollider = _bgObject.GetComponent<BoxCollider> ();
+		boxCollider.enabled = false;
 	}
 
 	virtual public void Show (float second) 
@@ -93,6 +98,9 @@ public class PHPopup : MonoBehaviour
 
 		PHFade fade = _bgObject.GetComponent<PHFade> ();
 		fade.FadeIn (second);
+
+		BoxCollider boxCollider = _bgObject.GetComponent<BoxCollider> ();
+		boxCollider.enabled = true;
 	}
 
 	#endregion

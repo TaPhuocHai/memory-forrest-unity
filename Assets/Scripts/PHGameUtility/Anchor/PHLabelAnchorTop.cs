@@ -8,7 +8,7 @@ public class PHLabelAnchorTop : PHLabelAnchorMargin
 		if (this.anchorObject == null) {
 			return;
 		}
-		
+
 		// Get size anchorObject
 		Vector3 sizeObject = PHUtility.GetSizeOfTransforum (this.anchorObject);
 		
