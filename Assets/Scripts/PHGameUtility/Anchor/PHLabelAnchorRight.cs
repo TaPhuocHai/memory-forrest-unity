@@ -5,7 +5,7 @@ public class PHLabelAnchorRight : PHLabelAnchorMargin
 {
 	override public void UpdateAnchor () 
 	{
-		if (this.anchorObject.transform == null) {
+		if (this.anchorObject == null) {
 			return;
 		}
 		
