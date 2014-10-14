@@ -62,6 +62,7 @@ public class PauseMenuPopup : PHPopup
 	
 	override public void Show (float second) 
 	{
+		// Pause timer
 		TimerManager.Instance.Pause ();
 
 		// Set mission
@@ -75,14 +76,16 @@ public class PauseMenuPopup : PHPopup
 		}
 
 		base.Show (second);
-		this.panel.Show (second);
+		// Show panel
+		this.panel.Show (new Vector3(0,0,0), second);
 
-		StartCoroutine(Wait(second));
+		// Wait and show mession
+		StartCoroutine(WaitAndShowMission(second));
 	}
 
 	#endregion
 
-	private IEnumerator Wait (float second) 
+	private IEnumerator WaitAndShowMission (float second) 
 	{
 		yield return new WaitForSeconds(second);
 
