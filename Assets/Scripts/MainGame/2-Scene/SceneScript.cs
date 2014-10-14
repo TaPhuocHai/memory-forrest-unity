@@ -105,7 +105,7 @@ public class SceneScript : MonoBehaviour
 //		}
 		
 		// Reset time
-		TimerManager.Instance.StartTimer (Player.secondTimePlay, true);
+		TimerManager.Instance.Start (Player.secondTimePlay, true);
 		
 		// Reset POINT
 		this._playGameData.score = 0;
@@ -346,7 +346,7 @@ public class SceneScript : MonoBehaviour
 				this._playGameData.Save();
 
 				// Stop timer
-				TimerManager.Instance.StopTimer ();
+				TimerManager.Instance.Stop ();
 
 				// Game Over
 				Transform gameOver = this.transform.parent.FindChild("GameOver");
@@ -813,7 +813,7 @@ public class SceneScript : MonoBehaviour
 		yield return new WaitForSeconds ((float)0.1*this._cardOnScreen.Count);
 
 		// Bat dau tinh thoi gian choi
-		TimerManager.Instance.StartTimer (Player.secondTimePlay, true);
+		TimerManager.Instance.Start (Player.secondTimePlay, true);
 
 		// Cho phep user co the choi
 		SceneScript.EnableToTouch = true;

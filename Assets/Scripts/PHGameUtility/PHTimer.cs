@@ -4,8 +4,9 @@ using System.Collections;
 public class PHTimer : MonoBehaviour 
 {	
 	public bool autoStart = false;
-
+	
 	private bool enableTimer = false;
+	private bool kichStart   = false;
 
 	#region Properties
 
@@ -66,7 +67,7 @@ public class PHTimer : MonoBehaviour
 
 	#region Public function
 
-	public void ResetTimer () 
+	public void Reset () 
 	{
 		if (this.isReverse) {
 			this.currentSecond = this.maxSecond;
@@ -90,8 +91,9 @@ public class PHTimer : MonoBehaviour
 		}
 	}
 
-	public void StartTimer (float second, bool isReverse) 
+	public void Start (float second, bool isReverse) 
 	{
+		this.kichStart = true;
 		this.maxSecond = second;
 		this.isReverse = isReverse;
 		if (this.isReverse) {
@@ -102,9 +104,27 @@ public class PHTimer : MonoBehaviour
 		this.enableTimer = true;
 	}
 
-	public void StopTimer () 
+	public void Stop () 
+	{
+		this.kichStart = false;
+		this.enableTimer = false;
+		if (this.isReverse) {
+			this.currentSecond = this.maxSecond;
+		} else {
+			this.currentSecond = 0;
+		}
+	}
+
+	public void Pause () 
 	{
 		this.enableTimer = false;
+	}
+
+	public void Resume ()
+	{
+		if (this.kichStart == true) {
+			this.enableTimer = true;
+		}
 	}
 
 	#endregion

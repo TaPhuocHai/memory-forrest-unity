@@ -40,6 +40,8 @@ public class PauseMenuPopup : PHPopup
 
 	override public void Hide (float second) 
 	{
+		TimerManager.Instance.Resume ();
+
 		base.Hide (second);
 		this.panel.HideToDirection (PHPanelDirection.Top,second);
 
@@ -60,6 +62,8 @@ public class PauseMenuPopup : PHPopup
 	
 	override public void Show (float second) 
 	{
+		TimerManager.Instance.Pause ();
+
 		// Set mission
 		Region region = Region.Instance (Player.currentRegionPlay);
 		for (int i = 0 ; i < region.currentMissions.Count; i ++) {
