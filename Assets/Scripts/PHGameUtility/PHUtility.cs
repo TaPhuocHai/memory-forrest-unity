@@ -51,6 +51,18 @@ public class PHUtility
 			return (1 * PHUtility.WorldWidth) / Screen.width;
 		}
 	}
+	
+	/// <summary>
+	/// Chieu cao cua the gioi thuc theo 1 pixel
+	/// 1 Pixel nay duoc tinh theo kich thuoc that cua man hinh
+	/// </summary>
+	/// <value>The world height of pixel.</value>
+	public static float WorldHeightOfPixel
+	{
+		get {
+			return (1 * PHUtility.WorldHeight) / Screen.height;
+		}
+	}
 
 	#endregion
 

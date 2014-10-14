@@ -101,4 +101,16 @@ public class PHScreen : MonoBehaviour {
 		float realPixel = pixel * this.ratioWith;
 		return realPixel * PHUtility.WorldWidthOfPixel;
 	}
+
+	/// <summary>
+	/// Conveters the height of the pixel to world width ratio by.
+	/// Tinh height theo the gioi thuc. Ti le chuyen doi tinh theo chieu cao
+	/// </summary>
+	/// <returns>The pixel to world width ratio by height.</returns>
+	/// <param name="pixel">Pixel.</param>
+	public float ConveterPixelToWorldWidthRatioByHeight (int pixel)
+	{
+		float realPixel = pixel * this.ratioHeight;
+		return realPixel * PHUtility.WorldHeightOfPixel;
+	}
 }

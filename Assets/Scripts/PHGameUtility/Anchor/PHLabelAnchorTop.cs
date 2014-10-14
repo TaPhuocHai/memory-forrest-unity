@@ -24,6 +24,9 @@ public class PHLabelAnchorTop : PHLabelAnchorMargin
 		// Vi tri trai nhat cua text so voi anchorObject
 		topPosition.y -= heightTextOnWorld/2;
 
+		// Add padding
+		topPosition.y -= PHScreen.Instance.ConveterPixelToWorldWidthRatioByHeight (this.margin);
+
 		// Conveter to screen point
 		Vector3 point = Camera.main.WorldToScreenPoint (topPosition);
 		
