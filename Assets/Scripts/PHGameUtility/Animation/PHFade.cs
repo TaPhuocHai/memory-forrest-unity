@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PHFade : MonoBehaviour 
+public abstract class PHFade : MonoBehaviour 
 {
 	// Thoi gian animation
 	private float second;
 
 	// Luu lai trang thai normal color
-	private Color normalColor;
+	protected Color normalColor;
 
 	// Cac bien su dung de chay animation
 	private float currentTime;
@@ -16,36 +16,31 @@ public class PHFade : MonoBehaviour
 
 	// Type animation
 	private enum PHFadeType {In, Out}
-	private  PHFadeType type;
-	
+	private   PHFadeType type;
+
+	#region Virtual
+
 	private float _alpha;
-	public float alpha { 
+	virtual public float alpha 
+	{ 
 		get {
 			return _alpha;
 		}
 		set {
-			SpriteRenderer spriteRenderer = this.transform.GetComponent<SpriteRenderer> ();
-			if (spriteRenderer == null) {
-				return;
-			}
-			spriteRenderer.color = new Color (this.normalColor.r, this.normalColor.g, this.normalColor.b, value);
-
 			_alpha = value;
 		}
 	}
 
+	virtual public void Init ()
+	{
+		this.enabled = false;
+	}
+
+	#endregion
+
 	void Awake () 
 	{
-		if (this.transform == null) {
-			return;
-		}
-		SpriteRenderer spriteRenderer = this.transform.GetComponent<SpriteRenderer> ();
-		if (spriteRenderer == null) {
-			return;
-		}
-
-		this.normalColor = spriteRenderer.color;
-		this.enabled = false;
+		this.Init ();
 	}
 
 	void Update () 

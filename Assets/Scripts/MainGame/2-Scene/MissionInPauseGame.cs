@@ -23,4 +23,16 @@ public class MissionInPauseGame : MonoBehaviour
 			}
 		}
 	}
+
+	public void Hide () 
+	{
+		title.alpha = 0;
+		description.alpha = 0;
+	}
+
+	public void Show ()
+	{
+		title.alpha = 1;
+		description.alpha = 1;
+	}
 }
