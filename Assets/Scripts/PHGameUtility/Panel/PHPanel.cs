@@ -66,7 +66,6 @@ public class PHPanel : MonoBehaviour
 
 	virtual public void Show (float second) 
 	{
-		Debug.Log ("call show" + this._normalPosition.ToString ());
 		this.Show (this._normalPosition, second);
 	}
 
