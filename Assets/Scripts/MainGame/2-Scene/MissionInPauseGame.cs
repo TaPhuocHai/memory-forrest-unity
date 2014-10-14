@@ -24,15 +24,15 @@ public class MissionInPauseGame : MonoBehaviour
 		}
 	}
 
-	public void Hide () 
+	public void Hide (float second) 
 	{
-		title.alpha = 0;
-		description.alpha = 0;
+		title.FadeOut (second);
+		description.FadeOut (second);
 	}
 
-	public void Show ()
+	public void Show (float second) 
 	{
-		title.alpha = 1;
-		description.alpha = 1;
+		title.FadeIn (second);
+		description.FadeIn (second);
 	}
 }

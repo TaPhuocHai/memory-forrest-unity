@@ -51,7 +51,7 @@ public class PHLabel : MonoBehaviour
 		if (this.guiText == null) {
 			return;
 		}
-		this.FadeOut (second);
+		this.fade.FadeOut (second);
 	}
 
 	#endregion

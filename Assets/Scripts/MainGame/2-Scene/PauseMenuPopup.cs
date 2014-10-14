@@ -35,14 +35,18 @@ public class PauseMenuPopup : PHPopup
 		base.Hide (second);
 		this.panel.HideToDirection (PHPanelDirection.Top,second);
 
+		float secondeToHideMission = 0;
+		if (second != 0) {
+			secondeToHideMission = 0.2f;
+		}
 		if (mission1 != null) {
-			mission1.Hide ();
+			mission1.Hide (secondeToHideMission);
 		}
 		if (mission2 != null) {
-			mission2.Hide ();
+			mission2.Hide (secondeToHideMission);
 		}
 		if (mission3 != null) {
-			mission3.Hide ();
+			mission3.Hide (secondeToHideMission);
 		}
 	}
 	
@@ -56,19 +60,18 @@ public class PauseMenuPopup : PHPopup
 
 	#endregion
 
-	private IEnumerator Wait (float seconds) 
+	private IEnumerator Wait (float second) 
 	{
-		Debug.Log ("start wait");
-		yield return new WaitForSeconds(seconds);
+		yield return new WaitForSeconds(second);
 
 		if (mission1 != null) {
-			mission1.Show ();
+			mission1.Show (0.2f);
 		}
 		if (mission2 != null) {
-			mission2.Show ();
+			mission2.Show (0.2f);
 		}
 		if (mission3 != null) {
-			mission3.Show ();
+			mission3.Show (0.2f);
 		}
 	}
 
