@@ -1,10 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class PHAnchorCenterX : PHAnchor
+public class PHAnchorCenterX : PHAnchorObject
 {
-	public Transform anchorObject;
-	
 	override public void UpdateAnchor () 
 	{
 		if (this.transform == null) {

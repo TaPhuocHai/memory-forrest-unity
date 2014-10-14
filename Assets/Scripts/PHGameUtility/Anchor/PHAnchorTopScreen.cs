@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PHAnchorTopScreen : PHAnchorMargin 
+public class PHAnchorTopScreen : PHAnchorScreen 
 {
 	override public void UpdateAnchor () 
 	{

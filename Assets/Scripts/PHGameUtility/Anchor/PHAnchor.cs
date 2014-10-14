@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PHAnchor : MonoBehaviour 
+public abstract class PHAnchor : MonoBehaviour 
 {
 	void Start ()
 	{
@@ -12,5 +12,5 @@ public class PHAnchor : MonoBehaviour
 	{
 		this.UpdateAnchor ();
 	}
-	virtual public void UpdateAnchor () {}
+	virtual public void UpdateAnchor () {}	
 }

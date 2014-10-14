@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PHLabelAnchorLeft : PHLabelAnchor 
+public class PHLabelAnchorLeft : PHLabelAnchorMargin 
 {
 	override public void UpdateAnchor () 
 	{
