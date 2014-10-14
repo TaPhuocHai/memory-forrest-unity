@@ -116,12 +116,28 @@ public class PHUtility
 
 	#endregion
 
-	public static void CenterTransform (Transform transform, Transform toTransform)
+	/// <summary>
+	/// Gets the size of transforum.
+	/// </summary>
+	/// <returns>The size of transforum.</returns>
+	/// <param name="transform">Transform.</param>
+	public static Vector3 GetSizeOfTransforum (Transform transform)
 	{
-		if (transform == null || toTransform == null) {
-			return;
+		Vector3 sizeObject = new Vector3 ();
+
+		if (transform == null) {
+			return sizeObject;
 		}
 
-
+		BoxCollider boxCollider = transform.GetComponent<BoxCollider> ();
+		// Uu tien su dung kich thuoc cua boxCollider
+		if (boxCollider != null) {
+			sizeObject = new Vector3(boxCollider.size.x * transform.localScale.x, boxCollider.size.y * transform.localScale.y, 1);			 
+		} else {
+			if (transform.renderer != null) {
+				sizeObject = transform.renderer.bounds.size;
+			}
+		}
+		return sizeObject;
 	}
 }
