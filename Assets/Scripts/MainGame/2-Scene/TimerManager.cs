@@ -21,12 +21,8 @@ public class TimerManager : PHTimer
 		
 		// Luu thong tin man choi user da choi
 		PlayGameData.Instance.Save ();
-		
-//		// Game Over
-//		Transform gameOver = GameObject.FindGameObjectWithTag ("GameOver");
-//		if (gameOver) {
-//			GameOverScipt gameOverScipt = gameOver.GetComponent<GameOverScipt> ();
-//			gameOverScipt.EnterGameOver ();
-//		}	
+
+		// Show game over
+		GameOverPopup.Instance.Show (0.4f);
 	}
 }
