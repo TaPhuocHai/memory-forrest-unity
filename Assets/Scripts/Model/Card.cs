@@ -25,7 +25,11 @@ public enum CardType {
 	Banana,
 	Grape,
 	Pears,
-	Cherry
+	Cherry,
+	Coins5,
+	Coins10,
+	Coins20,
+	Coins50,
 }
 
 public enum CardEffect {

@@ -61,7 +61,7 @@ public class CardScript : MonoBehaviour {
 		if (type == CardFaceBack.Normal) {
 			spriteRender.sprite = CardScript.sprites [0] as Sprite;
 		} else {
-			spriteRender.sprite = CardScript.sprites[(int)CardType.Cherry + 2] as Sprite;
+			spriteRender.sprite = CardScript.sprites[(int)CardType.Coins50 + 2] as Sprite;
 		}
 	}
 }
