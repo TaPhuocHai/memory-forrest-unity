@@ -3,7 +3,8 @@ using System.Collections;
 
 public class PHAnchorLeftScreen : PHAnchorMargin 
 {
-	void Start () {
+	override public void UpdateAnchor () 
+	{
 		if (this.transform == null) {
 			return;
 		}

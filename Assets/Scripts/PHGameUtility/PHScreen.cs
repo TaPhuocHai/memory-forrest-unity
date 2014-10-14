@@ -17,8 +17,9 @@ public class PHScreen : MonoBehaviour {
 	public void Awake ()
 	{
 		_instance = this;
-		Debug.Log ("PHScreen : " + defaultWidth.ToString () + " : " + defaultHeight.ToString ());
-		Debug.Log ("Real Screen : " + Screen.width.ToString() + " : " + Screen.height.ToString());
+		Debug.Log ("PHScreen default : " + defaultWidth.ToString () + " : " + defaultHeight.ToString ());
+		Debug.Log ("Real pixel : " + Screen.width.ToString() + " : " + Screen.height.ToString());
+		Debug.Log ("Real world : " + PHUtility.WorldWidth.ToString () + " : " + PHUtility.WorldHeight.ToString ());
 	}
 
 	#region Instance

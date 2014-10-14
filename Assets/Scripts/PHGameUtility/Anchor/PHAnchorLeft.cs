@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PHAnchorLeft : PHAnchorMargin 
+public class PHAnchorLeft : PHAnchorObject 
 {
-	public Transform anchorObject;
-
 	override public void UpdateAnchor () 
 	{
 		if (this.transform == null) {

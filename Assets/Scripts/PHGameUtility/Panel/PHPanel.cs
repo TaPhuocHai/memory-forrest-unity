@@ -37,7 +37,7 @@ public class PHPanel : MonoBehaviour
 
 		// Neu co boxCollider, uu tien su dung size cua boxCollider
 		if (boxCollider) {
-			size = boxCollider.size;
+			size = new Vector2(boxCollider.size.x * this.transform.localScale.x, boxCollider.size.y * this.transform.localScale.y);
 		}
 
 		switch (direction) 
