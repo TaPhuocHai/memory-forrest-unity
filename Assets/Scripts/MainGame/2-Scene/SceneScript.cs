@@ -11,7 +11,7 @@ public class SceneScript : MonoBehaviour
 	#endregion
 
 	public Transform cardPrefab;
-	public Transform addPoint;
+	public Transform getScoreText;
 
 	/// <summary>
 	/// The enable to touch.
