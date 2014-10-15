@@ -81,6 +81,8 @@ public class SceneScript : MonoBehaviour
 	/// </summary>
 	public void ResetRound () 
 	{
+		this.enabled = true;
+
 		Player.lastScore = this._playGameData.score;
 		
 		// Tao moi lop luu thong tin man choi
@@ -366,8 +368,9 @@ public class SceneScript : MonoBehaviour
 				// Play sound effect
 				SoundEffects.Play (SoundEffectTypes.EndGame);
 
-				// Game Over
-				GameOverPopup.Instance.Show (0.4f);
+				// show rescue popup
+				RescuePopup.Instance.Show (Constant.kPopupAnimationDuraction);
+				this.enabled = false;
 			}
 		}
 		EnableToTouch = true;

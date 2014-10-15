@@ -103,10 +103,15 @@ public class PHPopup : MonoBehaviour
 		boxCollider.enabled = true;
 	}
 
+	virtual public void OnClose () 
+	{
+		this.Hide (0.4f);
+	}
+
 	#endregion
 
 	void HandleCloseButtonClick ()
 	{
-		this.Hide (0.35f);
+		this.OnClose ();
 	}
 }

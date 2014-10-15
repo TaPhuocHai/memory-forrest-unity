@@ -28,7 +28,7 @@ public class TimerManager : PHTimer
 		// Sound effect
 		SoundEffects.Play (SoundEffectTypes.EndGame);
 
-		// Show game over
-		GameOverPopup.Instance.Show (0.4f);
+		// show rescue popup
+		RescuePopup.Instance.Show (Constant.kPopupAnimationDuraction);
 	}
 }

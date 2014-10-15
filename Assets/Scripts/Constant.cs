@@ -30,4 +30,14 @@ public class Constant {
 	public static int    kMaxCurrentMisison = 3;
 
 	public static int    kCardGreenBackSpriteIndex = 21;
+
+	/// <summary>
+	/// Thoi gian hien thi popup
+	/// </summary>
+	public static float  kPopupAnimationDuraction = 0.4f;
+
+	/// <summary>
+	/// Thoi gian duoc cong them khi user su dung Rescue
+	/// </summary>
+	public static int  kRescueAddTime = 15;
 }

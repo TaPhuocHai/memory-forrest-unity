@@ -52,7 +52,6 @@ public class PHTimer : MonoBehaviour
 			if (this.currentSecond >= this.maxSecond) {
 				this.currentSecond = this.maxSecond;
 				this.enableTimer = false;
-
 				this.Fire ();
 			}
 		}
@@ -123,7 +122,9 @@ public class PHTimer : MonoBehaviour
 	public void Resume ()
 	{
 		if (this.kichStart == true) {
-			this.enableTimer = true;
+			if ((this.isReverse && this.currentSecond != 0) || (!this.isReverse && this.currentSecond != this.maxSecond)) {
+				this.enableTimer = true;
+			}
 		}
 	}
 
