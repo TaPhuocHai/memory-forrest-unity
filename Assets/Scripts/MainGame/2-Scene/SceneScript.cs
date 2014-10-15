@@ -707,17 +707,10 @@ public class SceneScript : MonoBehaviour
 
 	private void ShowGetScoreText (string text, Vector3 position) 
 	{
-		Debug.Log ("show at point " + position.ToString ());
-		//Transform scoreText = Instantiate(this.getScoreText) as Transform;
 		Transform scoreText = Instantiate(this.getScoreText,position,Quaternion.identity) as Transform;
 
 		GetScoreText scoreTextScript = scoreText.GetComponent<GetScoreText> ();
 		scoreTextScript.label.guiText.text = text;
-
-		//scoreText.Translate(position);
-		//scoreText.gameObject.transform.position = position;
-		//scoreTextScript.Collect ();
-		Debug.Log ("==" + scoreText.gameObject.transform.position.ToString ());
 	}
 
 	#endregion
