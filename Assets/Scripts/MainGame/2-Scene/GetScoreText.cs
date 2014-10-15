@@ -13,11 +13,6 @@ public class GetScoreText : MonoBehaviour
 		StartCoroutine (WaitingAndDestroy (0.75f));
 	}
 
-	private float currentValue = 0;
-	private float toValue   = 0.1f;
-	private float yVelocity = 0.0f;
-	public float smoothTime = 0.3f;
-
 	void Update ()
 	{
 		this.gameObject.transform.Translate (new Vector3 (0, 0.06f, 0));

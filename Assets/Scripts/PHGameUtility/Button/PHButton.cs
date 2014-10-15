@@ -7,12 +7,17 @@ public class PHButton : MonoBehaviour
 
 	public Sprite buttonUpSprite;
 	public Sprite buttonDownSprite;
+
 	public AudioClip buttonPressedSound;
 
 	public PHButtonClick onClickHandle;
 
 	void Start () 
 	{	
+		if (buttonPressedSound != null) {
+			this.gameObject.AddComponent<AudioSource> ();
+			this.gameObject.audio.clip = buttonPressedSound;
+		}
 	}
 
 	#region Mouse touch
@@ -64,6 +69,10 @@ public class PHButton : MonoBehaviour
 
 	virtual protected void OnButtonClick () 
 	{
+		if (buttonPressedSound != null && PHSetting.IsSoundEffect) {
+			this.gameObject.audio.Play ();
+		}
+
 		if (this.onClickHandle != null) {
 			this.onClickHandle ();
 		}
