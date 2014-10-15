@@ -97,13 +97,6 @@ public class SceneScript : MonoBehaviour
 			Destroy (card.gameObject);
 		}
 		
-		// Exit Game Over
-//		Transform gameOver = this.transform.parent.FindChild("GameOver");
-//		if (gameOver) {
-//			GameOverScipt gameOverScipt = gameOver.GetComponent<GameOverScipt> ();
-//			gameOverScipt.ExitGameOver ();
-//		}
-		
 		// Reset time
 		TimerManager.Instance.Start (Player.secondTimePlay, true);
 		
@@ -126,6 +119,9 @@ public class SceneScript : MonoBehaviour
 	public void OpenCard (GameObject card) 
 	{
 		EnableToTouch = false;
+
+		SoundEffects.Play (SoundEffectTypes.CardFlip);
+
 		StartCoroutine(CheckOpenCard(card));
 	}
 
@@ -150,6 +146,8 @@ public class SceneScript : MonoBehaviour
 
 				// ----------------------------------------------------------
 				// Buoc 1 : kiem tra co cho phep lay diem va xoa 2 card nay ?
+
+				SoundEffects.Play (SoundEffectTypes.RightPair);
 
 				// Doi voi la bai thuong
 				bool isNeedDestroyCard = true;
@@ -244,6 +242,9 @@ public class SceneScript : MonoBehaviour
 
 				// Neu card da mo la soi
 				if (cardScript.card.type == CardType.Wolf || cardScript.card.type == CardType.WolfKing) {
+
+					SoundEffects.Play (SoundEffectTypes.Wolf);
+
 					// Thuc hien kiem tra khi mo trung la soi
 					// EnableToTouch se duoc enable trong ham CheckOpenWolfCard hoac sau do
 					this.CheckOpenWolfCard(card);
@@ -343,6 +344,10 @@ public class SceneScript : MonoBehaviour
 				this._round += 1;
 
 				DebugScript.Clear ();
+
+				// Play sound
+				SoundEffects.Play (SoundEffectTypes.NewRound);
+
 				// Init round
 				StartCoroutine(this.InitRound (0.0f, false));
 			} else {
@@ -354,6 +359,9 @@ public class SceneScript : MonoBehaviour
 
 				// Stop timer
 				TimerManager.Instance.Stop ();
+
+				// Stop music backgroud
+				PHMusicBackground.Instance.Stop();
 
 				// Game Over
 				GameOverPopup.Instance.Show (0.4f);
@@ -829,6 +837,11 @@ public class SceneScript : MonoBehaviour
 		if (startTimer) {
 			// Bat dau tinh thoi gian choi
 			TimerManager.Instance.Start (Player.secondTimePlay, true);
+		}
+
+		// Play music backgroud
+		if (Player.IsSoundBackgroud) {
+			PHMusicBackground.Instance.Play ();
 		}
 
 		// Cho phep user co the choi

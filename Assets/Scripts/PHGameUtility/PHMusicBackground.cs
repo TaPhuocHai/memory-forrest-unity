@@ -21,21 +21,21 @@ public class PHMusicBackground : MonoBehaviour
 		}
 	}
 
-	void Play ()
+	public void Play ()
 	{
 		if (audio != null && !audio.isPlaying) {
 			audio.Play();
 		}
 	}
 
-	void Pause ()
+	public void Pause ()
 	{
 		if (audio != null && audio.isPlaying) {
 			audio.Pause();
 		}
 	}
 
-	void Stop ()
+	public void Stop ()
 	{
 		if (audio != null && audio.isPlaying) {
 			audio.Stop();
