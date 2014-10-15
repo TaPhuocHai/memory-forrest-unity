@@ -170,6 +170,10 @@ public class SceneScript : MonoBehaviour
 				if (isAllowAddPoint) {
 					// Add point				
 					this._playGameData.score += cardScript.card.point;
+
+					this.ShowGetScoreText ("+ " + cardScript.card.point/2, prevScript.gameObject.transform.position);
+					this.ShowGetScoreText ("+ " + cardScript.card.point/2, cardScript.gameObject.transform.position);
+
 					//Debug.Log ("Get point : " + cardScript.card.point.ToString());
 				}
 
@@ -309,6 +313,9 @@ public class SceneScript : MonoBehaviour
 				
 				// Cong diem
 				this._playGameData.score += cardGameScript.card.point;
+
+				// Show score add point
+				this.ShowGetScoreText ("+ " + cardGameScript.card.point/2, cardGameScript.gameObject.transform.position);
 
 				this._playGameData.CollectCard(cardGameScript.cardType,1);
 				
@@ -602,6 +609,9 @@ public class SceneScript : MonoBehaviour
 			// Cong diem
 			this._playGameData.score += cScript.card.point;
 
+			// Show score add point
+			this.ShowGetScoreText ("+ " + cScript.card.point, c.position);
+
 			// Luu thong tin
 			this._playGameData.CollectCard(cScript.cardType,2);
 
@@ -693,6 +703,21 @@ public class SceneScript : MonoBehaviour
 	private void SwapPositionObjectsComplete () 
 	{
 		EnableToTouch = true;
+	}
+
+	private void ShowGetScoreText (string text, Vector3 position) 
+	{
+		Debug.Log ("show at point " + position.ToString ());
+		//Transform scoreText = Instantiate(this.getScoreText) as Transform;
+		Transform scoreText = Instantiate(this.getScoreText,position,Quaternion.identity) as Transform;
+
+		GetScoreText scoreTextScript = scoreText.GetComponent<GetScoreText> ();
+		scoreTextScript.label.guiText.text = text;
+
+		//scoreText.Translate(position);
+		//scoreText.gameObject.transform.position = position;
+		//scoreTextScript.Collect ();
+		Debug.Log ("==" + scoreText.gameObject.transform.position.ToString ());
 	}
 
 	#endregion
