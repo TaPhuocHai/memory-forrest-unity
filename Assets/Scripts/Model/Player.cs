@@ -3,9 +3,6 @@ using System.Collections;
 
 public class Player
 {
-	public static bool IsSoundEffect = true;
-	public static bool IsSoundBackgroud = true;
-
 	/// <summary>
 	/// Gets or sets the coin.
 	/// </summary>

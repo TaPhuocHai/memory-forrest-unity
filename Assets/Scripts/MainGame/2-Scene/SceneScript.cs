@@ -363,6 +363,9 @@ public class SceneScript : MonoBehaviour
 				// Stop music backgroud
 				PHMusicBackground.Instance.Stop();
 
+				// Play sound effect
+				SoundEffects.Play (SoundEffectTypes.EndGame);
+
 				// Game Over
 				GameOverPopup.Instance.Show (0.4f);
 			}
@@ -840,9 +843,7 @@ public class SceneScript : MonoBehaviour
 		}
 
 		// Play music backgroud
-		if (Player.IsSoundBackgroud) {
-			PHMusicBackground.Instance.Play ();
-		}
+		PHMusicBackground.Instance.Play ();
 
 		// Cho phep user co the choi
 		SceneScript.EnableToTouch = true;

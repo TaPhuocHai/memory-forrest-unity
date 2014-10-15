@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum SoundEffectTypes{  
 	ButtonClick,
@@ -10,31 +11,46 @@ public enum SoundEffectTypes{
 	Wolf
 }  
 
-public static class SoundEffects  
+public class SoundEffects  
 {
-	public static void Play(SoundEffectTypes effectToPlay) {  
-		GetAudioSource().clip = GetSoundEffect(effectToPlay);  
-		if (Player.IsSoundEffect) {
-			GetAudioSource().Play();  
+	private Dictionary<SoundEffectTypes, GameObject> _gameObjectSoundsDic;
+
+	private static SoundEffects _instance;
+	public static SoundEffects Instance 
+	{
+		get {
+			if (SoundEffects._instance == null) {
+				_instance = new SoundEffects ();
+			}
+			return _instance;
 		}
-	}  
+	}
 
-	static GameObject soundObjectInstance = null;  
-	static AudioSource GetAudioSource() {  
-		//if it's null, build the object  
-		if(soundObjectInstance == null){  
-			soundObjectInstance = new GameObject("Sound Effect Object");  
-			soundObjectInstance.AddComponent<AudioSource>();  
-		}  
-		return soundObjectInstance.GetComponent<AudioSource>();  
-	}  
+	public SoundEffects ()
+	{
+		_gameObjectSoundsDic = new Dictionary<SoundEffectTypes, GameObject> ();
+	}
 
-	public static void SetVolume(float newVolume){  
-		GetAudioSource().volume = newVolume;  
-	}  
+	public static void Play(SoundEffectTypes effectToPlay) 
+	{  
+		GameObject gameObjectSound = null;
+		if (SoundEffects.Instance._gameObjectSoundsDic.ContainsKey(effectToPlay)) {
+			gameObjectSound = SoundEffects.Instance._gameObjectSoundsDic[effectToPlay];
+		}
+		if (gameObjectSound == null) {
+			gameObjectSound = new GameObject("Sound Effect Object");  
+			gameObjectSound.AddComponent<AudioSource>();  
 
-	public static float GetCurrentVolume(){  
-		return GetAudioSource().volume;  
+			SoundEffects.Instance._gameObjectSoundsDic[effectToPlay] = gameObjectSound;
+		}
+
+		AudioSource audioSource = gameObjectSound.GetComponent<AudioSource> ();
+			 
+		audioSource.clip = GetSoundEffect(effectToPlay);  
+		audioSource.volume = 1;
+		if (PHSetting.IsSoundEffect) {
+			audioSource.Play();  
+		}
 	}  
 
 	static AudioClip GetSoundEffect(SoundEffectTypes effectToPlay){  

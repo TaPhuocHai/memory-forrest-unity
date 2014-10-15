@@ -23,6 +23,10 @@ public class PHMusicBackground : MonoBehaviour
 
 	public void Play ()
 	{
+		if (!PHSetting.IsSoundBackgroud) {
+			return;
+		}
+			
 		if (audio != null && !audio.isPlaying) {
 			audio.Play();
 		}
