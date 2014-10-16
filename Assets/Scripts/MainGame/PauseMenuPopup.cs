@@ -34,12 +34,6 @@ public class PauseMenuPopup : PHPopup
 		if (mission1) _listMissionInPauseGame.Add (mission1);
 		if (mission2) _listMissionInPauseGame.Add (mission2);
 		if (mission3) _listMissionInPauseGame.Add (mission3);	
-
-//		UIText fnt = new UIText("font", "font.png");
-//		UITextInstance text = fnt.addTextInstance("The quick brown fox", 20, 20);
-//		text.setColorForAllLetters(Color.yellow);
-//		UITextInstance text2 = fnt.addTextInstance("jumps over the lazy dog", 20, 60, 0.75f);
-//		text2.setColorForAllLetters(Color.red);
 	}
 	
 	#region Animation
@@ -50,20 +44,6 @@ public class PauseMenuPopup : PHPopup
 
 		base.Hide (second);
 		this.panel.HideToDirection (PHPanelDirection.Top,second);
-
-		float secondeToHideMission = 0;
-		if (second != 0) {
-			secondeToHideMission = 0.2f;
-		}
-		if (mission1 != null) {
-			mission1.Hide (secondeToHideMission);
-		}
-		if (mission2 != null) {
-			mission2.Hide (secondeToHideMission);
-		}
-		if (mission3 != null) {
-			mission3.Hide (secondeToHideMission);
-		}
 	}
 	
 	override public void Show (float second) 
@@ -84,27 +64,9 @@ public class PauseMenuPopup : PHPopup
 		base.Show (second);
 		// Show panel
 		this.panel.Show (new Vector3(0,0,this.panel.gameObject.transform.position.z), second);
-
-		// Wait and show mession
-		StartCoroutine(WaitAndShowMission(second));
 	}
 
-	#endregion
-
-	private IEnumerator WaitAndShowMission (float second) 
-	{
-		yield return new WaitForSeconds(second);
-
-		if (mission1 != null) {
-			mission1.Show (0.2f);
-		}
-		if (mission2 != null) {
-			mission2.Show (0.2f);
-		}
-		if (mission3 != null) {
-			mission3.Show (0.2f);
-		}
-	}
+	#endregion}
 
 	void HandleResetButtonClick () 
 	{

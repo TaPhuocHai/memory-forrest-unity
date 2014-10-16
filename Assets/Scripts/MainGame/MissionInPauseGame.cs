@@ -3,8 +3,8 @@ using System.Collections;
 
 public class MissionInPauseGame : MonoBehaviour 
 {
-	public PHLabel title;
-	public PHLabel description;
+	public TextMesh title;
+	public TextMesh description;
 
 	private Mission _mission;
 	public Mission mission {
@@ -15,10 +15,10 @@ public class MissionInPauseGame : MonoBehaviour
 			_mission = value;
 			if (_mission != null) {
 				if (title != null) {
-					title.guiText.text = mission.name.text;
+					title.text = mission.name.text;
 				}
 				if (description != null) {
-					description.guiText.text = mission.description.text;
+					description.text = mission.description.text;
 				}
 			}
 		}
@@ -26,19 +26,7 @@ public class MissionInPauseGame : MonoBehaviour
 
 	void Start ()
 	{
-		title.guiText.text = "";
-		description.guiText.text = "";
-	}
-
-	public void Hide (float second) 
-	{
-		title.FadeOut (second);
-		description.FadeOut (second);
-	}
-
-	public void Show (float second) 
-	{
-		title.FadeIn (second);
-		description.FadeIn (second);
+		title.text = "";
+		description.text = "";
 	}
 }
