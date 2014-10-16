@@ -34,6 +34,12 @@ public class PauseMenuPopup : PHPopup
 		if (mission1) _listMissionInPauseGame.Add (mission1);
 		if (mission2) _listMissionInPauseGame.Add (mission2);
 		if (mission3) _listMissionInPauseGame.Add (mission3);	
+
+//		UIText fnt = new UIText("font", "font.png");
+//		UITextInstance text = fnt.addTextInstance("The quick brown fox", 20, 20);
+//		text.setColorForAllLetters(Color.yellow);
+//		UITextInstance text2 = fnt.addTextInstance("jumps over the lazy dog", 20, 60, 0.75f);
+//		text2.setColorForAllLetters(Color.red);
 	}
 	
 	#region Animation
