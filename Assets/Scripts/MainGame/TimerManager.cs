@@ -22,12 +22,6 @@ public class TimerManager : PHTimer
 		// Luu thong tin man choi user da choi
 		PlayGameData.Instance.Save ();
 
-		// Stop music backgroud
-		PHMusicBackground.Instance.Stop();
-
-		// Sound effect
-		SoundEffects.Play (SoundEffectTypes.EndGame);
-
 		// show rescue popup
 		RescuePopup.Instance.Show (Constant.kPopupAnimationDuraction);
 	}

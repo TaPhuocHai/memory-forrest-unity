@@ -362,12 +362,6 @@ public class SceneScript : MonoBehaviour
 				// Stop timer
 				TimerManager.Instance.Stop ();
 
-				// Stop music backgroud
-				PHMusicBackground.Instance.Stop();
-
-				// Play sound effect
-				SoundEffects.Play (SoundEffectTypes.EndGame);
-
 				// show rescue popup
 				RescuePopup.Instance.Show (Constant.kPopupAnimationDuraction);
 				this.enabled = false;

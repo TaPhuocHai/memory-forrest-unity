@@ -14,10 +14,7 @@ public class PHButton : MonoBehaviour
 
 	void Start () 
 	{	
-		if (buttonPressedSound != null) {
-			this.gameObject.AddComponent<AudioSource> ();
-			this.gameObject.audio.clip = buttonPressedSound;
-		}
+		this.Init ();
 	}
 
 	#region Mouse touch
@@ -66,6 +63,17 @@ public class PHButton : MonoBehaviour
 	#endregion
 
 	#region Button function
+
+	virtual protected void Init ()
+	{
+		if (buttonPressedSound != null) {
+			this.gameObject.AddComponent<AudioSource> ();
+			this.gameObject.audio.clip = buttonPressedSound;
+		}
+		if (this.gameObject.GetComponent<BoxCollider> () == null) {
+			this.gameObject.AddComponent<BoxCollider> ();
+		}
+	}
 
 	virtual protected void OnButtonClick () 
 	{

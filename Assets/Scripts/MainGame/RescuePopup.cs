@@ -65,6 +65,12 @@ public class RescuePopup : PHPopup
 	{
 		base.OnClose ();
 
+		// Stop music backgroud
+		PHMusicBackground.Instance.Stop();
+		
+		// Play sound effect
+		SoundEffects.Play (SoundEffectTypes.EndGame);
+
 		// Wating and show game over
 		StartCoroutine (WaitingAndShowGameOver(0.35f));
 	}
