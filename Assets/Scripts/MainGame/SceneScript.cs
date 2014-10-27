@@ -47,6 +47,7 @@ public class SceneScript : MonoBehaviour
 
 	void Start () 
 	{
+		DebugScript.AddText ("Add Text \n");
 		// Init Region
 		RegionType regionType = Player.currentRegionPlay;
 		this._region = Region.Instance(regionType);

@@ -27,7 +27,7 @@ public class CardScript : MonoBehaviour {
 
 			// Load sprite if not loaded
 			if (CardScript.sprites == null) {
-				CardScript.sprites = Resources.LoadAll<Sprite>("Textures/InGame/Card");
+				CardScript.sprites = Resources.LoadAll<Sprite>("Textures/Card");
 			}
 
 			// Set sprite for this card
@@ -35,7 +35,13 @@ public class CardScript : MonoBehaviour {
 			if (cardFace) {
 				SpriteRenderer spriteRender = cardFace.GetComponent<SpriteRenderer>();
 				if (spriteRender) {
-					spriteRender.sprite = CardScript.sprites[(int)value] as Sprite;
+					DebugScript.AddText ("co so han tu : " + CardScript.sprites.Length.ToString());					
+					Sprite sprite = CardScript.sprites[(int)value] as Sprite;
+					if (sprite == null) {
+						DebugScript.AddText ("khong tim thay sprite \n");
+
+					}
+					spriteRender.sprite = sprite;
 				}
 			}
 		}
