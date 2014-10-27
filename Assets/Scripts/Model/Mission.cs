@@ -102,10 +102,9 @@ public class Mission : IXmlSerializable
 			return false;
 		}
 	}
-
-	// Private properties
-	protected MissionTask   missionTask   { get; private set; }
-	protected MissionReward missionReward { get; private set; }
+	
+	public MissionTask   missionTask   { get; private set; }
+	public MissionReward missionReward { get; private set; }
 
 	#endregion Properties
 
