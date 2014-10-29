@@ -21,6 +21,10 @@ public class CompleteMissionPopup : PHPopup
 	public PHPanel    panel;
 	public PHButton   claimButton;
 
+	public Transform thumbnail;
+	public TextMesh  descriptionText;
+	public TextMesh  rewardText;
+
 	void Awake () 
 	{
 		CompleteMissionPopup.Instance = this;
