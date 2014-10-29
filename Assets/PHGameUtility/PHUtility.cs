@@ -152,4 +152,32 @@ public class PHUtility
 		}
 		return sizeObject;
 	}
+
+	public static string FormatStringMultiLine (string text, int maxCharactorInLine) 
+	{
+		// Trim word by space charactor
+		string[] stringSeparators = new string[] {" "};
+		string[] arrWord = text.Split(stringSeparators,System.StringSplitOptions.RemoveEmptyEntries);
+		
+		string result = "";
+		string desInLine = "";
+		// Connet word
+		for (int i = 0 ; i < arrWord.Length ; i ++) {
+			string str = arrWord[i];
+			if (desInLine.Length + str.Length + 1 < maxCharactorInLine) {
+				if (desInLine.Length == 0) {
+					desInLine = str;
+				} else {
+					desInLine += " " + str;
+				}
+			} else {
+				result += "\n" + desInLine;
+				desInLine = str;
+			}
+		}
+		if (desInLine.Length != 0) {
+			result += "\n" + desInLine;
+		}
+		return result;
+	}
 }

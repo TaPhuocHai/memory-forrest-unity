@@ -16,7 +16,7 @@ public class CompleteMissionPopup : PHPopup
 		set {
 			_mission = value;
 			if (_mission != null) {
-				descriptionText.text = _mission.description.text;
+				descriptionText.text = PHUtility.FormatStringMultiLine(_mission.description.text, 20);
 				rewardText.text = _mission.rewardMessage.text;
 				// Set thumbnail sprite
 				SpriteRenderer spriteRender = thumbnail.GetComponent<SpriteRenderer>();

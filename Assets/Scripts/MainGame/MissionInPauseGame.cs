@@ -21,31 +21,7 @@ public class MissionInPauseGame : MonoBehaviour
 				}
 				// Set description
 				if (description != null) {
-					// Max charactor in a line
-					int maxCharactorInLine = 25;
-					// Trim word by space charactor
-					string[] stringSeparators = new string[] {" "};
-					string[] arrWord = mission.description.text.Split(stringSeparators,System.StringSplitOptions.RemoveEmptyEntries);
-
-					string text = "";
-					string desInLine = "";
-					// Connet word
-					for (int i = 0 ; i < arrWord.Length ; i ++) {
-						string str = arrWord[i];
-						if (desInLine.Length + str.Length + 1 < maxCharactorInLine) {
-							if (desInLine.Length == 0) {
-								desInLine = str;
-							} else {
-								desInLine += " " + str;
-							}
-						} else {
-							text += "\n" + desInLine;
-							desInLine = str;
-						}
-					}
-					if (desInLine.Length != 0) {
-						text += "\n" + desInLine;
-					}
+					string text = PHUtility.FormatStringMultiLine (mission.description.text, 25);
 					description.text = text;
 				}
 
