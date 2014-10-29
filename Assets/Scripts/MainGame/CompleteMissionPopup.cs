@@ -17,7 +17,7 @@ public class CompleteMissionPopup : PHPopup
 			_mission = value;
 			if (_mission != null) {
 				descriptionText.text = PHUtility.FormatStringMultiLine(_mission.description.text, 20);
-				rewardText.text = _mission.rewardMessage.text;
+				rewardText.text = PHUtility.FormatStringMultiLine(_mission.rewardMessage.text, 14);
 				// Set thumbnail sprite
 				SpriteRenderer spriteRender = thumbnail.GetComponent<SpriteRenderer>();
 				spriteRender.sprite = _mission.thumbnail;
@@ -35,18 +35,15 @@ public class CompleteMissionPopup : PHPopup
 	void Awake () 
 	{
 		CompleteMissionPopup.Instance = this;
-	}
-	
-	void Start () 
-	{
-		this.Init ();
-		
+
 		if (this.claimButton != null) {
 			this.claimButton.onClickHandle += HandleClaimButtonClick;
 		}
 		if (this.panel != null) {
 			this.panel.hideCompleteHandle += HandlePanelHideComplete;
 		}
+
+		this.Init ();
 	}
 
 	void Update () {}
@@ -91,7 +88,7 @@ public class CompleteMissionPopup : PHPopup
 	{
 		base.Show (second);
 		// Show panel
-		this.panel.Show (new Vector3(0,0,this.panel.gameObject.transform.position.z), second);
+		this.panel.Show (second);
 	}
 	
 	#endregion
@@ -110,23 +107,25 @@ public class CompleteMissionPopup : PHPopup
 		// Khi exit finish ham HandlePanelHideComplete duoc goi, tai day check complete mission tiep tuc
 	}
 
-	void HandlePanelHideComplete ()
+	void HandlePanelHideComplete (PHPanelDirection toDirection)
 	{
-		this.panel.HideToDirection (PHPanelDirection.Left, 0);
+		if (toDirection == PHPanelDirection.Right) {
+			this.panel.HideToDirection (PHPanelDirection.Left, 0);
 
-		// Vi 1 level co the co nhieu mission duoc complete cung luc
-		// Moi khi complete mission popup hide, tu dong check tiep xem con mission nao da complete nhung chua popup ?
-		if (inCompleteMissionMode == true) {
-			// Get complete mission
-			Mission mission = this.GetCompleteMission ();
-			if (mission != null) {
-				this.mission = mission;
-				this.Show (Constant.kPopupAnimationDuraction);
-			} 
-			// Show game over
-			else {
-				inCompleteMissionMode = false;
-				GameOverPopup.Instance.Show (Constant.kPopupAnimationDuraction);
+			// Vi 1 level co the co nhieu mission duoc complete cung luc
+			// Moi khi complete mission popup hide, tu dong check tiep xem con mission nao da complete nhung chua popup ?
+			if (inCompleteMissionMode == true) {
+				// Get complete mission
+				Mission mission = this.GetCompleteMission ();
+				if (mission != null) {
+					this.mission = mission;
+					this.Show (Constant.kPopupAnimationDuraction);
+				} 
+				// Show game over
+				else {
+					inCompleteMissionMode = false;
+					GameOverPopup.Instance.Show (Constant.kPopupAnimationDuraction);
+				}
 			}
 		}
 	}

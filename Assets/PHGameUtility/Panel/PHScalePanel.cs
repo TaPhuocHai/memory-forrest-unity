@@ -20,7 +20,6 @@ public class PHScalePanel : PHPanel {
 	override public void HideToDirection (PHPanelDirection direction, float second) 
 	{
 		base.HideToDirection (direction, second);
-
 		TweenParms parms = new TweenParms().Prop("localScale", new Vector3 (localScale.x - 0.1f,localScale.y - 0.1f,localScale.z - 0.1f)).Ease(EaseType.EaseInBack);
 		HOTween.To (this.transform, second, parms);
 	}

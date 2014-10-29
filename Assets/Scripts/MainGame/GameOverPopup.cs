@@ -37,7 +37,7 @@ public class GameOverPopup : PHPopup
 	{
 		base.Show (second);
 		// Show panel
-		this.panel.Show (new Vector3(0,0,this.panel.gameObject.transform.position.z), second);
+		this.panel.Show (second);
 	}
 	
 	#endregion

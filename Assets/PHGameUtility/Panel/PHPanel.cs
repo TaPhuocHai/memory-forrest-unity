@@ -6,9 +6,10 @@ public enum PHPanelDirection {Top, Left, Bottom, Right}
 
 public class PHPanel : MonoBehaviour 
 {
-	public delegate void PHPanelAnimationComplete ();
+	public delegate void PHPanelAnimationComplete (PHPanelDirection direction);
 
 	private Vector3 _normalPosition;
+	private PHPanelDirection _lastDirection;
 
 	public PHPanelAnimationComplete hideCompleteHandle;
 	public PHPanelAnimationComplete showCompleteHandle;
@@ -23,6 +24,9 @@ public class PHPanel : MonoBehaviour
 		if (this.transform != null) {
 			this._normalPosition = this.transform.position;
 		}
+		if (this.gameObject.GetComponent<BoxCollider> () == null) {
+			this.gameObject.AddComponent<BoxCollider> ();
+		}
 	}
 
 	#region Animation
@@ -36,6 +40,7 @@ public class PHPanel : MonoBehaviour
 		if (this.transform.renderer == null && boxCollider == null) {
 			return;
 		}
+		_lastDirection = direction;
 
 		Vector3 newPosition = new Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.z);
 		Vector3 size = PHUtility.GetSizeOfTransforum (this.transform);
@@ -59,7 +64,7 @@ public class PHPanel : MonoBehaviour
 		if (second == 0) {
 			this.transform.position = newPosition;
 			if (this.hideCompleteHandle != null) {
-				this.hideCompleteHandle ();
+				this.hideCompleteHandle (_lastDirection);
 			}
 		} else {
 			TweenParms parms = new TweenParms().Prop("position", newPosition).Ease(EaseType.EaseInBack).OnComplete(HideDidComplete);
@@ -81,7 +86,7 @@ public class PHPanel : MonoBehaviour
 		if (second == 0) {
 			this.transform.position = position;
 			if (this.showCompleteHandle != null) {
-				this.showCompleteHandle ();
+				this.showCompleteHandle (_lastDirection);
 			}
 		} else {
 			TweenParms parms = new TweenParms().Prop("position", position).Ease(EaseType.EaseOutBack).OnComplete(ShowDidComplete);
@@ -94,14 +99,14 @@ public class PHPanel : MonoBehaviour
 	void HideDidComplete ()
 	{
 		if (this.hideCompleteHandle != null) {
-			this.hideCompleteHandle ();
+			this.hideCompleteHandle (_lastDirection);
 		}
 	}
 
 	void ShowDidComplete () 
 	{
 		if (this.showCompleteHandle != null) {
-			this.showCompleteHandle ();
+			this.showCompleteHandle (_lastDirection);
 		}
 	}
 }

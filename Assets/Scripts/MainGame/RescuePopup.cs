@@ -38,7 +38,7 @@ public class RescuePopup : PHPopup
 	IEnumerator WaitingAndShowGameOver (float second)
 	{
 		yield return new WaitForSeconds (second);
-		CompleteMissionPopup.Instance.Show (Constant.kPopupAnimationDuraction);
+		CompleteMissionPopup.Instance.CheckAndShowCompleteMission ();
 	}
 
 	#region Animation
@@ -58,7 +58,7 @@ public class RescuePopup : PHPopup
 
 		base.Show (second);
 		// Show panel
-		this.panel.Show (new Vector3(0,0,this.panel.gameObject.transform.position.z), second);
+		this.panel.Show (second);
 	}
 
 	override public void OnClose ()
@@ -72,7 +72,7 @@ public class RescuePopup : PHPopup
 		SoundEffects.Play (SoundEffectTypes.EndGame);
 
 		// Wating and show game over
-		StartCoroutine (WaitingAndShowGameOver(0.35f));
+		StartCoroutine (WaitingAndShowGameOver(0.4f));
 	}
 
 	#endregion
