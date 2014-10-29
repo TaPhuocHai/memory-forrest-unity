@@ -43,7 +43,7 @@ public class PauseMenuPopup : PHPopup
 		TimerManager.Instance.Resume ();
 
 		base.Hide (second);
-		this.panel.HideToDirection (PHPanelDirection.Top,second);
+		this.panel.HideToDirection (PHPanelDirection.Left,second);
 	}
 	
 	override public void Show (float second) 
