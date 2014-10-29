@@ -51,21 +51,8 @@ public class MissionInPauseGame : MonoBehaviour
 
 				// Set thumbnail
 				if (thumbnail != null) {
-					string thumbnailPath = null;
-					if (_mission.missionReward.GetType() == typeof(AdditionPointReward)) {
-						thumbnailPath = "Textures/Reward/MorePointReward";
-					} else if (_mission.missionReward.GetType() == typeof(CoinReward)) {
-						thumbnailPath = "Textures/Reward/CoinReward";
-					} else if (_mission.missionReward.GetType() == typeof(MoreTimeReward)) {
-						thumbnailPath = "Textures/Reward/MoreTimeReward";
-					} else if (_mission.missionReward.GetType() == typeof(UnlockCardReward)) {
-						thumbnailPath = "Textures/Reward/UnlockCardReward";
-					} else if (_mission.missionReward.GetType() == typeof(UnlockExtraRoundReward)) {
-						thumbnailPath = "Textures/Reward/NewRoundReward";
-					}
-					Sprite thumbnailSprite = (Sprite)Resources.Load(thumbnailPath,typeof(Sprite));
 					SpriteRenderer spriteRender = thumbnail.GetComponent<SpriteRenderer>();
-					spriteRender.sprite = thumbnailSprite;
+					spriteRender.sprite = _mission.thumbnail;
 				}
 			}
 		}

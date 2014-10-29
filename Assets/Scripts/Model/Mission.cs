@@ -106,6 +106,24 @@ public class Mission : IXmlSerializable
 	public MissionTask   missionTask   { get; private set; }
 	public MissionReward missionReward { get; private set; }
 
+	public Sprite thumbnail {
+		get {
+			string thumbnailPath = null;
+			if (missionReward.GetType() == typeof(AdditionPointReward)) {
+				thumbnailPath = "Textures/Reward/MorePointReward";
+			} else if (missionReward.GetType() == typeof(CoinReward)) {
+				thumbnailPath = "Textures/Reward/CoinReward";
+			} else if (missionReward.GetType() == typeof(MoreTimeReward)) {
+				thumbnailPath = "Textures/Reward/MoreTimeReward";
+			} else if (missionReward.GetType() == typeof(UnlockCardReward)) {
+				thumbnailPath = "Textures/Reward/UnlockCardReward";
+			} else if (missionReward.GetType() == typeof(UnlockExtraRoundReward)) {
+				thumbnailPath = "Textures/Reward/NewRoundReward";
+			}
+			return (Sprite)Resources.Load(thumbnailPath,typeof(Sprite));
+		}
+	}
+
 	#endregion Properties
 
 	#region Constructors

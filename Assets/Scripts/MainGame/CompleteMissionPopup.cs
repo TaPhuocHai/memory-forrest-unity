@@ -15,6 +15,13 @@ public class CompleteMissionPopup : PHPopup
 		get { return _mission; } 
 		set {
 			_mission = value;
+			if (_mission != null) {
+				descriptionText.text = _mission.description.text;
+				rewardText.text = _mission.rewardMessage.text;
+				// Set thumbnail sprite
+				SpriteRenderer spriteRender = thumbnail.GetComponent<SpriteRenderer>();
+				spriteRender.sprite = _mission.thumbnail;
+			}
 		}
 	}
 
