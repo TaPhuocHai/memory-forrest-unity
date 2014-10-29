@@ -2,6 +2,7 @@
 using System.Collections;
 using Holoville.HOTween;
 
+// 1 popup se tu dong co gray background
 public class PHPopup : MonoBehaviour 
 {
 	public bool hideWhenInit = true;

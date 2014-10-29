@@ -38,7 +38,7 @@ public class RescuePopup : PHPopup
 	IEnumerator WaitingAndShowGameOver (float second)
 	{
 		yield return new WaitForSeconds (second);
-		GameOverPopup.Instance.Show (Constant.kPopupAnimationDuraction);
+		CompleteMissionPopup.Instance.Show (Constant.kPopupAnimationDuraction);
 	}
 
 	#region Animation

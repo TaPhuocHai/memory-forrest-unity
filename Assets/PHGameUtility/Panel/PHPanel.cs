@@ -6,7 +6,12 @@ public enum PHPanelDirection {Top, Left, Bottom, Right}
 
 public class PHPanel : MonoBehaviour 
 {
+	public delegate void PHPanelAnimationComplete ();
+
 	private Vector3 _normalPosition;
+
+	public PHPanelAnimationComplete hideCompleteHandle;
+	public PHPanelAnimationComplete showCompleteHandle;
 
 	void Awake ()
 	{
@@ -53,8 +58,11 @@ public class PHPanel : MonoBehaviour
 
 		if (second == 0) {
 			this.transform.position = newPosition;
+			if (this.hideCompleteHandle != null) {
+				this.hideCompleteHandle ();
+			}
 		} else {
-			TweenParms parms = new TweenParms().Prop("position", newPosition).Ease(EaseType.EaseInBack);
+			TweenParms parms = new TweenParms().Prop("position", newPosition).Ease(EaseType.EaseInBack).OnComplete(HideDidComplete);
 			HOTween.To (this.transform, second, parms);
 		}
 	}
@@ -72,11 +80,28 @@ public class PHPanel : MonoBehaviour
 
 		if (second == 0) {
 			this.transform.position = position;
+			if (this.showCompleteHandle != null) {
+				this.showCompleteHandle ();
+			}
 		} else {
-			TweenParms parms = new TweenParms().Prop("position", position).Ease(EaseType.EaseOutBack);
+			TweenParms parms = new TweenParms().Prop("position", position).Ease(EaseType.EaseOutBack).OnComplete(ShowDidComplete);
 			HOTween.To (this.transform, second, parms);
 		}
 	}
-
+	
 	#endregion 
+
+	void HideDidComplete ()
+	{
+		if (this.hideCompleteHandle != null) {
+			this.hideCompleteHandle ();
+		}
+	}
+
+	void ShowDidComplete () 
+	{
+		if (this.showCompleteHandle != null) {
+			this.showCompleteHandle ();
+		}
+	}
 }
