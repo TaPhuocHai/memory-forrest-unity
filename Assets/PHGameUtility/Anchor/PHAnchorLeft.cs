@@ -13,7 +13,7 @@ public class PHAnchorLeft : PHAnchorMargin
 		}
 		
 		float worldPagging = PHScreen.Instance.ConveterPixelToWorld(this.margin);
-		Vector2 pos = PHUtility.PositionOfTransformIfPaddingTopLeftWithTransform (this.transform, new Vector2 (worldPagging, 0), this.anchorObject);
+		Vector2 pos = PHUtility.PositionOfTransformIfPaddingLeftTopWithTransform (this.transform, new Vector2 (worldPagging, 0), this.anchorObject);
 		this.transform.position = new Vector3 (pos.x, this.transform.position.y, this.transform.position.z);
 	}
 }

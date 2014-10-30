@@ -12,5 +12,6 @@ public abstract class PHAnchor : MonoBehaviour
 	{
 		this.UpdateAnchor ();
 	}
+	
 	virtual public void UpdateAnchor () {}	
 }

@@ -94,17 +94,17 @@ public class PHUtility
 	/// <param name="transform">Transform.</param>
 	/// <param name="topLeft">Top left.</param>
 	/// <param name="toTranform">To tranform.</param>
-	public static Vector2 PositionOfTransformIfPaddingTopLeftWithTransform (Transform transform, Vector2 topLeft, Transform toTranform)
+	public static Vector2 PositionOfTransformIfPaddingLeftTopWithTransform (Transform transform, Vector2 topLeft, Transform toTranform)
 	{
 		if (transform.renderer == null || toTranform.renderer == null) {
 			return new Vector2 (0,0);
 		}						
-		Vector2 size       = transform.renderer.bounds.size;
-		
-		float leftOfTransform = - toTranform.renderer.bounds.size.x / 2 + size.x/2;
-		float topOfTransform  = toTranform.renderer.bounds.size.y / 2 - size.y/2;
-		
-		return new Vector2 (leftOfTransform + topLeft.x , topOfTransform - topLeft.y);
+		Vector2 size  = transform.renderer.bounds.size;
+
+		float leftOfTransform = toTranform.position.x + toTranform.renderer.bounds.size.x/2 + topLeft.x + size.x/2;
+		float topOfTransform  = toTranform.position.y + toTranform.renderer.bounds.size.y/2 + topLeft.y + size.y/2;
+
+		return new Vector2 (leftOfTransform, topOfTransform);
 	}
 
 	/// <summary>
@@ -121,7 +121,7 @@ public class PHUtility
 		Vector2 size = transform.renderer.bounds.size;
 		
 		float rightScreenOfTransform = PHUtility.WorldWidth / 2 - size.x/2;
-		float bottomScreenOfTransform   = - PHUtility.WorldHeight / 2 + size.y/2;
+		float bottomScreenOfTransform = - PHUtility.WorldHeight / 2 + size.y/2;
 		
 		return new Vector2 (rightScreenOfTransform - rightBottom.x , bottomScreenOfTransform + rightBottom.y);
 	}

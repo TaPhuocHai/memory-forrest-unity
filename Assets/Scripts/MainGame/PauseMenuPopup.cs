@@ -11,8 +11,8 @@ public class PauseMenuPopup : PHPopup
 	public PHPanel    panel;
 	public PHButton   menuButton;
 	
-	public PHPanel    soundButton;
-	public PHPanel    musicButton;
+	public PHSoundButton   soundButton;
+	public PHSoundButton   musicButton;
 
 	public MissionInPauseGame mission1;
 	public MissionInPauseGame mission2;
@@ -28,6 +28,9 @@ public class PauseMenuPopup : PHPopup
 	void Start () 
 	{
 		this.Init ();
+
+		soundButton.isOn = PHSetting.IsSoundEffect;
+		musicButton.isOn = PHSetting.IsSoundBackgroud;
 
 		if (this.menuButton != null) {
 			this.menuButton.onClickHandle += HandleMenuButtonClick;
@@ -48,8 +51,8 @@ public class PauseMenuPopup : PHPopup
 		base.Hide (second);
 		this.panel.HideToDirection (PHPanelDirection.Left,second);
 
-		this.soundButton.HideToDirection (PHPanelDirection.Top, second);
-		this.musicButton.HideToDirection (PHPanelDirection.Top, second);
+		this.soundButton.transform.GetComponent<PHPanel> ().HideToDirection (PHPanelDirection.Top, second);
+		this.musicButton.transform.GetComponent<PHPanel> ().HideToDirection (PHPanelDirection.Top, second);
 		this.menuButton.transform.GetComponent<PHPanel> ().HideToDirection (PHPanelDirection.Top, second);
 	}
 	
@@ -72,8 +75,8 @@ public class PauseMenuPopup : PHPopup
 		// Show panel
 		this.panel.Show (second);
 
-		this.soundButton.Show (second);
-		this.musicButton.Show (second);
+		this.soundButton.transform.GetComponent<PHPanel> ().Show (second);
+		this.musicButton.transform.GetComponent<PHPanel> ().Show (second);
 		this.menuButton.transform.GetComponent<PHPanel> ().Show (second);
 	}
 
