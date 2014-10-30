@@ -2,7 +2,12 @@
 using System;
 using System.Collections;
 
-public class MapScript : MonoBehaviour {
+public class MapScript : MonoBehaviour 
+{
+	PHButton kingdomOfRabbitsButton;
+	PHButton forrestButton;
+	PHButton stoneMountainButton;
+	PHButton wolfCampButton;
 
 	void Awake () 
 	{
@@ -28,19 +33,31 @@ public class MapScript : MonoBehaviour {
 //		CardRandomCodeTest.RunTestMap3 ();
 //		CardRandomCodeTest.RunTestMap4 ();
 //		CardRandomCodeTest.ResertLockCardDefault ();
+		if (kingdomOfRabbitsButton != null) {
+			kingdomOfRabbitsButton.onClickHandle += EnterMapKingdomOfRabbits;
+		}
+		if (forrestButton != null) {
+			forrestButton.onClickHandle += EnterMapForest;
+		}
+		if (stoneMountainButton != null) {
+			stoneMountainButton.onClickHandle += EnterMapStoneMountain;
+		}
+		if (wolfCampButton != null) {
+			wolfCampButton.onClickHandle += EnterMapWolfCamp;
+		}
 	}
 
 	void Update () {}
 
-	public void EnterMap4x4 () 
+	public void EnterMapKingdomOfRabbits () 
 	{
-		Debug.Log ("load 4x4");
+		Debug.Log ("load KingdomOfRabbits");
 		Player.currentRegionPlay = RegionType.KingdomOfRabbits;
 		PlayerPrefs.Save ();
 		Application.LoadLevel ("Mission");
 	}
 
-	public void EnterMap5x5 () 
+	public void EnterMapForest () 
 	{	
 		Region.UnlockMap (RegionType.Forest, true, true);
 
@@ -49,7 +66,7 @@ public class MapScript : MonoBehaviour {
 		Application.LoadLevel ("Mission");
 	}
 
-	public void EnterMap5x5_2 () 
+	public void EnterMapStoneMountain () 
 	{
 		Region.UnlockMap (RegionType.StoneMountain, true, true);
 
@@ -58,7 +75,7 @@ public class MapScript : MonoBehaviour {
 		Application.LoadLevel ("Mission");
 	}
 
-	public void EnterMap6x6 () 
+	public void EnterMapWolfCamp () 
 	{
 		Region.UnlockMap (RegionType.WolfCamp, true, true);
 
