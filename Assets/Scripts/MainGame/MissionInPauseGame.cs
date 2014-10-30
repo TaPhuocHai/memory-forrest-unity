@@ -38,5 +38,7 @@ public class MissionInPauseGame : MonoBehaviour
 	{
 		title.text = "";
 		description.text = "";
+		SpriteRenderer spriteRender = thumbnail.GetComponent<SpriteRenderer>();
+		spriteRender.sprite = null;
 	}
 }

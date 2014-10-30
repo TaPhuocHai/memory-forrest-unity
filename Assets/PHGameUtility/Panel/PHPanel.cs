@@ -14,6 +14,9 @@ public class PHPanel : MonoBehaviour
 	public PHPanelAnimationComplete hideCompleteHandle;
 	public PHPanelAnimationComplete showCompleteHandle;
 
+	public bool    enablePosition = false;
+	public Vector3 position;
+
 	void Awake ()
 	{
 		this.Init ();
@@ -23,6 +26,9 @@ public class PHPanel : MonoBehaviour
 	{
 		if (this.transform != null) {
 			this._normalPosition = this.transform.position;
+		}
+		if (this.enablePosition) {
+			this._normalPosition = position;
 		}
 		if (this.gameObject.GetComponent<BoxCollider> () == null) {
 			this.gameObject.AddComponent<BoxCollider> ();
