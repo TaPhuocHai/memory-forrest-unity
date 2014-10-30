@@ -23,5 +23,6 @@ public class MainMenuScript : MonoBehaviour
 
 	void HandleJungleBookButtonClick ()
 	{
+		Application.LoadLevel ("Book");
 	}
 }

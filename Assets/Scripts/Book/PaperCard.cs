@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class JungleBook : MonoBehaviour 
+public class PaperCard : MonoBehaviour 
 {
-	public Transform cardTransform;
-	public TextMesh  descriptionText;
+	public Transform  cardTransform;
+	public UILabel  nameText;
+	public UILabel  descriptionText;
 
 	public CardType cardType {
 		get {return cardType;}

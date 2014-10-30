@@ -7,7 +7,6 @@ public class JungleBookSrollView : MonoBehaviour
 
 	void Start () 
 	{
-
 		float ratio = 1.0f;
 		float left = 0;
 		UIScrollView scrollView = this.gameObject.GetComponent<UIScrollView> ();

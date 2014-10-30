@@ -29,8 +29,7 @@ public class CardScript : MonoBehaviour {
 			var cardFace = this.transform.FindChild("CardFace");
 			if (cardFace) {
 				SpriteRenderer spriteRender = cardFace.GetComponent<SpriteRenderer>();
-				if (spriteRender) {
-					DebugScript.AddText ("co so han tu : " + CardScript.sprites.Length.ToString());					
+				if (spriteRender) {								
 					Sprite sprite = CardScript.GetSprite (value);
 					if (sprite == null) {
 						DebugScript.AddText ("khong tim thay sprite \n");
