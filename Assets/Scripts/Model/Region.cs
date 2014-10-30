@@ -45,7 +45,7 @@ public class Region
 			case RegionType.StoneMountain:
 				return 5;
 			case RegionType.WolfCamp:
-				return 6;
+				return 5;
 			}
 			return 0;
 		}
@@ -61,7 +61,7 @@ public class Region
 			case RegionType.StoneMountain:
 				return 5;
 			case RegionType.WolfCamp:
-				return 5;
+				return 6;
 			}
 			return 0;
 		}
