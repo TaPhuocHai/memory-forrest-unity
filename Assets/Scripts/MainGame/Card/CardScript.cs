@@ -25,18 +25,13 @@ public class CardScript : MonoBehaviour {
 			// Set card properties
 			_card = new Card(value);
 
-			// Load sprite if not loaded
-			if (CardScript.sprites == null) {
-				CardScript.sprites = Resources.LoadAll<Sprite>("Textures/Card");
-			}
-
 			// Set sprite for this card
 			var cardFace = this.transform.FindChild("CardFace");
 			if (cardFace) {
 				SpriteRenderer spriteRender = cardFace.GetComponent<SpriteRenderer>();
 				if (spriteRender) {
 					DebugScript.AddText ("co so han tu : " + CardScript.sprites.Length.ToString());					
-					Sprite sprite = CardScript.sprites[(int)value] as Sprite;
+					Sprite sprite = CardScript.GetSprite (value);
 					if (sprite == null) {
 						DebugScript.AddText ("khong tim thay sprite \n");
 
@@ -69,5 +64,15 @@ public class CardScript : MonoBehaviour {
 		} else {
 			spriteRender.sprite = CardScript.sprites[(int)CardType.Coins50 + 2] as Sprite;
 		}
+	}
+
+	public static Sprite GetSprite (CardType cardType)
+	{
+		// Load sprite if not loaded
+		if (CardScript.sprites == null) {
+			CardScript.sprites = Resources.LoadAll<Sprite>("Textures/Card");
+		}
+
+		return CardScript.sprites[(int)cardType] as Sprite
 	}
 }

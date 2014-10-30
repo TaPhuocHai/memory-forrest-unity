@@ -15,7 +15,7 @@ public enum CardType {
 	PineApple,
 	Strawberry,
 	Wolf,  // Speical
-	Peace,
+	Peach,
 	Stone, // Speical
 	BlueButterfly, // Speical
 	RedButterfly,  // Speical
@@ -79,7 +79,7 @@ public class Card
 		{(int)CardType.PineApple, 40},
 		{(int)CardType.Strawberry, 60},
 		{(int)CardType.Wolf, 100},
-		{(int)CardType.Peace, 70},
+		{(int)CardType.Peach, 70},
 		{(int)CardType.Stone, 30},
 		{(int)CardType.BlueButterfly, 35},
 		{(int)CardType.RedButterfly, 35},
@@ -158,6 +158,41 @@ public class Card
 			PlayerPrefs.SetInt (unlockKey, 0);
 		}
 		PlayerPrefs.Save ();
+	}
+	
+	public static string Description (CardType cardType) 
+	{
+		static Dictionary<CardType,string> cardDescription;
+		if (cardDescription == null) {
+			cardDescription = new Dictionary<CardType, string> {
+				{CardType.Mushroom, "Easy to find in forest" },
+				{CardType.Apple, "Adam, Eva ate apple for the fist time"},
+				{CardType.Carrot, "Favourite food of Rabbit"},
+				{CardType.WhiteRabbit, "A Rabbit warriot who searching for King"},
+				{CardType.BrownRabbit, "Brown Rabbit have more experience than white rabbit"},
+				{CardType.RabbitKing, "Rabbit King is kidnapped by wolves"},
+				{CardType.PineApple, "Pine Apple is very tasty"},
+				{CardType.Strawberry, "All cake have strawberry"},
+				{CardType.Wolf, "Evil force of forest. When you flip him, he will change the position of 3 random card"},
+				{CardType.Peach, "Beautiful and tasty, very hard to find in the forest"},
+				{CardType.Stone, "Stone blocked sight and path of rabbits. Stone don't have pair, you must flip all card before Stone card disappear"},
+				{CardType.BlueButterfly, "You can saw Blue butterfly near the river. Flip pair of Blue Butterfly will also flip 3 random pairs."},
+				{CardType.RedButterfly, "Red likes a sun. Add more time for you"},
+				{CardType.YellowButterfly, "Yellow butterfly dust make card change their color. Try to use it as advantage"},
+				{CardType.VioletButterfly, "Violet Butterfly is the rarest kind of butterfly. They help you flip on cards of the most crowded kind."},
+				{CardType.WolfKing, "The leader of the wolf. When you flip him he will change all the position of cards remained"},
+				{CardType.RabbitKing, ""},
+				{CardType.Banana, "Actually, it's a monkey food more than rabbit food. But it's ok with rabbits."},
+				{CardType.Grape, "Juicy but so complicated to eat"},
+				{CardType.Pears, "Sweet fruit you can't never have enough"},
+				{CardType.Cherry, "Hard to find in the forest but worth it"},
+				{CardType.Coins5, "Give you 5 coins"},
+				{CardType.Coins10, "Give you 10 coins"},
+				{CardType.Coins20, "Give you 20 coins"},
+				{CardType.Coins50, "Give you 50 coins"},
+			};
+		}
+		return cardDescription[cardType];
 	}
 
 	#endregion Static function
