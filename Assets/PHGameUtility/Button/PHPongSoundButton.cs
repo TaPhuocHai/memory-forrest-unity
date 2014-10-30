@@ -2,14 +2,14 @@
 using System.Collections;
 using Holoville.HOTween;
 
-public class PHScaleButton : PHButton 
+public class PHPongSoundButton : PHSoundButton 
 {
 	private Vector3 localScale;
 	void Awake ()
 	{
 		this.localScale = this.transform.localScale;
 	}
-
+	
 	#region Button function
 	
 	override protected void OnButtonEnter () 
@@ -17,7 +17,7 @@ public class PHScaleButton : PHButton
 		TweenParms parms = new TweenParms().Prop("localScale", new Vector3 (localScale.x - 0.1f,localScale.y - 0.1f,localScale.z - 0.1f)).Ease(EaseType.Linear);
 		HOTween.To (this.transform, 0.1f, parms);
 	}
-
+	
 	override protected void OnButtonExit () 
 	{
 		TweenParms parms = new TweenParms().Prop("localScale", localScale).Ease(EaseType.EaseOutBack);

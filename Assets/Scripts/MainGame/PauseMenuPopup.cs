@@ -9,7 +9,10 @@ public class PauseMenuPopup : PHPopup
 	#endregion
 
 	public PHPanel    panel;
-	public PHButton   resetButton;
+	public PHButton   menuButton;
+	
+	public PHPanel    soundButton;
+	public PHPanel    musicButton;
 
 	public MissionInPauseGame mission1;
 	public MissionInPauseGame mission2;
@@ -26,8 +29,8 @@ public class PauseMenuPopup : PHPopup
 	{
 		this.Init ();
 
-		if (this.resetButton != null) {
-			this.resetButton.onClickHandle += HandleResetButtonClick;
+		if (this.menuButton != null) {
+			this.menuButton.onClickHandle += HandleMenuButtonClick;
 		}
 
 		_listMissionInPauseGame = new List<MissionInPauseGame> ();
@@ -44,6 +47,10 @@ public class PauseMenuPopup : PHPopup
 
 		base.Hide (second);
 		this.panel.HideToDirection (PHPanelDirection.Left,second);
+
+		this.soundButton.HideToDirection (PHPanelDirection.Top, second);
+		this.musicButton.HideToDirection (PHPanelDirection.Top, second);
+		this.menuButton.transform.GetComponent<PHPanel> ().HideToDirection (PHPanelDirection.Top, second);
 	}
 	
 	override public void Show (float second) 
@@ -64,13 +71,17 @@ public class PauseMenuPopup : PHPopup
 		base.Show (second);
 		// Show panel
 		this.panel.Show (second);
+
+		this.soundButton.Show (second);
+		this.musicButton.Show (second);
+		this.menuButton.transform.GetComponent<PHPanel> ().Show (second);
 	}
 
 	#endregion}
 
-	void HandleResetButtonClick () 
+	void HandleMenuButtonClick () 
 	{
-		this.Hide (0.5f);
-		SceneScript.Instance.ResetRound ();
+		this.Hide (Constant.kPopupAnimationDuraction);
+
 	}
 }
