@@ -11,13 +11,34 @@ public class PHSoundButton : MonoBehaviour
 	
 	public AudioClip buttonPressedSound;
 
-	public bool isOn = true;
-	
+	private bool _isOn;
+	public bool isOn {
+		get { return _isOn; }
+		set { 
+			_isOn = value;
+			if (this.isOn && this.buttonOnUpSprite) {
+				this.transform.GetComponent<SpriteRenderer> ().sprite = this.buttonOnUpSprite;
+			}
+			if (!this.isOn && this.buttonOffUpSprite) {
+				this.transform.GetComponent<SpriteRenderer> ().sprite = this.buttonOffUpSprite;
+			}
+		}
+	}
+
+	void Awake ()
+	{
+		this.isOn = true;
+	}
+
 	void Start () 
 	{	
 		this.Init ();
 	}
-	
+
+	void Update ()
+	{
+	}
+
 	#region Mouse touch
 	
 	void OnMouseDown () 

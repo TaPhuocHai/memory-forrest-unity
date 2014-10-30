@@ -21,6 +21,16 @@ public class PHMusicBackground : MonoBehaviour
 		}
 	}
 
+	void Update ()
+	{
+		if (!PHSetting.IsSoundBackgroud && audio.isPlaying) {
+			audio.Pause ();
+		}
+		if (PHSetting.IsSoundBackgroud && !audio.isPlaying) {
+			audio.Play ();
+		}
+	}
+
 	public void Play ()
 	{
 		if (!PHSetting.IsSoundBackgroud) {

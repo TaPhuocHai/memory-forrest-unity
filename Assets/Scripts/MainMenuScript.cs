@@ -6,6 +6,9 @@ public class MainMenuScript : MonoBehaviour
 	public PHButton playButton;
 	public PHButton jungleBookButton;
 
+	public PHSoundButton musicButton;
+	public PHSoundButton soundEffectButton;
+
 	void Start ()
 	{
 		if (playButton != null) {
@@ -14,6 +17,9 @@ public class MainMenuScript : MonoBehaviour
 		if (jungleBookButton != null) {
 			jungleBookButton.onClickHandle += HandleJungleBookButtonClick;
 		}
+
+		musicButton.isOn = PHSetting.IsSoundBackgroud;
+		soundEffectButton.isOn = PHSetting.IsSoundEffect;
 	}
 
 	void HandlePlayButtonClick ()
