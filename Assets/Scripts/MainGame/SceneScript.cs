@@ -768,7 +768,7 @@ public class SceneScript : MonoBehaviour
 		// Top/left of normal card on visiable screen
 		// B2: tim top, left cua vi tri vung ve tren man hinh chinh la top,left cua cai card dau tien
 		var topLeftOfFirstCard = new Vector2 (edgeLeftBottomVector.x + (screenWidth - widthOfAllCard) / 2 + cardWidth/2,
-		                                      edgeLeftBottomVector.y + (screenHeight - heighOfAllCard)/2  + heighOfAllCard - cardHeight/2);
+		                                      edgeLeftBottomVector.y + (screenHeight - heighOfAllCard)/2  + heighOfAllCard - cardHeight/2 - cardHeight);
 
 		// Luu thong tin so luong cac card duoc random
 		//Dictionary<string,int> cardDic = new Dictionary<string, int> ();

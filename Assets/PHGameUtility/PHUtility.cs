@@ -98,13 +98,11 @@ public class PHUtility
 	{
 		if (transform.renderer == null || toTranform.renderer == null) {
 			return new Vector2 (0,0);
-		}						
-		Vector2 size  = transform.renderer.bounds.size;
-
-		float leftOfTransform = toTranform.position.x + toTranform.renderer.bounds.size.x/2 + topLeft.x + size.x/2;
-		float topOfTransform  = toTranform.position.y + toTranform.renderer.bounds.size.y/2 + topLeft.y + size.y/2;
-
-		return new Vector2 (leftOfTransform, topOfTransform);
+		}                        
+		Vector2 size       = transform.renderer.bounds.size;
+		float leftOfTransform = - toTranform.renderer.bounds.size.x / 2 + size.x/2;
+		float topOfTransform  = toTranform.renderer.bounds.size.y / 2 - size.y/2;
+		return new Vector2 (leftOfTransform + topLeft.x , topOfTransform - topLeft.y);
 	}
 
 	/// <summary>
