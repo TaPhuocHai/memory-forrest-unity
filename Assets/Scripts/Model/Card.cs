@@ -159,10 +159,10 @@ public class Card
 		}
 		PlayerPrefs.Save ();
 	}
-	
+
+	private static Dictionary<CardType,string> cardDescription;
 	public static string Description (CardType cardType) 
 	{
-		static Dictionary<CardType,string> cardDescription;
 		if (cardDescription == null) {
 			cardDescription = new Dictionary<CardType, string> {
 				{CardType.Mushroom, "Easy to find in forest" },

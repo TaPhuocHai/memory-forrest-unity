@@ -18,7 +18,6 @@ public class JungleBookSrollView : MonoBehaviour
 			UI2DSprite sprite = book.GetComponent<UI2DSprite> ();
 			sprite.transform.position = new Vector3 (0,0,0);
 			sprite.transform.localScale = new Vector3(ratio,ratio,1);
-			Debug.Log ("pos = " + sprite.width.ToString() + " " +  sprite.height.ToString());
 			sprite.SetRect(left, - (sprite.height * ratio)/2, sprite.width * ratio, sprite.height * ratio);
 
 			left += sprite.width * ratio + 10;

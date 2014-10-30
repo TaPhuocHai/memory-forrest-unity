@@ -502,14 +502,14 @@ public class Region
 				CardType.WhiteRabbit,
 				CardType.PineApple,
 				CardType.Strawberry,
-				CardType.Peace
+				CardType.Peach
 			};
 		} else {
 			listCardTypeUnlockRequired = new List<CardType> () {
 				CardType.WhiteRabbit,
 				CardType.PineApple,
 				CardType.Strawberry,
-				CardType.Peace,
+				CardType.Peach,
 				CardType.BlueButterfly,
 				CardType.RedButterfly,
 				CardType.YellowButterfly,

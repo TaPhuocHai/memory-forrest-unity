@@ -73,6 +73,6 @@ public class CardScript : MonoBehaviour {
 			CardScript.sprites = Resources.LoadAll<Sprite>("Textures/Card");
 		}
 
-		return CardScript.sprites[(int)cardType] as Sprite
+		return CardScript.sprites [(int)cardType] as Sprite;
 	}
 }
