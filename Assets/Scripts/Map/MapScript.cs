@@ -54,7 +54,7 @@ public class MapScript : MonoBehaviour
 		Debug.Log ("load KingdomOfRabbits");
 		Player.currentRegionPlay = RegionType.KingdomOfRabbits;
 		PlayerPrefs.Save ();
-		Application.LoadLevel ("Mission");
+		Application.LoadLevel ("Main");
 	}
 
 	public void EnterMapForest () 
@@ -63,7 +63,7 @@ public class MapScript : MonoBehaviour
 
 		Player.currentRegionPlay = RegionType.Forest;
 		PlayerPrefs.Save ();
-		Application.LoadLevel ("Mission");
+		Application.LoadLevel ("Main");
 	}
 
 	public void EnterMapStoneMountain () 
@@ -72,7 +72,7 @@ public class MapScript : MonoBehaviour
 
 		Player.currentRegionPlay = RegionType.StoneMountain;
 		PlayerPrefs.Save ();
-		Application.LoadLevel ("Mission");
+		Application.LoadLevel ("Main");
 	}
 
 	public void EnterMapWolfCamp () 
@@ -81,7 +81,7 @@ public class MapScript : MonoBehaviour
 
 		Player.currentRegionPlay = RegionType.WolfCamp;
 		PlayerPrefs.Save ();
-		Application.LoadLevel ("Mission");
+		Application.LoadLevel ("Main");
 	}
 
 	public void ResetUnlockCard () 

@@ -82,6 +82,6 @@ public class PauseMenuPopup : PHPopup
 	void HandleMenuButtonClick () 
 	{
 		this.Hide (Constant.kPopupAnimationDuraction);
-
+		Application.LoadLevel ("Map");
 	}
 }
