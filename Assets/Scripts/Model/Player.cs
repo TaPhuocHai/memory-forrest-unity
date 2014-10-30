@@ -49,6 +49,20 @@ public class Player
 	}
 
 	/// <summary>
+	/// Gets or sets the best score.
+	/// </summary>
+	/// <value>The last score.</value>
+	public static int bestScore {
+		get {
+			return PlayerPrefs.GetInt("PLAYER_DATA_BEST_SCORE",0);
+		}
+		set {
+			PlayerPrefs.SetInt("PLAYER_DATA_BEST_SCORE", value);
+			PlayerPrefs.Save();
+		}
+	}
+
+	/// <summary>
 	/// Gets or sets the total score.
 	/// </summary>
 	/// <value>The total score.</value>

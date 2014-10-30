@@ -6,12 +6,12 @@ public class Constant {
 	/// <summary>
 	/// Debug mode : su dung de chung thuc 1 so ham chi duoc phep chay o che do debug mode
 	/// </summary>
-	public static bool kDebugMode = true;
+	public static bool kDebugMode = false;
 
 	/// <summary>
 	/// Gia tri nay = true thi co the goi ham de set task mission complete
 	/// </summary>
-	public static bool  kDebugMission = true;
+	public static bool  kDebugMission = false;
 
 	/// <summary>
 	/// Xoa het tat thong tin ve mission khi chay app

@@ -10,6 +10,9 @@ public class GameOverPopup : PHPopup
 
 	public PHPanel    panel;
 	public PHButton   resetButton;
+	public PHButton   menuButton;
+	public TextMesh   pointText;
+	public TextMesh   recordText;
 
 	public GameOverPopup ()
 	{
@@ -22,6 +25,9 @@ public class GameOverPopup : PHPopup
 		
 		if (this.resetButton != null) {
 			this.resetButton.onClickHandle += HandleResetButtonClick;
+		}
+		if (this.menuButton != null) {
+			this.menuButton.onClickHandle += HandleMenuButtonClick;
 		}
 	}
 
@@ -36,6 +42,19 @@ public class GameOverPopup : PHPopup
 	override public void Show (float second) 
 	{
 		base.Show (second);
+
+		// Check and save best score
+		int score = PlayGameData.Instance.score;
+		if (score > Player.bestScore) {
+			Player.bestScore = score;
+		}
+
+		// Show score
+		this.pointText.text = "Point : " + PlayGameData.Instance.score.ToString ();
+
+		// Show best record
+		this.recordText.text = "Record : " + Player.bestScore.ToString ();
+
 		// Show panel
 		this.panel.Show (second);
 	}
@@ -46,5 +65,10 @@ public class GameOverPopup : PHPopup
 	{
 		this.Hide (0.5f);
 		SceneScript.Instance.ResetRound ();
+	}
+
+	void HandleMenuButtonClick ()
+	{
+		Application.LoadLevel ("Map");
 	}
 }
