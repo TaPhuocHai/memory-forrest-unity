@@ -9,6 +9,8 @@ public class MapScript : MonoBehaviour
 	public PHButton stoneMountainButton;
 	public PHButton wolfCampButton;
 
+	public PHButton menuButton;
+
 	void Awake () 
 	{
 		Card.Initialize ();
@@ -44,6 +46,9 @@ public class MapScript : MonoBehaviour
 		}
 		if (wolfCampButton != null) {
 			wolfCampButton.onClickHandle += EnterMapWolfCamp;
+		}
+		if (menuButton != null) {
+			menuButton.onClickHandle += HandleMenuButtonClick;
 		}
 	}
 
@@ -87,5 +92,10 @@ public class MapScript : MonoBehaviour
 	public void ResetUnlockCard () 
 	{
 		CardRandomCodeTest.ResertLockCardDefault ();
+	}
+
+	void HandleMenuButtonClick() 
+	{
+		Application.LoadLevel ("Menu");
 	}
 }
