@@ -4,10 +4,10 @@ using System.Collections;
 
 public class MapScript : MonoBehaviour 
 {
-	PHButton kingdomOfRabbitsButton;
-	PHButton forrestButton;
-	PHButton stoneMountainButton;
-	PHButton wolfCampButton;
+	public PHButton kingdomOfRabbitsButton;
+	public PHButton forrestButton;
+	public PHButton stoneMountainButton;
+	public PHButton wolfCampButton;
 
 	void Awake () 
 	{

@@ -3,8 +3,8 @@ using System.Collections;
 
 public class MainMenuScript : MonoBehaviour 
 {
-	PHButton playButton;
-	PHButton jungleBookButton;
+	public PHButton playButton;
+	public PHButton jungleBookButton;
 
 	void Start ()
 	{
