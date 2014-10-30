@@ -181,7 +181,6 @@ public class Card
 				{CardType.YellowButterfly, "Yellow butterfly dust make card change their color. Try to use it as advantage"},
 				{CardType.VioletButterfly, "Violet Butterfly is the rarest kind of butterfly. They help you flip on cards of the most crowded kind."},
 				{CardType.WolfKing, "The leader of the wolf. When you flip him he will change all the position of cards remained"},
-				{CardType.RabbitKing, ""},
 				{CardType.Banana, "Actually, it's a monkey food more than rabbit food. But it's ok with rabbits."},
 				{CardType.Grape, "Juicy but so complicated to eat"},
 				{CardType.Pears, "Sweet fruit you can't never have enough"},

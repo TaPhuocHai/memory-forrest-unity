@@ -7,15 +7,19 @@ public class PaperCard : MonoBehaviour
 	public UILabel  nameText;
 	public UILabel  descriptionText;
 
+	private CardType _cardType;
 	public CardType cardType {
-		get {return cardType;}
+		get {return _cardType;}
 		set {
-			cardType = value;
+			_cardType = value;
 			if (this.cardTransform) {
-				this.cardTransform.GetComponent<SpriteRenderer>().sprite = CardScript.GetSprite (value);
+				this.cardTransform.GetComponent<UI2DSprite>().sprite2D = CardScript.GetSprite (value);
 			}
 			if (this.descriptionText) {
 				this.descriptionText.text = PHUtility.FormatStringMultiLine (Card.Description(value), 30);
+			}
+			if (nameText) {
+				this.nameText.text = cardType.ToString();
 			}
 		}
 	}

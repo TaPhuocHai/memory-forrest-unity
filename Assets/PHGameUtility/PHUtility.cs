@@ -176,8 +176,12 @@ public class PHUtility
 			}
 		}
 		if (desInLine.Length != 0) {
-			result += "\n" + desInLine;
-		}
+			if (result.Length != 0) {
+				result += "\n" + desInLine;
+			} else {
+				result = desInLine;
+			}
+		}		
 		return result;
 	}
 }
