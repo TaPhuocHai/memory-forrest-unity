@@ -7,7 +7,7 @@ public class CardRandomCodeTest
 {
 	static int NUMBER_ROUND = 4;
 	static int NUMBER_TEST_IN_ROUND = 5;
-
+	/*
 	/// <summary>
 	/// Khi chay cac RunTestMap cac card co the bi unlock, goi ham nay de tra ve mat dinh
 	/// </summary>
@@ -311,5 +311,6 @@ public class CardRandomCodeTest
 		sr.Close();
 
 		Debug.Log ("RunTestMap4 success");
-	}
+	}	
+	*/
 }

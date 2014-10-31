@@ -101,7 +101,7 @@ public class SceneScript : MonoBehaviour
 		}
 		
 		// Reset time
-		TimerManager.Instance.Start (Player.secondTimePlay, true);
+		TimerManager.Instance.Reset ();
 		
 		// Reset POINT
 		this._playGameData.score = 0;

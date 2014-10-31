@@ -26,6 +26,8 @@ public class Player
 	{
 		get {
 			//return 2;
+			PlayerPrefs.SetInt("PLAYER_DATA_TIME", 45);
+			PlayerPrefs.Save();
 			return PlayerPrefs.GetInt("PLAYER_DATA_TIME",Constant.kTimePlayDefault);
 		}
 		set {

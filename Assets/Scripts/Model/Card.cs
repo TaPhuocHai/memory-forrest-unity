@@ -135,9 +135,9 @@ public class Card
 	/// </summary>
 	/// <returns><c>true</c> if is unlock the specified cardType; otherwise, <c>false</c>.</returns>
 	/// <param name="cardType">Card type.</param>
-	public static bool IsUnlock (CardType cardType)
+	public static bool IsUnlock (CardType cardType, RegionType regionType)
 	{
-		string unlockKey = "UNLOCK_CARD_" + cardType.ToString ();
+		string unlockKey = "UNLOCK_CARD_" + cardType.ToString () + "_" + regionType.ToString();
 		int unlockValue = PlayerPrefs.GetInt (unlockKey, 0);
 		if (unlockValue == 1) {
 			return true;
@@ -149,9 +149,9 @@ public class Card
 	/// Unlock the specified cardType.
 	/// </summary>
 	/// <param name="cardType">Card type.</param>
-	public static void Unlock (CardType cardType, bool isUnlock) 
+	public static void Unlock (CardType cardType, RegionType regionType, bool isUnlock) 
 	{
-		string unlockKey = "UNLOCK_CARD_" + cardType.ToString ();
+		string unlockKey = "UNLOCK_CARD_" + cardType.ToString () + "_" + regionType.ToString();
 		if (isUnlock) {
 			PlayerPrefs.SetInt (unlockKey, 1);
 		} else {

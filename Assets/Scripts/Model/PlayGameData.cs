@@ -65,7 +65,7 @@ public class PlayGameData : IXmlSerializable
 
 	public bool Save ()
 	{
-		if (UnityXMLSerializer.SerializeToXMLFile<PlayGameData> (Application.persistentDataPath + "_playgamedata.xml", this, true)) {
+		if (UnityXMLSerializer.SerializeToXMLFile<PlayGameData> (Application.persistentDataPath + "/playgamedata.xml", this, true)) {
 			Debug.Log ("Save gameplaydata success");
 			return true;
 		} else {
@@ -76,7 +76,7 @@ public class PlayGameData : IXmlSerializable
 
 //	public static PlayGameData GetLastSave () 
 //	{
-//		PlayGameData data = UnityXMLSerializer.DeserializeFromXMLFile<PlayGameData> (Application.persistentDataPath + "_playgamedata.xml");
+//		PlayGameData data = UnityXMLSerializer.DeserializeFromXMLFile<PlayGameData> (Application.persistentDataPath + "/playgamedata.xml");
 //		return data;
 //	}
 

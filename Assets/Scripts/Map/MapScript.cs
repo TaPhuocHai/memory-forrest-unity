@@ -91,7 +91,7 @@ public class MapScript : MonoBehaviour
 
 	public void ResetUnlockCard () 
 	{
-		CardRandomCodeTest.ResertLockCardDefault ();
+		//CardRandomCodeTest.ResertLockCardDefault ();
 	}
 
 	void HandleMenuButtonClick() 

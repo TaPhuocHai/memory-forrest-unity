@@ -214,7 +214,7 @@ public class Mission : IXmlSerializable
 
 		MissionText newDescription;
 		if (this.description.code != null && this.description.code.Length > 0) {
-			newDescription = new MissionText (this.description.code, this.description.value + this.rewardModifier);
+			newDescription = new MissionText (this.description.code, this.description.value + this.goldModifier);
 		} else {
 			newDescription = new MissionText (this.description);
 		}

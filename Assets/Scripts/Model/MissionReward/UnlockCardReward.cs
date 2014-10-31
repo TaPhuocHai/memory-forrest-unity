@@ -9,16 +9,18 @@ using System.Xml.Serialization;
 public class UnlockCardReward : MissionReward
 {
 	public CardType cardType { get; set; }
+	public RegionType regionType { get; set; }
 
 	public UnlockCardReward () {}
-	public UnlockCardReward (CardType cardType)
+	public UnlockCardReward (CardType cardType, RegionType regionType)
 	{
 		this.cardType = cardType;
+		this.regionType = regionType;
 	}
 	
 	override public bool DoGetReward () 
 	{
-		Card.Unlock (cardType,true);
+		Card.Unlock (cardType, regionType, true);
 		Debug.Log ("UnlockCardReward : " + cardType.ToString());
 		return true;
 	}
@@ -28,7 +30,7 @@ public class UnlockCardReward : MissionReward
 		if (!Constant.kClearRewardData) {
 			return;
 		}
-		Card.Unlock (cardType,false);
+		Card.Unlock (cardType,regionType,false);
 	}
 
 	#region IXmlSerializable
