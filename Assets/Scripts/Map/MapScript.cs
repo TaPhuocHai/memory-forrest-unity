@@ -75,12 +75,12 @@ public class MapScript : MonoBehaviour
 			MessagePopup.Instance.message = "You don't unlock Forest map. Do you wain to unlock ? You need 100 coin.";
 			MessagePopup.Instance.buttonTitle = "Unlock";
 			MessagePopup.Instance.onButtonClick += EnterUnlockRegion;
+			MessagePopup.Instance.enableCloseButton = true;
 			MessagePopup.Instance.Show (Constant.kPopupAnimationDuraction);
 			return;
 		}
 
 		Player.currentRegionPlay = RegionType.Forest;
-		PlayerPrefs.Save ();
 		MissionPopup.Instance.Show (Constant.kPopupAnimationDuraction);
 	}
 
@@ -92,12 +92,12 @@ public class MapScript : MonoBehaviour
 			MessagePopup.Instance.message = "You don't unlock StoneMountain map. Do you wain to unlock ? You need 200 coin.";
 			MessagePopup.Instance.buttonTitle = "Unlock";
 			MessagePopup.Instance.onButtonClick += EnterUnlockRegion;
+			MessagePopup.Instance.enableCloseButton = true;
 			MessagePopup.Instance.Show (Constant.kPopupAnimationDuraction);
 			return;
 		}
 
 		Player.currentRegionPlay = RegionType.StoneMountain;
-		PlayerPrefs.Save ();
 		MissionPopup.Instance.Show (Constant.kPopupAnimationDuraction);
 	}
 
@@ -115,7 +115,6 @@ public class MapScript : MonoBehaviour
 		}
 
 		Player.currentRegionPlay = RegionType.WolfCamp;
-		PlayerPrefs.Save ();
 		MissionPopup.Instance.Show (Constant.kPopupAnimationDuraction);
 	}
 

@@ -90,6 +90,10 @@ public class Card
 		{(int)CardType.Grape, 70},
 		{(int)CardType.Pears, 80},
 		{(int)CardType.Cherry, 90},
+		{(int)CardType.Coins5, 100},
+		{(int)CardType.Coins10, 100},
+		{(int)CardType.Coins20, 100},
+		{(int)CardType.Coins50, 100}
 	};
 
 	/// <summary>

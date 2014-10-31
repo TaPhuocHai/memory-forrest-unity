@@ -1008,5 +1008,19 @@ public class Region
 	}
 	
 	#endregion
+
+	/// <summary>
+	/// Xoa cac file mission : xu dung de clear data
+	/// </summary>
+	public static void CleanMissionFiles ()
+	{
+		foreach (RegionType regionType in (RegionType[]) Enum.GetValues(typeof(RegionType))) {			
+			string missionPath = Region.MissionFilePath(regionType);
+			System.IO.File.Delete (missionPath);
+
+			string currentMissionPath = Region.CurrentMissionFilePath(regionType);
+			System.IO.File.Delete (currentMissionPath);
+		}
+	}
 }
 

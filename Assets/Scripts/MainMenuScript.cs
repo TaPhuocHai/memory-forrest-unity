@@ -42,6 +42,8 @@ public class MainMenuScript : MonoBehaviour
 
 	void HandleResetDataButtonClick ()
 	{
+		Debug.Log ("Reset data player");
+
 		Player.ResetData ();
 
 		// Xoa  thong tin unlock round 
@@ -60,11 +62,13 @@ public class MainMenuScript : MonoBehaviour
 		PlayerPrefs.SetInt ("AUTO_MISSION_CODE", 0);
 		PlayerPrefs.Save ();
 
+		/*
 		// Clear reward data
 		foreach (RegionType regionType in (RegionType[]) Enum.GetValues(typeof(RegionType))) {			
 			Region region = Region.Instance (regionType);
 			region.ClearRewardOfMission ();
 		}
+		*/
 
 		// Xoa thong tin unlock card
 		foreach (CardType cardType in (CardType[]) Enum.GetValues(typeof(CardType))) {			
@@ -72,5 +76,7 @@ public class MainMenuScript : MonoBehaviour
 				Card.Unlock(cardType,regionType,false);
 			}
 		}
+
+		Region.CleanMissionFiles ();
 	}
 }
