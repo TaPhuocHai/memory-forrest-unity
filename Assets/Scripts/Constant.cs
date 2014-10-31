@@ -6,7 +6,7 @@ public class Constant {
 	/// <summary>
 	/// Debug mode : su dung de chung thuc 1 so ham chi duoc phep chay o che do debug mode
 	/// </summary>
-	public static bool kDebugMode = false;
+	public static bool kDebugMode = true;
 
 	/// <summary>
 	/// Gia tri nay = true thi co the goi ham de set task mission complete

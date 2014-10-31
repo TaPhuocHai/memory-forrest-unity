@@ -53,6 +53,9 @@ public class RescuePopup : PHPopup
 	
 	override public void Show (float second) 
 	{
+		CompleteMissionPopup.Instance.CheckAndShowCompleteMission ();
+		return;
+
 		// Pause timer
 		TimerManager.Instance.Pause ();
 

@@ -206,12 +206,48 @@ public class Card
 		/// ----------------------------------------------------------------------
 		/// Chi Init 1 lan duy nhat khi User moi cai dat
 
-		int didCardInitValue = PlayerPrefs.GetInt ("CARD_INITIALIZE", 0);
-		if (didCardInitValue == 1) {
-			return;
+		if (!Constant.kDebugMode) {
+			int didCardInitValue = PlayerPrefs.GetInt ("CARD_INITIALIZE", 0);
+			if (didCardInitValue == 1) {
+				return;
+			}
 		}
 
-		CardType[] unlockDefault = new CardType[] {
+		CardType[] unlockKindomOfRabbits = new CardType[] {
+			// Place 1
+			CardType.Mushroom,
+			CardType.Apple,
+			CardType.Carrot,
+		};
+		Card.UnlockCardDefault (unlockKindomOfRabbits, RegionType.KingdomOfRabbits);
+
+		CardType[] unlockForest = new CardType[] {
+			// Place 1
+			CardType.Mushroom,
+			CardType.Apple,
+			CardType.Carrot,
+			// Place 2
+			CardType.BrownRabbit,
+			CardType.RabbitKing,
+			CardType.Wolf,
+		};
+		Card.UnlockCardDefault (unlockForest, RegionType.Forest);
+
+		CardType[] unlockStoneMountain = new CardType[] {
+			// Place 1
+			CardType.Mushroom,
+			CardType.Apple,
+			CardType.Carrot,
+			// Place 2
+			CardType.BrownRabbit,
+			CardType.RabbitKing,
+			CardType.Wolf,
+			// Place 3
+			CardType.Stone,
+		};
+		Card.UnlockCardDefault (unlockStoneMountain, RegionType.StoneMountain);
+
+		CardType[] unlockWolfCamp = new CardType[] {
 			// Place 1
 			CardType.Mushroom,
 			CardType.Apple,
@@ -225,15 +261,20 @@ public class Card
 			// Place 4
 			CardType.WolfKing
 		};
+		Card.UnlockCardDefault (unlockWolfCamp, RegionType.WolfCamp);
 
-		foreach (CardType type in unlockDefault) {
-			string unlockKey = "UNLOCK_CARD_" + type.ToString ();
-			PlayerPrefs.SetInt(unlockKey,1);
-		}
+		Debug.Log ("Init unlock card");
 
 		PlayerPrefs.SetInt("CARD_INITIALIZE",1);
 		PlayerPrefs.Save ();
 		/// ----------------------------------------------------------------------
+	}
+
+	static void UnlockCardDefault (CardType[] list, RegionType regionType) 
+	{
+		foreach (CardType type in list) {
+			Card.Unlock (type, regionType,true);
+		}
 	}
 
 	#endregion Init
