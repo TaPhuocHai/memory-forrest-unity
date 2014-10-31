@@ -15,11 +15,11 @@ public class PHUtility
 	public static float WorldWidth
 	{
 		get {
-			if (PHUtility._worldWidth == 0) {
+			//if (PHUtility._worldWidth == 0) {
 				Vector2 edgeTopRightVector  = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
 				// width cua visiable screen so voi camera
 				PHUtility._worldWidth  = edgeTopRightVector.x * 2;
-			}
+			//}
 			return PHUtility._worldWidth;
 		}
 	}
@@ -31,11 +31,11 @@ public class PHUtility
 	public static float WorldHeight
 	{
 		get {
-			if (PHUtility._worldHeght == 0) {
+			//if (PHUtility._worldHeght == 0) {
 				Vector2 edgeTopRightVector  = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
 				// height cua visiable screen so voi camera
 				PHUtility._worldHeght = edgeTopRightVector.y * 2;
-			}
+			//}
 			return PHUtility._worldHeght;
 		}
 	}
@@ -74,7 +74,7 @@ public class PHUtility
 	/// <returns>The of transform if padding top left screen.</returns>
 	/// <param name="transform">Transform.</param>
 	/// <param name="topLeft">Top left.</param>
-	public static Vector2 PositionOfTransformIfPaddingTopLeftScreen (Transform transform, Vector2 topLeft)
+	public static Vector2 PositionOfTransformIfPaddingLeftTopScreen (Transform transform, Vector2 leftTop)
 	{
 		if (transform.renderer == null) {
 			return new Vector2 (0,0);
@@ -84,7 +84,7 @@ public class PHUtility
 		float leftScreenOfTransform = - PHUtility.WorldWidth / 2 + size.x/2;
 		float topScreenOfTransform  = PHUtility.WorldHeight / 2 - size.y/2;
 
-		return new Vector2 (leftScreenOfTransform + topLeft.x , topScreenOfTransform - topLeft.y);
+		return new Vector2 (leftScreenOfTransform + leftTop.x , topScreenOfTransform - leftTop.y);
 	}
 
 	/// <summary>

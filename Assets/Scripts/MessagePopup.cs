@@ -10,20 +10,22 @@ public class MessagePopup : PHPopup
 	#endregion
 
 	public PHPanel  panel;
+	public PHButton button;
+
 	public TextMesh messageText;
-	public TextMesh closeButtonText;
+	public TextMesh buttonText;
 
 	public string message {
 		set {
 			if (this.messageText) {
-				this.messageText.text = PHUtility.FormatStringMultiLine (value,50);
+				this.messageText.text = PHUtility.FormatStringMultiLine (value,24);
 			}
 		}
 	}
 	public string buttonTitle {
 		set {
-			if (this.closeButtonText) {
-				this.closeButtonText.text = value;
+			if (this.buttonText) {
+				this.buttonText.text = value;
 			}
 		}
 	}
@@ -39,6 +41,10 @@ public class MessagePopup : PHPopup
 	{
 		MessagePopup.Instance = this;		
 		this.Init ();
+
+		if (this.button) {
+			this.button.onClickHandle += HandleButtonClick;
+		}
 	}
 	
 	void Update () {}
@@ -47,6 +53,8 @@ public class MessagePopup : PHPopup
 	
 	override public void Hide (float second) 
 	{
+		this.onButtonClick = null;
+
 		base.Hide (second);
 		this.panel.HideToDirection (PHPanelDirection.Top,second);
 	}
@@ -59,4 +67,12 @@ public class MessagePopup : PHPopup
 	}
 
 	#endregion
+
+	void HandleButtonClick ()
+	{
+		if (this.onButtonClick != null) {
+			this.onButtonClick();
+		}
+		this.Hide (Constant.kPopupAnimationDuraction);
+	}
 }

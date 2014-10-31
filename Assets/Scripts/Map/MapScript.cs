@@ -9,11 +9,14 @@ public class MapScript : MonoBehaviour
 	public PHButton stoneMountainButton;
 	public PHButton wolfCampButton;
 
+	// Exit to menu button
 	public PHButton menuButton;
 
+	// Score
 	public PHButton scoreButton;
-
 	public TextMesh coinText;
+
+	private RegionType regionTypeNeedUnlock;
 
 	void Awake () 
 	{
@@ -27,6 +30,11 @@ public class MapScript : MonoBehaviour
 					Region.UnlockRound (regionType,i, false);
 				}
 			}
+
+			// Xoa thong tin unlock region
+			Region.UnlockMap (RegionType.Forest,false,true);
+			Region.UnlockMap (RegionType.StoneMountain,false,true);
+			Region.UnlockMap (RegionType.WolfCamp,false,true);
 		}
 
 		// Clear reward data
@@ -88,8 +96,13 @@ public class MapScript : MonoBehaviour
 	{	
 		// Chek is unlock region ?
 		if (!Region.IsUnlockMap (RegionType.Forest)) {
-
-			Region.UnlockMap (RegionType.Forest, true, true);
+			regionTypeNeedUnlock = RegionType.Forest;
+				 
+			MessagePopup.Instance.message = "You don't unlock Forest map. Do you wain to unlock ? You need 100 coin.";
+			MessagePopup.Instance.buttonTitle = "Unlock";
+			MessagePopup.Instance.onButtonClick += EnterUnlockRegion;
+			MessagePopup.Instance.Show (Constant.kPopupAnimationDuraction);
+			return;
 		}
 
 		Player.currentRegionPlay = RegionType.Forest;
@@ -99,7 +112,15 @@ public class MapScript : MonoBehaviour
 
 	public void EnterMapStoneMountain () 
 	{
-		Region.UnlockMap (RegionType.StoneMountain, true, true);
+		if (!Region.IsUnlockMap (RegionType.StoneMountain)) {
+			regionTypeNeedUnlock = RegionType.StoneMountain;
+			
+			MessagePopup.Instance.message = "You don't unlock StoneMountain map. Do you wain to unlock ? You need 300 coin.";
+			MessagePopup.Instance.buttonTitle = "Unlock";
+			MessagePopup.Instance.onButtonClick += EnterUnlockRegion;
+			MessagePopup.Instance.Show (Constant.kPopupAnimationDuraction);
+			return;
+		}
 
 		Player.currentRegionPlay = RegionType.StoneMountain;
 		PlayerPrefs.Save ();
@@ -108,7 +129,16 @@ public class MapScript : MonoBehaviour
 
 	public void EnterMapWolfCamp () 
 	{
-		Region.UnlockMap (RegionType.WolfCamp, true, true);
+		if (!Region.IsUnlockMap (RegionType.WolfCamp)) {
+			regionTypeNeedUnlock = RegionType.WolfCamp;
+			
+			MessagePopup.Instance.message = "You don't unlock WolfCamp map. Do you wain to unlock ? You need 700 coin.";
+			MessagePopup.Instance.buttonTitle = "Unlock";
+			MessagePopup.Instance.onButtonClick += EnterUnlockRegion;
+			MessagePopup.Instance.enableCloseButton = true;
+			MessagePopup.Instance.Show (Constant.kPopupAnimationDuraction);
+			return;
+		}
 
 		Player.currentRegionPlay = RegionType.WolfCamp;
 		PlayerPrefs.Save ();
@@ -128,5 +158,37 @@ public class MapScript : MonoBehaviour
 	void HandleScoreButtonClick ()
 	{
 		ShopPopup.Instance.Show (Constant.kPopupAnimationDuraction);
+	}
+
+	void EnterUnlockRegion ()
+	{
+		int coinToUnlock = 0;
+		if (this.regionTypeNeedUnlock == RegionType.Forest) {
+			coinToUnlock = 100;
+		} else if (this.regionTypeNeedUnlock == RegionType.StoneMountain) {
+			coinToUnlock = 300;
+		} else if (this.regionTypeNeedUnlock == RegionType.WolfCamp) {
+			coinToUnlock = 700;
+		}
+
+		if (Player.Coin < coinToUnlock) {
+			// Show popup don't enought coin
+			StartCoroutine(WatingAndShowNeedCoinPopup());
+		} else {
+			// Do unlock
+			Region.UnlockMap (this.regionTypeNeedUnlock, true, true);
+			// Tru coin
+			Player.Coin = Player.Coin - coinToUnlock;
+		}
+	}
+
+	IEnumerator WatingAndShowNeedCoinPopup ()
+	{
+		yield return new WaitForSeconds (Constant.kPopupAnimationDuraction);
+
+		MessagePopup.Instance.message = "You don't enought coin to unlock. Please buy more";
+		MessagePopup.Instance.buttonTitle = "Close";
+		MessagePopup.Instance.enableCloseButton = false;
+		MessagePopup.Instance.Show (Constant.kPopupAnimationDuraction);
 	}
 }
