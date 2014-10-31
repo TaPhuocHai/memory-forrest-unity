@@ -179,6 +179,8 @@ public class MapScript : MonoBehaviour
 			Region.UnlockMap (this.regionTypeNeedUnlock, true, true);
 			// Tru coin
 			Player.Coin = Player.Coin - coinToUnlock;
+
+			StartCoroutine(WatingAndShowUnlockSuccessPopup());
 		}
 	}
 
@@ -187,6 +189,16 @@ public class MapScript : MonoBehaviour
 		yield return new WaitForSeconds (Constant.kPopupAnimationDuraction);
 
 		MessagePopup.Instance.message = "You don't enought coin to unlock. Please buy more";
+		MessagePopup.Instance.buttonTitle = "Close";
+		MessagePopup.Instance.enableCloseButton = false;
+		MessagePopup.Instance.Show (Constant.kPopupAnimationDuraction);
+	}
+
+	IEnumerator WatingAndShowUnlockSuccessPopup ()
+	{
+		yield return new WaitForSeconds (Constant.kPopupAnimationDuraction);
+		
+		MessagePopup.Instance.message = "You did unlock success. Enjoy it";
 		MessagePopup.Instance.buttonTitle = "Close";
 		MessagePopup.Instance.enableCloseButton = false;
 		MessagePopup.Instance.Show (Constant.kPopupAnimationDuraction);
