@@ -213,15 +213,10 @@ public class Region
 	
 	/// <summary>
 	/// Xoa thong tin mission da finish
-	/// Ham nay chi co gia tri khi Constant.kClearMissionData = true
 	/// </summary>
 	/// <param name="missionId">Mission identifier.</param>
 	public void ClearRewardOfMission () 
 	{
-		if (!Constant.kClearRewardData) {
-			return;
-		}
-
 		if (this.missions != null && this.missions.Count != 0) {
 			foreach (Mission mission in this.missions) {
 				mission.ClearRewardData ();

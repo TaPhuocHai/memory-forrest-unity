@@ -13,7 +13,17 @@ public class MapScript : MonoBehaviour
 
 	void Awake () 
 	{
+		// Unlock card default cho moi region
 		Card.Initialize ();
+
+		// Xoa thong tin unlock map
+		if (Constant.kDebugMode) {
+			foreach (RegionType regionType in (RegionType[]) Enum.GetValues(typeof(RegionType))) {			
+				for (int i = 0 ; i < 5 ; i ++) {
+					Region.UnlockRound (regionType,i, false);
+				}
+			}
+		}
 
 		// Clear reward data
 		if (Constant.kClearRewardData) {
