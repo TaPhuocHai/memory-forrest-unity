@@ -3,21 +3,35 @@ using System.Collections;
 
 public class MessagePopup : PHPopup 
 {
+	public delegate void MessagePopupDelegate ();
+
 	#region Singleton
 	public static MessagePopup Instance { get; private set;}
 	#endregion
 
 	public PHPanel  panel;
 	public TextMesh messageText;
+	public TextMesh closeButtonText;
 
-	private string _message;
 	public string message {
-		get { return _message; }
 		set {
-			_message = value;
 			if (this.messageText) {
 				this.messageText.text = PHUtility.FormatStringMultiLine (value,50);
 			}
+		}
+	}
+	public string buttonTitle {
+		set {
+			if (this.closeButtonText) {
+				this.closeButtonText.text = value;
+			}
+		}
+	}
+	public MessagePopupDelegate onButtonClick;
+
+	public bool enableCloseButton {
+		set {
+			this.closeButton.transform.renderer.enabled = value;
 		}
 	}
 
