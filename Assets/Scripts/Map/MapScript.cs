@@ -11,6 +11,8 @@ public class MapScript : MonoBehaviour
 
 	public PHButton menuButton;
 
+	public TextMesh coinText;
+
 	void Awake () 
 	{
 		// Unlock card default cho moi region
@@ -62,7 +64,12 @@ public class MapScript : MonoBehaviour
 		}
 	}
 
-	void Update () {}
+	void Update () 
+	{
+		if (this.coinText) {
+			this.coinText.text = Player.Coin.ToString ();
+		}
+	}
 
 	public void EnterMapKingdomOfRabbits () 
 	{
