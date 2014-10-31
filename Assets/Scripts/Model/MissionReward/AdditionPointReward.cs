@@ -29,9 +29,6 @@ public class AdditionPointReward : MissionReward
 
 	override public void DoUndoGetReward () 
 	{
-		if (!Constant.kClearRewardData) {
-			return;
-		}
 		Card.SavePoint (0, cardType);
 	}
 

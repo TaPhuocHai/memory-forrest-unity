@@ -203,16 +203,6 @@ public class Card
 	/// </summary>
 	public static void Initialize () 
 	{
-		/// ----------------------------------------------------------------------
-		/// Chi Init 1 lan duy nhat khi User moi cai dat
-
-		if (!Constant.kDebugMode) {
-			int didCardInitValue = PlayerPrefs.GetInt ("CARD_INITIALIZE", 0);
-			if (didCardInitValue == 1) {
-				return;
-			}
-		}
-
 		CardType[] unlockKindomOfRabbits = new CardType[] {
 			// Place 1
 			CardType.Mushroom,
@@ -282,12 +272,6 @@ public class Card
 			CardType.Coins50
 		};
 		Card.UnlockCardDefault (unlockWolfCamp, RegionType.WolfCamp);
-
-		Debug.Log ("Init unlock card");
-
-		PlayerPrefs.SetInt("CARD_INITIALIZE",1);
-		PlayerPrefs.Save ();
-		/// ----------------------------------------------------------------------
 	}
 
 	static void UnlockCardDefault (CardType[] list, RegionType regionType) 

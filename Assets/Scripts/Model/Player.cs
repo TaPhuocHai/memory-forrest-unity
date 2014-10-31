@@ -10,7 +10,7 @@ public class Player
 	public static int Coin 
 	{
 		get {
-			return PlayerPrefs.GetInt("PLAYER_DATA_COIN",0);
+			return PlayerPrefs.GetInt("PLAYER_DATA_COIN",110);
 		}
 		set {
 			PlayerPrefs.SetInt("PLAYER_DATA_COIN", value);
@@ -88,5 +88,14 @@ public class Player
 			PlayerPrefs.SetInt("PLAYER_DATA_CURREN_REGION", (int)value);
 			PlayerPrefs.Save();
 		}
+	}
+
+	public static void ResetData ()
+	{
+		Player.Coin = 110;
+		Player.secondTimePlay = Constant.kTimePlayDefault;
+		Player.lastScore = 0;
+		Player.totalScore = 0;
+		Player.bestScore = 0;
 	}
 }

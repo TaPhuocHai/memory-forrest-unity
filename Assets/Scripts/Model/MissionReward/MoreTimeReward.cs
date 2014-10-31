@@ -35,9 +35,6 @@ public class MoreTimeReward : MissionReward
 
 	override public void DoUndoGetReward () 
 	{
-		if (!Constant.kClearRewardData) {
-			return;
-		}
 		Player.secondTimePlay = Constant.kTimePlayDefault;
 	}
 

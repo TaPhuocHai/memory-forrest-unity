@@ -27,9 +27,6 @@ public class UnlockExtraRoundReward : MissionReward
 
 	override public void DoUndoGetReward () 
 	{
-		if (!Constant.kClearRewardData) {
-			return;
-		}
 		Region.UnlockRound (regionType,roundToUnlock, false);
 	}
 

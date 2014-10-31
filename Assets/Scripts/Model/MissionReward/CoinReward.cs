@@ -25,9 +25,6 @@ public class CoinReward : MissionReward
 
 	override public void DoUndoGetReward () 
 	{
-		if (!Constant.kClearRewardData) {
-			return;
-		}
 		Player.Coin = 0;
 	}
 

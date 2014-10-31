@@ -54,9 +54,3 @@ public class IAPAssets : IStoreAssets
 		new PurchaseWithMarket(new MarketItem(DOUBLE_COIN_PRODUCT_ID, MarketItem.Consumable.CONSUMABLE , 0.99))
 		);
 }
-
-public class IAPManager : MonoBehaviour 
-{
-	void Start () {
-	}
-}

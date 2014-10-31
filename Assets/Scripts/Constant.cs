@@ -14,12 +14,6 @@ public class Constant
 	public static bool  kDebugMission = false;
 
 	/// <summary>
-	/// Xoa het tat thong tin ve mission khi chay app
-	/// Xoa thong tin reward khi thuc hien mission
-	/// </summary>
-	public static bool   kClearRewardData = false;
-
-	/// <summary>
 	/// Time play default.
 	/// </summary>
 	public static int    kTimePlayDefault  = 45;

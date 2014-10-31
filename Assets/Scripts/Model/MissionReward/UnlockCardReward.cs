@@ -27,9 +27,6 @@ public class UnlockCardReward : MissionReward
 
 	override public void DoUndoGetReward () 
 	{
-		if (!Constant.kClearRewardData) {
-			return;
-		}
 		Card.Unlock (cardType,regionType,false);
 	}
 
