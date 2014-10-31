@@ -274,7 +274,7 @@ public class Card
 			// Place 3
 			CardType.Stone,
 			// Place 4
-			CardType.WolfKing
+			CardType.WolfKing,
 			// Coin
 			CardType.Coins5,
 			CardType.Coins10,
