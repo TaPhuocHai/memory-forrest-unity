@@ -11,6 +11,8 @@ public class MapScript : MonoBehaviour
 
 	public PHButton menuButton;
 
+	public PHButton scoreButton;
+
 	public TextMesh coinText;
 
 	void Awake () 
@@ -61,6 +63,9 @@ public class MapScript : MonoBehaviour
 		}
 		if (menuButton != null) {
 			menuButton.onClickHandle += HandleMenuButtonClick;
+		}
+		if (scoreButton != null) {
+			scoreButton.onClickHandle += HandleScoreButtonClick;
 		}
 	}
 
@@ -114,5 +119,10 @@ public class MapScript : MonoBehaviour
 	void HandleMenuButtonClick() 
 	{
 		Application.LoadLevel ("Menu");
+	}
+
+	void HandleScoreButtonClick ()
+	{
+		ShopPopup.Instance.Show (Constant.kPopupAnimationDuraction);
 	}
 }
