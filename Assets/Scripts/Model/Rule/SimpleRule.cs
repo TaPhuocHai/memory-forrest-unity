@@ -25,7 +25,7 @@ public class SimpleRule : Rule
 	override public bool isEnable 
 	{
 		get {
-			return Card.IsUnlock (cardType);
+			return Card.IsUnlock (cardType,Player.currentRegionPlay);
 		}
 	}
 	

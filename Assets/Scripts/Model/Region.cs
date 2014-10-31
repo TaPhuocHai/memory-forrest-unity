@@ -375,7 +375,7 @@ public class Region
 				List<CardType> listCardTypeLockRequired = Region.CardTypesUnlockRequiredForUnlockMap (regionType);
 				if (listCardTypeLockRequired != null && listCardTypeLockRequired.Count != 0) {
 					foreach (CardType cardType in listCardTypeLockRequired) {
-						Card.Unlock (cardType, false);
+						Card.Unlock (cardType,regionType, false);
 					}
 				}
 			}
@@ -399,7 +399,7 @@ public class Region
 				// Unlock cardType 
 				List<CardType> listCardTypeUnlockRequired = Region.CardTypesUnlockRequiredForUnlockMap (regionType);
 				foreach (CardType cardType in listCardTypeUnlockRequired) {
-					Card.Unlock (cardType, true);
+					Card.Unlock (cardType,regionType, true);
 				}
 			}
 		}
@@ -422,7 +422,7 @@ public class Region
 		if (listCardTypeUnlockRequired != null) {
 			foreach (CardType cardType in listCardTypeUnlockRequired) {
 				// Neu co 1 card chua duoc unlock thi chua the unlock map
-				if (!Card.IsUnlock (cardType)) {
+				if (!Card.IsUnlock (cardType,regionType)) {
 					return false;
 				}
 			}
@@ -556,7 +556,7 @@ public class Region
 			             "Collect 5 pairs of apple in 1 game",
 			             "Unlock White Rabbit",
 			             new CollectTask (CardType.Apple,10, false),
-			             new UnlockCardReward (CardType.WhiteRabbit)),
+			             new UnlockCardReward (CardType.WhiteRabbit, RegionType.KingdomOfRabbits)),
 			new Mission ("Carrot Master",
 			             "Collect 30 carrot pairs",
 			             "+ 5 points to every carrot pair",
@@ -605,14 +605,14 @@ public class Region
 			             new CollectTask(new Dictionary<CardType,int>() {{CardType.Apple, 10},
 																		 {CardType.Carrot, 10}
 											}, false),
-			             new UnlockCardReward(CardType.PineApple)),
+			             new UnlockCardReward(CardType.PineApple, RegionType.Forest)),
 			new Mission ("Unlock Strawberry", 
 			             "Collect 40 apple and  40 mushroom",
 			             "Unlock Strawberry",
 			             new CollectTask(new Dictionary<CardType,int>() {{CardType.Apple, 80},
 																		{CardType.Mushroom, 80}
 											}, true),
-			             new UnlockCardReward(CardType.Strawberry)),						
+			             new UnlockCardReward(CardType.Strawberry, RegionType.Forest)),						
 			new Mission (new MissionText ("Amazing Score"),
 			             new MissionText ("Score @D points",800),
 			             new MissionText ("+ @D coins", 100),
@@ -659,7 +659,7 @@ public class Region
 			             "Escape 10 wolves",
 			             "Unlock Blue Butterfly",
 			             new CollectTask (CardType.Wolf,10),
-			             new UnlockCardReward (CardType.BlueButterfly)),
+			             new UnlockCardReward (CardType.BlueButterfly, RegionType.StoneMountain)),
 			new Mission (new MissionText ("Explore the stone mountain"), 
 			             new MissionText ("Collect all card before time run out"),
 			             new MissionText ("Unlock Round @D",4),
@@ -669,12 +669,12 @@ public class Region
 			             "Skip 10 Stone Card",
 			             "Unlock Yellow Butterfly",
 			             new CollectTask (CardType.Stone,10),
-			             new UnlockCardReward (CardType.YellowButterfly)),
+			             new UnlockCardReward (CardType.YellowButterfly, RegionType.StoneMountain)),
 			new Mission ("Deep in the forest",
 			             "Reach Round 4",
 			             "Unlock Red Butterfly",
 			             new ReachRoundTask (3),
-			             new UnlockCardReward (CardType.RedButterfly)),
+			             new UnlockCardReward (CardType.RedButterfly, RegionType.StoneMountain)),
 			new Mission (new MissionText ("Bigger Score Again"),
 			             new MissionText ("Score @D points",1000),
 			             new MissionText ("+ @D coins", 150),
@@ -709,12 +709,12 @@ public class Region
 																		{CardType.Carrot, 6},
 																		{CardType.Mushroom, 6}
 										}, false),
-			             new UnlockCardReward (CardType.Banana)),
+			             new UnlockCardReward (CardType.Banana, RegionType.WolfCamp)),
 			new Mission ("Precious Fruits",
 			             "Reach Round 6",
 			             "Unlock Pear",
 			             new ReachRoundTask (5),
-			             new UnlockCardReward (CardType.Pears)),
+			             new UnlockCardReward (CardType.Pears, RegionType.WolfCamp)),
 			new Mission ("Fortune of Fruits",
 			             "Collect 50 Bananas, 50 Grapes, 50 Pears",
 			             "Unlock Pear",
@@ -722,7 +722,7 @@ public class Region
 																		{CardType.Grape, 100},
 																		{CardType.Pears, 100}
 												}, true),
-			             new UnlockCardReward (CardType.Cherry)),
+			             new UnlockCardReward (CardType.Cherry, RegionType.WolfCamp)),
 			new Mission (new MissionText ("Bigger Score Again"),
 			             new MissionText ("Score @D points",1500),
 			             new MissionText ("+ @D coins", 250),
