@@ -86,7 +86,11 @@ public class MapScript : MonoBehaviour
 
 	public void EnterMapForest () 
 	{	
-		Region.UnlockMap (RegionType.Forest, true, true);
+		// Chek is unlock region ?
+		if (!Region.IsUnlockMap (RegionType.Forest)) {
+
+			Region.UnlockMap (RegionType.Forest, true, true);
+		}
 
 		Player.currentRegionPlay = RegionType.Forest;
 		PlayerPrefs.Save ();
