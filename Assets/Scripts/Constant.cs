@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Constant {
-
+public class Constant 
+{
 	/// <summary>
 	/// Debug mode : su dung de chung thuc 1 so ham chi duoc phep chay o che do debug mode
 	/// </summary>

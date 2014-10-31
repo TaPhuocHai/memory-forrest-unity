@@ -111,8 +111,7 @@ public class SceneScript : MonoBehaviour
 	}
 
 	#endregion
-
-
+	
 	#region Open Card
 
 	/// <summary>
@@ -229,6 +228,15 @@ public class SceneScript : MonoBehaviour
 					print ("Lat tat ca la bai nhieu nhat trong man choi");
 					StartCoroutine(this.OpenCardsWithHighestNumber ());
 				} 
+				else if (cardScript.cardType == CardType.Coins5) {
+					Player.Coin += 5;
+				}else if (cardScript.cardType == CardType.Coins10) {
+					Player.Coin += 10;
+				}else if (cardScript.cardType == CardType.Coins20) {
+					Player.Coin += 20;
+				}else if (cardScript.cardType == CardType.Coins50) {
+					Player.Coin += 50;
+				}
 
 				//---------------------------------------------------------------
 				// Buoc 3 - kiem tra so card con lai
