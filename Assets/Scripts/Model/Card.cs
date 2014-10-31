@@ -218,6 +218,11 @@ public class Card
 			CardType.Mushroom,
 			CardType.Apple,
 			CardType.Carrot,
+			// Coin
+			CardType.Coins5,
+			CardType.Coins10,
+			CardType.Coins20,
+			CardType.Coins50
 		};
 		Card.UnlockCardDefault (unlockKindomOfRabbits, RegionType.KingdomOfRabbits);
 
@@ -230,6 +235,11 @@ public class Card
 			CardType.BrownRabbit,
 			CardType.RabbitKing,
 			CardType.Wolf,
+			// Coin
+			CardType.Coins5,
+			CardType.Coins10,
+			CardType.Coins20,
+			CardType.Coins50
 		};
 		Card.UnlockCardDefault (unlockForest, RegionType.Forest);
 
@@ -244,6 +254,11 @@ public class Card
 			CardType.Wolf,
 			// Place 3
 			CardType.Stone,
+			// Coin
+			CardType.Coins5,
+			CardType.Coins10,
+			CardType.Coins20,
+			CardType.Coins50
 		};
 		Card.UnlockCardDefault (unlockStoneMountain, RegionType.StoneMountain);
 
@@ -260,6 +275,11 @@ public class Card
 			CardType.Stone,
 			// Place 4
 			CardType.WolfKing
+			// Coin
+			CardType.Coins5,
+			CardType.Coins10,
+			CardType.Coins20,
+			CardType.Coins50
 		};
 		Card.UnlockCardDefault (unlockWolfCamp, RegionType.WolfCamp);
 

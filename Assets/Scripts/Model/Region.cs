@@ -746,8 +746,9 @@ public class Region
 					new PercentRule (new Dictionary <CardType, float> () {
 						{CardType.Mushroom, 30},
 						{CardType.Apple, 30},
-						{CardType.Carrot, 30},
-						{CardType.WhiteRabbit, 10}})
+						{CardType.Carrot, 25},
+						{CardType.WhiteRabbit, 10},
+						{CardType.Coins5, 5}})
 				);
 			} else {
 				cardRandomCode = new CardRandomCode (
@@ -755,7 +756,9 @@ public class Region
 						{CardType.Mushroom, 25},
 						{CardType.Apple, 25},
 						{CardType.Carrot, 25},
-						{CardType.WhiteRabbit, 25}})
+						{CardType.WhiteRabbit, 20},
+						{CardType.Coins5, 3},
+						{CardType.Coins10, 2}})
 				);
 			}
 		} else if (regionType == RegionType.Forest) {
@@ -765,9 +768,10 @@ public class Region
 						new Dictionary <CardType,float> () {
 							{CardType.Mushroom, 25},
 							{CardType.Apple, 25},
-							{CardType.Carrot, 25},
+							{CardType.Carrot, 20},
 							{CardType.WhiteRabbit, 10},
 							{CardType.PineApple, 15},
+							{CardType.Coins5, 5}
 						}
 					),
 					new Dictionary<CardType, int> () {{CardType.Wolf, 1}}
@@ -778,9 +782,10 @@ public class Region
 						new Dictionary <CardType,float> () {
 							{CardType.Strawberry, 15},
 							{CardType.Apple, 25},
-							{CardType.Carrot, 25},
+							{CardType.Carrot, 20},
 							{CardType.BrownRabbit, 10},
 							{CardType.PineApple, 25},
+							{CardType.Coins10, 5}
 						}
 					),
 					new Dictionary<CardType, int> () {{CardType.Wolf, 1}}
@@ -792,9 +797,11 @@ public class Region
 							{CardType.RabbitKing, 10},
 							{CardType.Strawberry, 15},
 							{CardType.Apple, 20},
-							{CardType.Carrot, 20},
+							{CardType.Carrot, 15},
 							{CardType.BrownRabbit, 10},
-							{CardType.PineApple, 25},
+							{CardType.PineApple, 20},
+							{CardType.Coins10, 5},
+							{CardType.Coins20, 5},
 						}
 					),
 					new Dictionary<CardType, int> () {{CardType.Wolf, 3}}
@@ -813,9 +820,10 @@ public class Region
 													{CardType.BrownRabbit, 30},
 													{CardType.WhiteRabbit, 40},
 													{CardType.BlueButterfly, 30},
-												})
+												}),
+											new SimpleRule(CardType.Coins10),
 						},
-						new List<float>() {20,20,20,20,20}
+						new List<float>() {20,20,20,15,20,5}
 					),
 					new Dictionary<CardType, int> () {{CardType.Stone, 1}}
 				);
@@ -831,9 +839,10 @@ public class Region
 													{CardType.BrownRabbit, 30},
 													{CardType.WhiteRabbit, 40},
 													{CardType.RedButterfly, 30},
-											})
+											}),
+											new SimpleRule(CardType.Coins10),
 						},
-						new List<float>() {20,20,20,20,20}
+						new List<float>() {20,20,20,15,20,5}
 					),
 					new Dictionary<CardType, int> () {{CardType.Stone, 1}}
 				);
@@ -849,9 +858,10 @@ public class Region
 													{CardType.BrownRabbit, 30},
 													{CardType.WhiteRabbit, 40},
 													{CardType.YellowButterfly, 30},
-											})
+											}),
+											new SimpleRule(CardType.Coins10),
 						},
-						new List<float>() {20,20,20,20,20}
+						new List<float>() {20,20,20,15,20,5}
 					),
 					new Dictionary<CardType, int> () {{CardType.Stone, 3}}
 				);
