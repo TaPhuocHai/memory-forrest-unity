@@ -22,6 +22,9 @@ public class TimerManager : PHTimer
 		// Luu thong tin man choi user da choi
 		PlayGameData.Instance.Save ();
 
+		SceneScript.Instance.enabled = false;
+		SceneScript.EnableToTouch = false;
+
 		// show rescue popup
 		//RescuePopup.Instance.Show (Constant.kPopupAnimationDuraction);
 		TimeUpPanel.Instance.Show ();
