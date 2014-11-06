@@ -61,6 +61,20 @@ public class SceneScript : MonoBehaviour
 
 		// Init round
 		StartCoroutine (this.InitRound (0.5f, true));
+
+		AudioSource audioSource = this.gameObject.GetComponent<AudioSource> ();
+		AudioClip clip = null;
+		if (regionType == RegionType.KingdomOfRabbits) {
+			clip = Resources.Load("Sounds/MontaukPoint") as AudioClip;  
+		} else if (regionType == RegionType.Forest) {
+			clip = Resources.Load("Sounds/SummerDay") as AudioClip;  
+		} else if (regionType == RegionType.StoneMountain) {
+			clip = Resources.Load("Sounds/Cattails") as AudioClip;  
+		} else {
+			clip = Resources.Load("Sounds/AtTheShore") as AudioClip;  
+		}
+		audioSource.clip = clip;
+		audio.volume = 0.9f;
 	}
 
 	void Update () {}
