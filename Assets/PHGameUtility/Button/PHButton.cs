@@ -29,18 +29,19 @@ public class PHButton : MonoBehaviour
 
 	void OnMouseOver () 
 	{	
-	}
-
-	void OnMouseEnter () 
-	{
 		this.OnButtonEnter ();
-
+		
 		if (this.transform.renderer == null) return;
 		
 		SpriteRenderer spriteRender = this.transform.GetComponent<SpriteRenderer> ();
 		if (spriteRender && this.buttonDownSprite) {
 			spriteRender.sprite = this.buttonDownSprite;
 		}
+	}
+
+	void OnMouseEnter () 
+	{
+
 	}
 
 	void OnMouseExit () 
