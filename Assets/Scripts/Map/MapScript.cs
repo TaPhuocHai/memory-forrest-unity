@@ -47,7 +47,7 @@ public class MapScript : MonoBehaviour
 			menuButton.onClickHandle += HandleMenuButtonClick;
 		}
 		if (scoreButton != null) {
-			//scoreButton.onClickHandle += HandleScoreButtonClick;
+			scoreButton.onClickHandle += HandleScoreButtonClick;
 		}
 	}
 

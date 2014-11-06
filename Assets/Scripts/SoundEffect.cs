@@ -8,7 +8,18 @@ public enum SoundEffectTypes{
 	RightPair,
 	EndGame,
 	NewRound,
-	Wolf
+	Wolf,
+	Apple,
+	Berry,
+	Butterfly,
+	Carrot,
+	Cherry,
+	Coin,
+	Mushroom,
+	Peach,
+	Pineapple,
+	Rabbit,
+	Rock
 }  
 
 public class SoundEffects  
@@ -47,7 +58,7 @@ public class SoundEffects
 		AudioSource audioSource = gameObjectSound.GetComponent<AudioSource> ();
 			 
 		audioSource.clip = GetSoundEffect(effectToPlay);  
-		audioSource.volume = 1;
+		audioSource.volume = 10.0f;
 		if (PHSetting.IsSoundEffect) {
 			audioSource.Play();  
 		}
@@ -66,8 +77,30 @@ public class SoundEffects
 		case SoundEffectTypes.NewRound:  
 			return Resources.Load("Sounds/NewRound") as AudioClip;  
 		case SoundEffectTypes.Wolf:  
-			return Resources.Load("Sounds/Wolf") as AudioClip;  
-		}  
+			return Resources.Load("Sounds/CardSound/Wolf") as AudioClip;  
+		case SoundEffectTypes.Apple:  
+			return Resources.Load("Sounds/CardSound/Apple") as AudioClip;  
+		case SoundEffectTypes.Berry:  
+			return Resources.Load("Sounds/CardSound/Berry") as AudioClip;  
+		case SoundEffectTypes.Butterfly:  
+			return Resources.Load("Sounds/CardSound/Butterfly") as AudioClip;  
+		case SoundEffectTypes.Carrot:  
+			return Resources.Load("Sounds/CardSound/Carrot") as AudioClip;  
+		case SoundEffectTypes.Cherry:  
+			return Resources.Load("Sounds/CardSound/Cherry") as AudioClip;  
+		case SoundEffectTypes.Coin:  
+			return Resources.Load("Sounds/CardSound/Coin") as AudioClip;  
+		case SoundEffectTypes.Mushroom:  
+			return Resources.Load("Sounds/CardSound/Mushroom") as AudioClip;  
+		case SoundEffectTypes.Peach:  
+			return Resources.Load("Sounds/CardSound/Peach") as AudioClip;  
+		case SoundEffectTypes.Pineapple:  
+			return Resources.Load("Sounds/CardSound/Pineapple") as AudioClip;  
+		case SoundEffectTypes.Rabbit:  
+			return Resources.Load("Sounds/CardSound/Rabbit") as AudioClip;  
+		case SoundEffectTypes.Rock:  
+			return Resources.Load("Sounds/CardSound/Rock") as AudioClip;  
+		}  	
 		return null;  
 	}  
 } 

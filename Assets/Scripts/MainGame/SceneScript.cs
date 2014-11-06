@@ -149,7 +149,8 @@ public class SceneScript : MonoBehaviour
 				// ----------------------------------------------------------
 				// Buoc 1 : kiem tra co cho phep lay diem va xoa 2 card nay ?
 
-				SoundEffects.Play (SoundEffectTypes.RightPair);
+				// Play am thanh
+				Card.PlaySound (cardScript.cardType);
 
 				// Doi voi la bai thuong
 				bool isNeedDestroyCard = true;

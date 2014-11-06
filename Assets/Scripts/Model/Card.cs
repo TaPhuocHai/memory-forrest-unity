@@ -164,6 +164,43 @@ public class Card
 		PlayerPrefs.Save ();
 	}
 
+	public static void PlaySound (CardType cardType)
+	{
+		SoundEffectTypes soundToPlay = SoundEffectTypes.RightPair;
+		if (cardType == CardType.Apple) {
+			soundToPlay = SoundEffectTypes.Apple;
+		} else if (cardType == CardType.Strawberry) {
+			soundToPlay = SoundEffectTypes.Berry;
+		} else if (cardType == CardType.BlueButterfly ||
+				cardType == CardType.RedButterfly || 
+				cardType == CardType.VioletButterfly || 
+				cardType == CardType.YellowButterfly) {
+			soundToPlay = SoundEffectTypes.Butterfly;
+		} else if (cardType == CardType.Carrot) {
+			soundToPlay = SoundEffectTypes.Carrot;
+		} else if (cardType == CardType.Cherry) {
+			soundToPlay = SoundEffectTypes.Cherry;
+		} else if (cardType == CardType.Coins5 || 
+				cardType == CardType.Coins10 ||
+				cardType == CardType.Coins20 ||
+				cardType == CardType.Coins50) {
+			soundToPlay = SoundEffectTypes.Coin;
+		} else if (cardType == CardType.Mushroom) {
+			soundToPlay = SoundEffectTypes.Mushroom;
+		} else if (cardType == CardType.Peach) {
+			soundToPlay = SoundEffectTypes.Peach;
+		} else if (cardType == CardType.PineApple) {
+			soundToPlay = SoundEffectTypes.Pineapple;
+		} else if (cardType == CardType.RabbitKing || 
+				cardType == CardType.BrownRabbit ||
+				cardType == CardType.WhiteRabbit) {
+			soundToPlay = SoundEffectTypes.Rabbit;
+		} else if (cardType == CardType.Stone){
+			soundToPlay = SoundEffectTypes.Rock;
+		}
+		SoundEffects.Play (soundToPlay);
+	}
+
 	private static Dictionary<CardType,string> cardDescription;
 	public static string Description (CardType cardType) 
 	{
