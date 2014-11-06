@@ -23,6 +23,7 @@ public class TimerManager : PHTimer
 		PlayGameData.Instance.Save ();
 
 		// show rescue popup
-		RescuePopup.Instance.Show (Constant.kPopupAnimationDuraction);
+		//RescuePopup.Instance.Show (Constant.kPopupAnimationDuraction);
+		TimeUpPanel.Instance.Show ();
 	}
 }

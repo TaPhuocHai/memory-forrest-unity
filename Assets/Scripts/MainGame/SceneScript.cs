@@ -387,7 +387,8 @@ public class SceneScript : MonoBehaviour
 				TimerManager.Instance.Stop ();
 
 				// show rescue popup
-				RescuePopup.Instance.Show (Constant.kPopupAnimationDuraction);
+				//RescuePopup.Instance.Show (Constant.kPopupAnimationDuraction);
+				TimeUpPanel.Instance.Show ();
 				this.enabled = false;
 			}
 		}

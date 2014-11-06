@@ -39,6 +39,11 @@ public class PHPanel : MonoBehaviour
 
 	virtual public void HideToDirection (PHPanelDirection direction, float second) 
 	{
+		this.HideToDirection (direction, second, EaseType.EaseInBack);
+	}
+
+	virtual public void HideToDirection (PHPanelDirection direction, float second, EaseType easeType) 
+	{
 		if (this.transform == null) {
 			return;
 		}
@@ -73,7 +78,7 @@ public class PHPanel : MonoBehaviour
 				this.hideCompleteHandle (_lastDirection);
 			}
 		} else {
-			TweenParms parms = new TweenParms().Prop("position", newPosition).Ease(EaseType.EaseInBack).OnComplete(HideDidComplete);
+			TweenParms parms = new TweenParms().Prop("position", newPosition).Ease(easeType).OnComplete(HideDidComplete);
 			HOTween.To (this.transform, second, parms);
 		}
 	}
@@ -85,6 +90,11 @@ public class PHPanel : MonoBehaviour
 
 	virtual public void Show (Vector3 position, float second) 
 	{
+		this.Show (position, second, EaseType.EaseOutBack);
+	}
+
+	virtual public void Show (Vector3 position, float second, EaseType easeType) 
+	{
 		if (this.transform == null || this.transform.renderer == null) {
 			return;
 		}
@@ -95,7 +105,7 @@ public class PHPanel : MonoBehaviour
 				this.showCompleteHandle (_lastDirection);
 			}
 		} else {
-			TweenParms parms = new TweenParms().Prop("position", position).Ease(EaseType.EaseOutBack).OnComplete(ShowDidComplete);
+			TweenParms parms = new TweenParms().Prop("position", position).Ease(easeType).OnComplete(ShowDidComplete);
 			HOTween.To (this.transform, second, parms);
 		}
 	}

@@ -25,6 +25,7 @@ public class Player
 	public static int secondTimePlay 
 	{
 		get {
+			return 4;
 			return PlayerPrefs.GetInt("PLAYER_DATA_TIME",Constant.kTimePlayDefault);
 		}
 		set {
