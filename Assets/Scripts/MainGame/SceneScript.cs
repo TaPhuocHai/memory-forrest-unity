@@ -858,18 +858,46 @@ public class SceneScript : MonoBehaviour
 		}
 		yield return new WaitForSeconds ((float)0.1*this._cardOnScreen.Count);
 
-		if (startTimer) {
+		// Tu dong mo cac card Wolf
+		StartCoroutine (AutoOpenWolfCardAndPlay(startTimer));
+	}
+
+	private IEnumerator AutoOpenWolfCardAndPlay (bool startNewTime)
+	{
+		List<Transform> wolfList = new List<Transform> ();
+		foreach (Transform c in this._cardOnScreen) {
+			CardScript cScript = c.GetComponent<CardScript> ();
+			if (cScript.cardType == CardType.Wolf || 
+			    cScript.cardType == CardType.WolfKing) {
+				wolfList.Add (c);
+			}
+		}
+
+		if (wolfList.Count != 0) {
+			foreach (Transform c in wolfList) {
+				FlipCardScript flipPrevScript = c.GetComponent<FlipCardScript> ();
+				flipPrevScript.FlipCard (false);
+			}
+			yield return new WaitForSeconds (0.5f);
+
+			// Up lai
+			foreach (Transform c in wolfList) {
+				FlipCardScript flipPrevScript = c.GetComponent<FlipCardScript> ();
+				flipPrevScript.FlipCard(false);
+			}
+		}
+
+		if (startNewTime) {
 			// Bat dau tinh thoi gian choi
 			TimerManager.Instance.Start (Player.secondTimePlay, true);
 		}
-
+		
 		// Play music backgroud
 		PHMusicBackground.Instance.Play ();
-
+		
 		// Cho phep user co the choi
 		SceneScript.EnableToTouch = true;
 	}
-
 
 	#endregion
 }
