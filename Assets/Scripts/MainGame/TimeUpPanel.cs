@@ -9,8 +9,10 @@ public class TimeUpPanel : MonoBehaviour
 	#endregion
 
 	private Vector3 normalPanelPosition;
-
 	private PHPanel panel;
+
+	private int showTimeUp = 0;
+
 	void Start () 
 	{	
 		TimeUpPanel.Instance = this;
@@ -52,6 +54,11 @@ public class TimeUpPanel : MonoBehaviour
 		if (lastDirection == PHPanelDirection.Top) {
 			RescuePopup.Instance.Show (Constant.kPopupAnimationDuraction);
 			panel.HideToDirection (PHPanelDirection.Bottom, 0);
+		}
+
+		showTimeUp ++;
+		if (showTimeUp % 2 == 1) {
+			SceneScript.Instance.ShowFullAds ();
 		}
 	}
 }

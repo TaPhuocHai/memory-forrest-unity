@@ -34,6 +34,9 @@ public class SceneScript : MonoBehaviour
 	// Vong choi hien tai
 	private int          _round;
 
+	AdMobPlugin admob;
+	bool        admobLoaded;
+
 	#endregion
 
 	#region Game Cycle
@@ -41,6 +44,14 @@ public class SceneScript : MonoBehaviour
 	public SceneScript () 
 	{
 		SceneScript.Instance = this;
+
+		GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
+		admob = camera.GetComponent<AdMobPlugin> ();
+		admob.CreateBanner (Constant.kAdBannerUnitId, AdMobPlugin.AdSize.SMART_BANNER, false, Constant.kAdInterstitialId, false);
+		admob.HideBanner ();
+		admob.RequestInterstitial ();
+		
+		AdMobPlugin.InterstitialLoaded += HandleInterstitialLoaded;
 	}
 
 	void Awake () {}
@@ -78,6 +89,23 @@ public class SceneScript : MonoBehaviour
 	}
 
 	void Update () {}
+
+	#endregion
+
+	#region Admob
+
+	void HandleInterstitialLoaded ()
+	{
+		admobLoaded = true;
+		print ("admob loaded");
+	}
+	
+	public void ShowFullAds()
+	{
+		if (admobLoaded) {
+			admob.ShowInterstitial ();
+		}
+	}
 
 	#endregion
 
