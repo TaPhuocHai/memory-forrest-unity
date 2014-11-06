@@ -89,7 +89,7 @@ public class MapScript : MonoBehaviour
 		if (!Region.IsUnlockMap (RegionType.StoneMountain)) {
 			regionTypeNeedUnlock = RegionType.StoneMountain;
 			
-			MessagePopup.Instance.message = "You don't unlock StoneMountain map. Do you wain to unlock ? You need 200 coin.";
+			MessagePopup.Instance.message = "You don't unlock StoneMountain map. Do you wain to unlock ? You need 100 coin.";
 			MessagePopup.Instance.buttonTitle = "Unlock";
 			MessagePopup.Instance.onButtonClick += EnterUnlockRegion;
 			MessagePopup.Instance.enableCloseButton = true;
@@ -106,7 +106,7 @@ public class MapScript : MonoBehaviour
 		if (!Region.IsUnlockMap (RegionType.WolfCamp)) {
 			regionTypeNeedUnlock = RegionType.WolfCamp;
 			
-			MessagePopup.Instance.message = "You don't unlock WolfCamp map. Do you wain to unlock ? You need 300 coin.";
+			MessagePopup.Instance.message = "You don't unlock WolfCamp map. Do you wain to unlock ? You need 100 coin.";
 			MessagePopup.Instance.buttonTitle = "Unlock";
 			MessagePopup.Instance.onButtonClick += EnterUnlockRegion;
 			MessagePopup.Instance.enableCloseButton = true;
@@ -139,9 +139,9 @@ public class MapScript : MonoBehaviour
 		if (this.regionTypeNeedUnlock == RegionType.Forest) {
 			coinToUnlock = 100;
 		} else if (this.regionTypeNeedUnlock == RegionType.StoneMountain) {
-			coinToUnlock = 200;
+			coinToUnlock = 100;
 		} else if (this.regionTypeNeedUnlock == RegionType.WolfCamp) {
-			coinToUnlock = 300;
+			coinToUnlock = 100;
 		}
 
 		if (Player.Coin < coinToUnlock) {
