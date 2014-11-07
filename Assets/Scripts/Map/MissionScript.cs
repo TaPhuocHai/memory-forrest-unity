@@ -17,11 +17,11 @@ public class MissionScript : MonoBehaviour
 			if (_mission != null) {
 				// Set title
 				if (title != null) {
-					title.text = PHUtility.FormatStringMultiLine (mission.name.text, 30);
+					title.text = PHUtility.FormatStringMultiLine (mission.name.text, 28);
 				}
 				// Set description
 				if (description != null) {
-					string text = PHUtility.FormatStringMultiLine (mission.description.text, 37);
+					string text = PHUtility.FormatStringMultiLine (mission.description.text, 32);
 					description.text = text;
 				}
 				
