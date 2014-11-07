@@ -117,39 +117,6 @@ public class SceneScript : MonoBehaviour
 	{
 		Application.LoadLevel ("Map");
 	}
-	
-	/// <summary>
-	/// Reset man choi, choi lai
-	/// </summary>
-	public void ResetRound () 
-	{
-		this.enabled = true;
-
-		Player.lastScore = this._playGameData.score;
-		
-		// Tao moi lop luu thong tin man choi
-		this._playGameData.Reset ();
-		
-		this._round = 0;
-		
-		// Clear debug
-		DebugScript.Clear ();
-		
-		// Destroy all card on screen
-		for (int i = 0; i < this._cardOnScreen.Count; i ++) {
-			Transform card = (Transform)this._cardOnScreen [i];
-			Destroy (card.gameObject);
-		}
-		
-		// Reset time
-		TimerManager.Instance.Reset ();
-		
-		// Reset POINT
-		this._playGameData.score = 0;
-		
-		// Init round
-		StartCoroutine (this.InitRound (0.0f, true));
-	}
 
 	#endregion
 	
@@ -774,7 +741,40 @@ public class SceneScript : MonoBehaviour
 
 	#endregion
 
-	#region Private function
+	#region Start Game
+
+	/// <summary>
+	/// Reset man choi, choi lai
+	/// </summary>
+	public void ResetRound () 
+	{
+		this.enabled = true;
+		
+		Player.lastScore = this._playGameData.score;
+		
+		// Tao moi lop luu thong tin man choi
+		this._playGameData.Reset ();
+		
+		this._round = 0;
+		
+		// Clear debug
+		DebugScript.Clear ();
+		
+		// Destroy all card on screen
+		for (int i = 0; i < this._cardOnScreen.Count; i ++) {
+			Transform card = (Transform)this._cardOnScreen [i];
+			Destroy (card.gameObject);
+		}
+		
+		// Reset time
+		TimerManager.Instance.Reset ();
+		
+		// Reset POINT
+		this._playGameData.score = 0;
+		
+		// Init round
+		StartCoroutine (this.InitRound (0.0f, true));
+	}
 
 	/// <summary>
 	/// Ramdom card tren man hinh cho moi vong choi
@@ -924,6 +924,55 @@ public class SceneScript : MonoBehaviour
 		
 		// Cho phep user co the choi
 		SceneScript.EnableToTouch = true;
+	}
+
+	#endregion
+
+	#region End Game
+
+	public void OpenCardOnScreenAndEndGame ()
+	{
+		SceneScript.EnableToTouch = false;
+
+		if (this._cardOnScreen.Count != 0) {
+			foreach (Transform c in this._cardOnScreen) {
+				// Open card
+				FlipCardScript flipPrevScript = c.GetComponent<FlipCardScript> ();
+				flipPrevScript.FlipCard(false);
+			}
+			StartCoroutine (DropdownCardOnScreen ());
+		} else {
+			// show time up and end game
+			TimeUpPanel.Instance.Show ();
+			this.enabled = false;
+		}
+	}
+
+	IEnumerator DropdownCardOnScreen() 
+	{
+		yield return new WaitForSeconds (0.4f);
+
+		// Dropdown
+		for (int i = 0; i < this._cardOnScreen.Count; i ++) {
+			Transform card = (Transform)this._cardOnScreen[i];
+			Transform cardBack = card.FindChild ("CardBack");
+			float cardHeight = cardBack.transform.renderer.bounds.size.y;
+
+			Vector3 newPosition = new Vector3 ();
+			newPosition.x = card.position.x;
+			newPosition.z = card.position.z;
+			newPosition.y = - PHUtility.WorldHeight/2 - cardHeight/2;
+
+			float deplay = Random.Range (0.04f,0.1f);
+			TweenParms parms = new TweenParms().Prop("position", newPosition).Ease(EaseType.EaseInCubic).Delay((float)deplay*i);
+			float time = Random.Range (0.35f,0.55f);
+			HOTween.To (card, time, parms);
+		}
+		yield return new WaitForSeconds ((float)0.08*this._cardOnScreen.Count);
+
+		// Show time up and end game
+		TimeUpPanel.Instance.Show ();
+		this.enabled = false;
 	}
 
 	#endregion
