@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PHSpriteRenderer : PHFade 
+public class PHSpriteFade : PHFade 
 {
 	override public float alpha 
 	{ 

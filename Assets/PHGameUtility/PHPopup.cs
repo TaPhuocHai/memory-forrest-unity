@@ -54,7 +54,7 @@ public class PHPopup : MonoBehaviour
 		spriteRenderer.sprite = this.bgSprite;
 		spriteRenderer.color = new Color (0.0f, 0.0f, 0.0f, 1.0f);
 		// Add fade component
-		_bgObject.AddComponent<PHSpriteRenderer> ();
+		_bgObject.AddComponent<PHSpriteFade> ();
 		// Add BoxCollider
 		_bgObject.AddComponent<BoxCollider> ();
 

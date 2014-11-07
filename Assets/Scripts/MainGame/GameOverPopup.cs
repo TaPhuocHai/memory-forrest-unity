@@ -13,6 +13,7 @@ public class GameOverPopup : PHPopup
 	public PHButton   menuButton;
 	public TextMesh   pointText;
 	public TextMesh   recordText;
+	public Transform  recordSticker;
 
 	public GameOverPopup ()
 	{
@@ -29,6 +30,12 @@ public class GameOverPopup : PHPopup
 		if (this.menuButton != null) {
 			this.menuButton.onClickHandle += HandleMenuButtonClick;
 		}
+
+		this.panel.hideCompleteHandle += HandlePanelHideComplete;
+
+		// Hide sticker
+		this.recordSticker.GetComponent<PHSpriteFade> ().FadeOut (0);
+		this.recordSticker.localScale = new Vector3 (10, 10, 1);
 	}
 
 	#region Animation
@@ -47,6 +54,8 @@ public class GameOverPopup : PHPopup
 		int score = PlayGameData.Instance.score;
 		if (score > Player.bestScore) {
 			Player.bestScore = score;
+
+			StartCoroutine (ShowBestRecord ());
 		}
 
 		// Show score
@@ -70,5 +79,22 @@ public class GameOverPopup : PHPopup
 	void HandleMenuButtonClick ()
 	{
 		Application.LoadLevel ("Map");
+	}
+
+	void HandlePanelHideComplete (PHPanelDirection lastDirection)
+	{
+		// Hide sticker
+		this.recordSticker.GetComponent<PHSpriteFade> ().FadeOut (0);
+		this.recordSticker.localScale = new Vector3 (10, 10, 1);
+	}
+
+	IEnumerator ShowBestRecord ()
+	{
+		yield return new WaitForSeconds (0.5f);
+
+		// Show sticker
+		this.recordSticker.GetComponent<PHSpriteFade> ().FadeIn (0.8f);
+		TweenParms parms = new TweenParms().Prop("localScale", new Vector3 (1,1,1)).Ease(EaseType.EaseInExpo);
+		HOTween.To (this.recordSticker, 0.8f, parms);
 	}
 }
