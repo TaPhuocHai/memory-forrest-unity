@@ -57,8 +57,8 @@ public class TimeUpPanel : MonoBehaviour
 		}
 
 		showTimeUp ++;
-		if (showTimeUp % 2 == 1) {
+		//if (showTimeUp % 2 == 1) {
 			SceneScript.Instance.ShowFullAds ();
-		}
+		//}
 	}
 }

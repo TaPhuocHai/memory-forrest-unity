@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using Parse;
 
 public class MapScript : MonoBehaviour 
 {
@@ -49,6 +51,9 @@ public class MapScript : MonoBehaviour
 		if (scoreButton != null) {
 			scoreButton.onClickHandle += HandleScoreButtonClick;
 		}
+
+		// Parse analytics
+		ParseAnalytics.TrackAppOpenedAsync();
 	}
 
 	void Update () 
@@ -135,6 +140,9 @@ public class MapScript : MonoBehaviour
 
 	void EnterUnlockRegion ()
 	{
+		// Parse event
+		ParseAnalytics.TrackEventAsync("UnlockMapClick");
+
 		int coinToUnlock = 0;
 		if (this.regionTypeNeedUnlock == RegionType.Forest) {
 			coinToUnlock = 100;
@@ -147,6 +155,9 @@ public class MapScript : MonoBehaviour
 		if (Player.Coin < coinToUnlock) {
 			// Show popup don't enought coin
 			StartCoroutine(WatingAndShowNeedCoinPopup());
+
+			// Parse event
+			ParseAnalytics.TrackEventAsync("NeedCoinUnlockMap");
 		} else {
 			// Do unlock
 			Region.UnlockMap (this.regionTypeNeedUnlock, true, true);
@@ -154,6 +165,12 @@ public class MapScript : MonoBehaviour
 			Player.Coin = Player.Coin - coinToUnlock;
 
 			StartCoroutine(WatingAndShowUnlockSuccessPopup());
+
+			// Parse event
+			var dimensions = new Dictionary<string, string> {
+				{ "Region", this.regionTypeNeedUnlock.ToString () }
+			};
+			ParseAnalytics.TrackEventAsync("UnlockMap", dimensions);
 		}
 	}
 
