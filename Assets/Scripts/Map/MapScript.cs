@@ -77,7 +77,7 @@ public class MapScript : MonoBehaviour
 		if (!Region.IsUnlockMap (RegionType.Forest)) {
 			regionTypeNeedUnlock = RegionType.Forest;
 				 
-			MessagePopup.Instance.message = "You don't unlock Forest map. Do you wain to unlock ? You need 100 coin.";
+			MessagePopup.Instance.message = "You don't unlock Forest map. Do you wain to unlock ? You need 90 coin.";
 			MessagePopup.Instance.buttonTitle = "Unlock";
 			MessagePopup.Instance.onButtonClick += EnterUnlockRegion;
 			MessagePopup.Instance.enableCloseButton = true;
@@ -94,7 +94,7 @@ public class MapScript : MonoBehaviour
 		if (!Region.IsUnlockMap (RegionType.StoneMountain)) {
 			regionTypeNeedUnlock = RegionType.StoneMountain;
 			
-			MessagePopup.Instance.message = "You don't unlock StoneMountain map. Do you wain to unlock ? You need 100 coin.";
+			MessagePopup.Instance.message = "You don't unlock StoneMountain map. Do you wain to unlock ? You need 90 coin.";
 			MessagePopup.Instance.buttonTitle = "Unlock";
 			MessagePopup.Instance.onButtonClick += EnterUnlockRegion;
 			MessagePopup.Instance.enableCloseButton = true;
@@ -111,7 +111,7 @@ public class MapScript : MonoBehaviour
 		if (!Region.IsUnlockMap (RegionType.WolfCamp)) {
 			regionTypeNeedUnlock = RegionType.WolfCamp;
 			
-			MessagePopup.Instance.message = "You don't unlock WolfCamp map. Do you wain to unlock ? You need 100 coin.";
+			MessagePopup.Instance.message = "You don't unlock WolfCamp map. Do you wain to unlock ? You need 90 coin.";
 			MessagePopup.Instance.buttonTitle = "Unlock";
 			MessagePopup.Instance.onButtonClick += EnterUnlockRegion;
 			MessagePopup.Instance.enableCloseButton = true;
@@ -145,11 +145,11 @@ public class MapScript : MonoBehaviour
 
 		int coinToUnlock = 0;
 		if (this.regionTypeNeedUnlock == RegionType.Forest) {
-			coinToUnlock = 100;
+			coinToUnlock = 90;
 		} else if (this.regionTypeNeedUnlock == RegionType.StoneMountain) {
-			coinToUnlock = 100;
+			coinToUnlock = 90;
 		} else if (this.regionTypeNeedUnlock == RegionType.WolfCamp) {
-			coinToUnlock = 100;
+			coinToUnlock = 90;
 		}
 
 		if (Player.Coin < coinToUnlock) {

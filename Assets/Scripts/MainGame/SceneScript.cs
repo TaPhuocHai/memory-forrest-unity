@@ -12,6 +12,7 @@ public class SceneScript : MonoBehaviour
 
 	public Transform cardPrefab;
 	public Transform getScoreText;
+	public Transform background;
 
 	/// <summary>
 	/// The enable to touch.
@@ -79,11 +80,31 @@ public class SceneScript : MonoBehaviour
 		audioSource.clip = clip;
 		audio.volume = 0.9f;
 
+		// Change backgroud
+		Sprite bgSprite = null;
+		if (regionType == RegionType.KingdomOfRabbits) {
+			bgSprite = Resources.Load<Sprite>("Textures/MainGame/Map1");  
+		} else if (regionType == RegionType.Forest) {
+			bgSprite = Resources.Load<Sprite>("Textures/MainGame/Map2");
+		} else if (regionType == RegionType.StoneMountain) {
+			bgSprite = Resources.Load<Sprite>("Textures/MainGame/Map3");
+		} else {
+			bgSprite = Resources.Load<Sprite>("Textures/MainGame/Map4");
+		}
+		SpriteRenderer bgRenderer = this.background.GetComponent<SpriteRenderer> ();
+		if (bgRenderer == null) {
+			Debug.Log ("render is null");
+		}
+		if (bgSprite == null) {
+			Debug.Log ("sprite null");
+		}
+		bgRenderer.sprite = bgSprite;
+
+		// Init admob
 		admob = this.gameObject.GetComponent<AdMobPlugin> ();
 		admob.CreateBanner (Constant.kAdBannerUnitId, AdMobPlugin.AdSize.SMART_BANNER, false, Constant.kAdInterstitialId, false);
 		admob.HideBanner ();
-		admob.RequestInterstitial ();
-		
+		admob.RequestInterstitial ();		
 		AdMobPlugin.InterstitialLoaded += HandleInterstitialLoaded;
 	}
 
