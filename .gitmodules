@@ -1,0 +1,6 @@
+[submodule "Assets/Game"]
+	path = Assets/Game
+	url = git@bitbucket.org:aba-team/phgameutility.git
+[submodule "Assets/PHGameUtility"]
+	path = Assets/PHGameUtility
+	url = git@bitbucket.org:aba-team/phgameutility.git
