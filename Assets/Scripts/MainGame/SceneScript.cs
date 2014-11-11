@@ -80,10 +80,13 @@ public class SceneScript : MonoBehaviour
 		audioSource.clip = clip;
 		audio.volume = 0.9f;
 
+
 		// Change backgroud
 		Sprite bgSprite = null;
+		Vector3 bgScale = new Vector3 (0.95f, 0.95f, 1);
 		if (regionType == RegionType.KingdomOfRabbits) {
 			bgSprite = Resources.Load<Sprite>("Textures/MainGame/Map1");  
+			bgScale = new Vector3 (1.2f, 1.2f, 1f);
 		} else if (regionType == RegionType.Forest) {
 			bgSprite = Resources.Load<Sprite>("Textures/MainGame/Map2");
 		} else if (regionType == RegionType.StoneMountain) {
@@ -91,6 +94,7 @@ public class SceneScript : MonoBehaviour
 		} else {
 			bgSprite = Resources.Load<Sprite>("Textures/MainGame/Map4");
 		}
+		this.background.localScale = bgScale;
 		SpriteRenderer bgRenderer = this.background.GetComponent<SpriteRenderer> ();
 		if (bgRenderer == null) {
 			Debug.Log ("render is null");
