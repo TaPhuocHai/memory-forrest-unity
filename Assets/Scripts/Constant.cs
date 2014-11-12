@@ -34,7 +34,11 @@ public class Constant
 	/// Thoi gian duoc cong them khi user su dung Rescue
 	/// </summary>
 	public static int  kRescueAddTime = 15;
-
-	static public string kAdBannerUnitId = "ca-app-pub-5151220756481063/6286731830";
+	
+	#if UNITY_IOS
+	static public string kAdInterstitialId = "ca-app-pub-5151220756481063/1043790234";
+	#else
 	static public string kAdInterstitialId = "ca-app-pub-5151220756481063/7763465032";
+	#endif
+
 }

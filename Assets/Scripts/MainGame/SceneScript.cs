@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Holoville.HOTween.Plugins;
 using Holoville.HOTween;
+using GoogleMobileAds.Api;
 
 public class SceneScript : MonoBehaviour 
 {
@@ -35,8 +36,7 @@ public class SceneScript : MonoBehaviour
 	// Vong choi hien tai
 	private int          _round;
 
-	AdMobPlugin admob;
-	bool        admobLoaded;
+	InterstitialAd interstitial;
 
 	#endregion
 
@@ -105,11 +105,25 @@ public class SceneScript : MonoBehaviour
 		bgRenderer.sprite = bgSprite;
 
 		// Init admob
-		admob = this.gameObject.GetComponent<AdMobPlugin> ();
-		admob.CreateBanner (Constant.kAdBannerUnitId, AdMobPlugin.AdSize.SMART_BANNER, false, Constant.kAdInterstitialId, false);
-		admob.HideBanner ();
-		admob.RequestInterstitial ();		
-		AdMobPlugin.InterstitialLoaded += HandleInterstitialLoaded;
+		interstitial = new InterstitialAd(Constant.kAdInterstitialId);
+		// Load the interstitial with the request.
+		interstitial.LoadAd(createAdRequest());
+	}
+
+	private AdRequest createAdRequest()
+	{
+#if UNITY_EDITOR
+		return new AdRequest.Builder()
+			.AddTestDevice(AdRequest.TestDeviceSimulator)
+				.AddTestDevice("0123456789ABCDEF0123456789ABCDEF")
+				.AddKeyword("game")
+				.SetGender(Gender.Male)
+				.TagForChildDirectedTreatment(false)
+				.AddExtra("color_bg", "9B30FF")
+				.Build();
+#else
+		return new AdRequest.Builder().Build();
+#endif	
 	}
 
 	void Update () {}
@@ -117,17 +131,11 @@ public class SceneScript : MonoBehaviour
 	#endregion
 
 	#region Admob
-
-	void HandleInterstitialLoaded ()
-	{
-		admobLoaded = true;
-		print ("admob loaded");
-	}
 	
 	public void ShowFullAds()
 	{
-		if (admobLoaded) {
-			admob.ShowInterstitial ();
+		if (interstitial.IsLoaded()) {
+			interstitial.Show();
 		}
 	}
 
