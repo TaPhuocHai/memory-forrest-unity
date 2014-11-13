@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Holoville.HOTween.Plugins;
-using Holoville.HOTween;
 using GoogleMobileAds.Api;
+using DG.Tweening;
 
 public class SceneScript : MonoBehaviour 
 {
@@ -64,9 +63,6 @@ public class SceneScript : MonoBehaviour
 		// Init playGameData
 		this._playGameData = PlayGameData.Instance;
 		this._playGameData.regionType = regionType;
-
-		// Init HOTWeen
-		HOTween.Init ();
 
 		// Init round
 		StartCoroutine (this.InitRound (0.5f, true));
@@ -767,13 +763,11 @@ public class SceneScript : MonoBehaviour
 			Transform card = listObjects[i];
 			Vector3 toPosition = positions[i];
 
-			TweenParms parms;
 			if (i == listObjects.Count - 1) {
-				parms = new TweenParms().Prop("position", toPosition).Ease(EaseType.EaseOutQuint).OnComplete(SwapPositionObjectsComplete);
+				card.DOMove (toPosition, 0.6f).SetEase (Ease.OutQuint).OnComplete(SwapPositionObjectsComplete);
 			} else {
-				parms = new TweenParms().Prop("position", toPosition).Ease(EaseType.EaseOutQuint);
+				card.DOMove (toPosition, 0.6f).SetEase (Ease.OutQuint);
 			}
-			HOTween.To (card, 0.6f, parms);
 		}
 	}
 
@@ -931,8 +925,7 @@ public class SceneScript : MonoBehaviour
 			float posX = (float)(topLeftOfFirstCard.x + indexCol * (cardWidth + 0.1)); 
 			float posY = (float)(topLeftOfFirstCard.y  - indexRow * (cardHeight + 0.1));
 
-			TweenParms parms = new TweenParms().Prop("position", new Vector3(posX,posY,this.transform.position.z)).Ease(EaseType.EaseOutBack).Delay((float)0.1*i);
-			HOTween.To (card, 0.5f, parms);
+			card.DOMove (new Vector3(posX,posY,this.transform.position.z), 0.5f).SetEase (Ease.OutBack).SetDelay((float)0.1*i);
 		}
 		yield return new WaitForSeconds ((float)0.1*this._cardOnScreen.Count);
 
@@ -1015,9 +1008,9 @@ public class SceneScript : MonoBehaviour
 			newPosition.y = - PHUtility.WorldHeight/2 - cardHeight/2;
 
 			float deplay = Random.Range (0.04f,0.1f);
-			TweenParms parms = new TweenParms().Prop("position", newPosition).Ease(EaseType.EaseInCubic).Delay((float)deplay*i);
+
 			float time = Random.Range (0.35f,0.55f);
-			HOTween.To (card, time, parms);
+			card.DOMove (newPosition,time).SetEase (Ease.InCubic).SetDelay((float)deplay*i);
 		}
 		yield return new WaitForSeconds ((float)0.08*this._cardOnScreen.Count);
 

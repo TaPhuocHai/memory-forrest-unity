@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class GameOverPopup : PHPopup 
 {	
@@ -94,7 +94,6 @@ public class GameOverPopup : PHPopup
 
 		// Show sticker
 		this.recordSticker.GetComponent<PHSpriteFade> ().FadeIn (0.8f);
-		TweenParms parms = new TweenParms().Prop("localScale", new Vector3 (1,1,1)).Ease(EaseType.EaseInExpo);
-		HOTween.To (this.recordSticker, 0.8f, parms);
+		this.recordSticker.DOScale (new Vector3 (1, 1, 1), 0.8f).SetEase (Ease.InExpo);
 	}
 }

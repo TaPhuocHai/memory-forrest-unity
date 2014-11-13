@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class TimeUpPanel : MonoBehaviour
 {
@@ -31,7 +31,7 @@ public class TimeUpPanel : MonoBehaviour
 
 	public void Show ()
 	{
-		panel.Show (normalPanelPosition, 0.6f,EaseType.EaseOutCirc);
+		panel.Show (normalPanelPosition, 0.6f,Ease.OutCirc);
 	}
 
 	void HandlePanelShowCompleteHandle (PHPanelDirection lastDirection)
@@ -41,13 +41,12 @@ public class TimeUpPanel : MonoBehaviour
 		newPosition.y = this.transform.position.y + 0.5f;
 		newPosition.z = this.transform.position.z;
 
-		TweenParms parms = new TweenParms().Prop("position", newPosition).Ease(EaseType.Linear).OnComplete(EnterHidePanel);
-		HOTween.To (this.transform, 1.0f, parms);
+		this.transform.DOMove (newPosition, 1.0f).SetEase (Ease.Linear).OnComplete (EnterHidePanel);
 	}
 
 	void EnterHidePanel() 
 	{
-		panel.HideToDirection (PHPanelDirection.Top, 0.4f,EaseType.EaseOutCirc);
+		panel.HideToDirection (PHPanelDirection.Top, 0.4f,Ease.OutCirc);
 	}
 	void HandlePanelHideCompleteHandle (PHPanelDirection lastDirection)
 	{
