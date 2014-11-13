@@ -36,7 +36,12 @@ public class SceneScript : MonoBehaviour
 	// Vong choi hien tai
 	private int          _round;
 
-	InterstitialAd interstitial;
+#if UNITY_ANDROID
+	private AdMobPlugin admob;
+	private bool        admobLoaded;
+#else
+	private InterstitialAd interstitial;
+#endif
 
 	#endregion
 
@@ -104,26 +109,33 @@ public class SceneScript : MonoBehaviour
 		}
 		bgRenderer.sprite = bgSprite;
 
+#if UNITY_ANDROID
+		GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
+		camera.AddComponent<AdMobPlugin> ();
+		admob = camera.GetComponent<AdMobPlugin> ();
+		admob.CreateBanner ("ca-app-pub-5151220756481063/6286731830", AdMobPlugin.AdSize.SMART_BANNER, false, Constant.kAdInterstitialId, false);
+		admob.HideBanner ();
+		admob.RequestInterstitial ();
+		
+		AdMobPlugin.InterstitialLoaded += HandleInterstitialLoaded;
+#else
 		// Init admob
 		interstitial = new InterstitialAd(Constant.kAdInterstitialId);
 		// Load the interstitial with the request.
 		interstitial.LoadAd(createAdRequest());
+#endif
 	}
 
 	private AdRequest createAdRequest()
 	{
-#if UNITY_EDITOR
-		return new AdRequest.Builder()
-			.AddTestDevice(AdRequest.TestDeviceSimulator)
-				.AddTestDevice("0123456789ABCDEF0123456789ABCDEF")
-				.AddKeyword("game")
-				.SetGender(Gender.Male)
-				.TagForChildDirectedTreatment(false)
-				.AddExtra("color_bg", "9B30FF")
-				.Build();
-#else
 		return new AdRequest.Builder().Build();
-#endif	
+	}
+
+	void HandleInterstitialLoaded ()
+	{
+#if UNITY_ANDROID
+		admobLoaded = true;
+#endif
 	}
 
 	void Update () {}
@@ -134,9 +146,15 @@ public class SceneScript : MonoBehaviour
 	
 	public void ShowFullAds()
 	{
+#if UNITY_ANDROID
+		if (admobLoaded) {
+			admob.ShowInterstitial ();
+		}
+#else
 		if (interstitial.IsLoaded()) {
 			interstitial.Show();
 		}
+#endif
 	}
 
 	#endregion
